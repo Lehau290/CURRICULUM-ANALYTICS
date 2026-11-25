@@ -155,6 +155,9 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
             <span>Xuất Báo cáo</span>
           </button>
+
+          <!-- User Account Widget (Lê Trung Hậu & Ngọc Lan) -->
+          <div id="header-user-widget"></div>
         </div>
       </header>
 
@@ -670,6 +673,35 @@
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
             <div class="chart-card">
+              <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Ban Quản trị & Chủ nhiệm Đề tài</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px;">Tài khoản Quản trị viên cấp cao (Admin Accounts)</p>
+              
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-subtle); padding: 10px 12px; border-radius: var(--radius-md);">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="user-avatar" style="background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%);">TH</div>
+                    <div>
+                      <strong style="font-size: 13px; color: var(--text-main);">Lê Trung Hậu</strong>
+                      <div style="font-size: 11px; color: var(--text-muted);">Chủ nhiệm Đề tài (lehau290920@gmail.com)</div>
+                    </div>
+                  </div>
+                  <button class="btn-secondary btn-sm" onclick="AuthManager.switchUser('letrunghau')">Chuyển sang</button>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-subtle); padding: 10px 12px; border-radius: var(--radius-md);">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);">NL</div>
+                    <div>
+                      <strong style="font-size: 13px; color: var(--text-main);">Ngọc Lan</strong>
+                      <div style="font-size: 11px; color: var(--text-muted);">Đồng Chủ nhiệm & Phân tích (ngoclan.research@gmail.com)</div>
+                    </div>
+                  </div>
+                  <button class="btn-secondary btn-sm" onclick="AuthManager.switchUser('ngoclan')">Chuyển sang</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-card">
               <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Thông tin Đề tài Nghiên cứu</h3>
               <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px;">CURRICULUM ANALYTICS – PROJECT 03</p>
               
@@ -892,11 +924,102 @@
     </div>
   </div>
 
+  <!-- Modal 4: Admin Account Details & Quick Switcher -->
+  <div class="modal-overlay" id="account-modal">
+    <div class="modal-container" style="max-width: 540px;">
+      <div class="modal-header">
+        <h3 style="font-size: 16px; font-weight: 700;">Tài khoản Quản trị viên (Admin Profile)</h3>
+        <button class="btn-icon" onclick="ModalManager.close('account-modal')" title="Đóng">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="current-account-info-box"></div>
+
+        <div style="margin-top: 14px;">
+          <h4 style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 8px;">
+            Chuyển nhanh phiên làm việc (Quick Switch)
+          </h4>
+
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-subtle); padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="user-avatar" style="background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%);">TH</div>
+                <div>
+                  <strong style="font-size: 13px; color: var(--text-main);">Lê Trung Hậu</strong>
+                  <div style="font-size: 11px; color: var(--text-muted);">Chủ nhiệm Đề tài & Quản trị Cấp cao</div>
+                </div>
+              </div>
+              <button class="btn-primary btn-sm" id="btn-switch-user-hau">Đăng nhập</button>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-subtle); padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);">NL</div>
+                <div>
+                  <strong style="font-size: 13px; color: var(--text-main);">Ngọc Lan</strong>
+                  <div style="font-size: 11px; color: var(--text-muted);">Đồng Chủ nhiệm & Quản trị Phân tích</div>
+                </div>
+              </div>
+              <button class="btn-primary btn-sm" id="btn-switch-user-lan">Đăng nhập</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button class="btn-secondary" style="color: var(--danger);" onclick="AuthManager.logout()">Đăng xuất</button>
+        <button class="btn-secondary" onclick="ModalManager.close('account-modal')">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: Admin Login Modal -->
+  <div class="modal-overlay" id="login-modal">
+    <div class="modal-container" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 style="font-size: 16px; font-weight: 700;">Đăng nhập Quản trị viên</h3>
+        <button class="btn-icon" onclick="ModalManager.close('login-modal')" title="Đóng">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form id="admin-login-form">
+        <div class="modal-body">
+          <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 12px;">
+            Hệ thống phân quyền nghiên cứu cho Ban Chủ nhiệm Đề tài 03.
+          </p>
+
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Tên tài khoản hoặc Họ tên</label>
+            <input type="text" id="login-username-input" class="filter-select" style="width: 100%;" placeholder="Nhập 'Lê Trung Hậu' hoặc 'Ngọc Lan'..." required>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Mật khẩu quản trị</label>
+            <input type="password" value="Admin@2026" class="filter-select" style="width: 100%;" required>
+          </div>
+
+          <div style="background-color: var(--bg-subtle); padding: 10px; border-radius: var(--radius-sm); font-size: 11.5px; color: var(--text-muted);">
+            💡 <strong>Đăng nhập nhanh:</strong> Nhấn chọn một trong hai tài khoản dưới đây:
+            <div style="display: flex; gap: 8px; margin-top: 6px;">
+              <button type="button" class="btn-secondary btn-sm" onclick="AuthManager.switchUser('letrunghau')">Lê Trung Hậu</button>
+              <button type="button" class="btn-secondary btn-sm" onclick="AuthManager.switchUser('ngoclan')">Ngọc Lan</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="ModalManager.close('login-modal')">Hủy</button>
+          <button type="submit" class="btn-primary">Đăng nhập</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Global Toast Notifications Container -->
   <div class="toast-container"></div>
 
   <!-- Application Scripts -->
   <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/main.js"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/countries.js"></script>
