@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CURRICULUM ANALYTICS – PROJECT 03 | So sánh Chương trình Tiểu học Việt Nam và Ba Quốc gia</title>
+  <meta name="description" content="Hệ thống phân tích, trực quan hóa dữ liệu và đối chiếu học thuật chương trình giáo dục tiểu học: Việt Nam, Phần Lan, Singapore, Nhật Bản.">
+  
+  <!-- Inter Font from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/print.css" media="print">
+
+  <!-- Chart.js via CDN + Native Canvas Fallback -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/chart-fallback.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- ==================== 1. SIDEBAR ==================== -->
+    <aside class="app-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">CA</div>
+        <div class="brand-info">
+          <span class="brand-title">CURRICULUM ANALYTICS</span>
+          <span class="brand-badge">PROJECT 03 &bull; ĐỀ TÀI GIÁO DỤC</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Tổng quan nghiên cứu</div>
+        
+        <a href="#dashboard" class="nav-item active" data-view="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="#countries" class="nav-item" data-view="countries">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span>Quốc gia</span>
+          <span class="nav-badge">4</span>
+        </a>
+
+        <div class="nav-section-label">Phân tích & So sánh</div>
+
+        <a href="#comparison" class="nav-item" data-view="comparison">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+          <span>Ma trận so sánh</span>
+          <span class="nav-badge">8 Tiêu chí</span>
+        </a>
+
+        <a href="#analysis" class="nav-item" data-view="analysis">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span>Phân tích tiêu chí</span>
+        </a>
+
+        <a href="#radar" class="nav-item" data-view="radar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Biểu đồ Radar</span>
+        </a>
+
+        <div class="nav-section-label">Chính sách & Nguồn lực</div>
+
+        <a href="#recommendations" class="nav-item" data-view="recommendations">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span>Khuyến nghị</span>
+          <span class="nav-badge">5 Đề xuất</span>
+        </a>
+
+        <a href="#sources" class="nav-item" data-view="sources">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span>Nguồn dữ liệu</span>
+          <span class="nav-badge">20+</span>
+        </a>
+
+        <a href="#ai-assistant" class="nav-item" data-view="ai-assistant">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>AI Trợ lý Nghiên cứu</span>
+        </a>
+
+        <a href="#methodology" class="nav-item" data-view="methodology">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>Phương pháp nghiên cứu</span>
+        </a>
+
+        <a href="#settings" class="nav-item" data-view="settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Cài đặt & Báo cáo</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="status-indicator">
+          <div class="status-dot"></div>
+          <span>Dữ liệu đối chứng học thuật</span>
+        </div>
+        <div style="font-size: 10px; color: #64748b;">
+          Đề tài 03: So sánh GD Tiểu học VN & Quốc tế
+        </div>
+      </div>
+    </aside>
+
+    <!-- ==================== 2. MAIN WORKSPACE ==================== -->
+    <main class="app-main">
+      
+      <!-- Top Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobile-menu-btn" title="Mở danh mục">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          
+          <div class="page-breadcrumb">
+            <span>Nghiên cứu</span>
+            <span>/</span>
+            <span class="breadcrumb-active" id="current-breadcrumb">Tổng quan Dashboard</span>
+          </div>
+
+          <div class="academic-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/></svg>
+            <span>Báo cáo Học thuật</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Global Search -->
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="global-search" placeholder="Tìm kiếm tiêu chí, nội dung..." aria-label="Tìm kiếm nội dung">
+          </div>
+
+          <!-- Country Filter Dropdown -->
+          <select class="filter-select" id="header-country-filter" aria-label="Lọc theo quốc gia">
+            <option value="all">Tất cả 4 Quốc gia</option>
+            <option value="vietnam">🇻🇳 Việt Nam</option>
+            <option value="finland">🇫🇮 Phần Lan</option>
+            <option value="singapore">🇸🇬 Singapore</option>
+            <option value="japan">🇯🇵 Nhật Bản</option>
+          </select>
+
+          <!-- Theme Toggle (Dark / Light) -->
+          <button class="btn-icon" id="theme-toggle-btn" title="Chuyển chế độ giao diện sáng/tối" aria-label="Chuyển chế độ tối">
+            <span id="theme-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </span>
+          </button>
+
+          <!-- Export Report Button -->
+          <button class="btn-primary" id="btn-export-report" title="Xuất báo cáo PDF hoặc in ấn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            <span>Xuất Báo cáo</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Page Views Container -->
+      <div class="page-container">
+
+        <!-- Academic Alert Disclaimer Banner -->
+        <div class="academic-disclaimer-banner">
+          <div class="disclaimer-content">
+            <span class="disclaimer-badge">Quy chuẩn học thuật</span>
+            <span>
+              <strong>Dữ liệu nghiên cứu đối chiếu:</strong> Được trích dẫn và tổng hợp từ các văn bản chính thức của Bộ GD&ĐT Việt Nam (TT 32/2018), OPH Phần Lan (OPS 2014), MOE Singapore và MEXT Nhật Bản. Các chỉ số định lượng sử dụng khung rubric thang đo 1-5 có giải trình khoa học.
+            </span>
+          </div>
+        </div>
+
+        <!-- ==================== VIEW 1: DASHBOARD ==================== -->
+        <section class="view-section active" id="view-dashboard">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>Dashboard Phân tích Tổng quan</h1>
+              <p>Hệ thống chỉ số so sánh chương trình tiểu học Việt Nam, Phần Lan, Singapore và Nhật Bản</p>
+            </div>
+            <div class="view-actions">
+              <button class="btn-secondary" onclick="window.location.hash='comparison'">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                <span>Xem Ma trận 8 Tiêu chí</span>
+              </button>
+              <button class="btn-primary" onclick="window.location.hash='radar'">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/></svg>
+                <span>Xem Biểu đồ Radar</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 6 Stat Metric Cards -->
+          <div class="stats-grid" id="dashboard-stats-grid">
+            <!-- Rendered by js/dashboard.js -->
+          </div>
+
+          <!-- 4 Core Charts Grid -->
+          <div class="charts-grid">
+            
+            <!-- Biểu đồ 1: Country Comparison by Criteria -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-title-area">
+                  <h3>Biểu đồ 1: Country Comparison (So sánh 4 Quốc gia)</h3>
+                  <p>Phân bố điểm rubric (1-5) theo 8 tiêu chí phân tích học thuật</p>
+                </div>
+              </div>
+              <div class="chart-body tall">
+                <canvas id="chart-country-comparison"></canvas>
+              </div>
+            </div>
+
+            <!-- Biểu đồ 2: Comparison Scores Distribution -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-title-area">
+                  <h3>Biểu đồ 2: Comparison Scores (Điểm Trung bình Tổng thể)</h3>
+                  <p>Mức độ phân bố điểm số bình quân của từng hệ thống giáo dục</p>
+                </div>
+              </div>
+              <div class="chart-body tall">
+                <canvas id="chart-comparison-scores"></canvas>
+              </div>
+            </div>
+
+            <!-- Biểu đồ 3: Data Coverage & Evidence Verification -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-title-area">
+                  <h3>Biểu đồ 3: Data Coverage (Độ Phủ Dữ liệu & Minh chứng)</h3>
+                  <p>Tỷ lệ dữ liệu đã xác thực qua văn bản gốc so với dữ liệu đối chiếu bổ sung</p>
+                </div>
+              </div>
+              <div class="chart-body">
+                <canvas id="chart-data-coverage"></canvas>
+              </div>
+            </div>
+
+            <!-- Biểu đồ 4: Curriculum Overview -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-title-area">
+                  <h3>Biểu đồ 4: Curriculum Overview (Thời lượng & Thời gian học)</h3>
+                  <p>Đối chiếu số giờ học chuẩn hàng năm và số năm đào tạo cấp tiểu học</p>
+                </div>
+              </div>
+              <div class="chart-body">
+                <canvas id="chart-curriculum-overview"></canvas>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 2: COUNTRIES ==================== -->
+        <section class="view-section" id="view-countries">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>Hồ sơ 4 Hệ thống Giáo dục Tiểu học</h1>
+              <p>Thông tin chương trình, phiên bản ban hành, cơ quan quản lý và bối cảnh sư phạm</p>
+            </div>
+            <div class="view-actions">
+              <span style="font-size: 12px; color: var(--text-muted);">Nhấn vào từng quốc gia để mở hồ sơ chi tiết 10 mục</span>
+            </div>
+          </div>
+
+          <div class="countries-grid" id="countries-grid-container">
+            <!-- Rendered by js/countries.js -->
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 3: COMPARISON MATRIX ==================== -->
+        <section class="view-section" id="view-comparison">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>Ma trận So sánh Đối chiếu (8 Tiêu chí Chuẩn)</h1>
+              <p>Khung so sánh toàn diện giữa Việt Nam, Phần Lan, Singapore và Nhật Bản</p>
+            </div>
+            <div class="view-actions">
+              <button class="btn-secondary" id="btn-export-csv">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Xuất CSV</span>
+              </button>
+              <button class="btn-secondary" id="btn-export-excel">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+                <span>Xuất Excel (.xls)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Matrix Controls Toolbar -->
+          <div class="table-toolbar">
+            <div class="toolbar-filters">
+              <select class="filter-select" id="matrix-criteria-filter" aria-label="Lọc tiêu chí ma trận">
+                <option value="all">Tất cả 8 tiêu chí</option>
+                <option value="muc-tieu">C1: Mục tiêu giáo dục</option>
+                <option value="cau-truc-mon-hoc">C2: Cấu trúc môn học</option>
+                <option value="thoi-luong-hoc">C3: Thời lượng học tập</option>
+                <option value="nang-luc-hoc-sinh">C4: Năng lực học sinh</option>
+                <option value="noi-dung-chuong-trinh">C5: Nội dung chương trình</option>
+                <option value="phuong-phap-day-hoc">C6: Phương pháp dạy học</option>
+                <option value="danh-gia-hoc-sinh">C7: Đánh giá học sinh</option>
+                <option value="quan-ly-chuong-trinh">C8: Quản lý và triển khai</option>
+              </select>
+
+              <input type="text" class="filter-select" id="matrix-search-input" placeholder="Lọc nội dung ma trận..." style="width: 220px;">
+            </div>
+            
+            <div style="font-size: 11.5px; color: var(--text-muted);">
+              <span class="verification-tag verified" style="margin-right: 6px;">✓ Đã xác minh</span>
+              Nhấn <strong>"Xem Rubric"</strong> để mở rộng từng hàng
+            </div>
+          </div>
+
+          <!-- Table Container -->
+          <div class="table-responsive">
+            <table class="matrix-table" id="matrix-table">
+              <thead>
+                <tr>
+                  <th style="width: 200px;">Tiêu chí phân tích</th>
+                  <th style="min-width: 240px;">
+                    <div class="matrix-country-header">
+                      <span>🇻🇳</span>
+                      <div>
+                        <strong>Việt Nam</strong>
+                        <div style="font-size: 10.5px; font-weight: normal; color: var(--text-muted);">CT GDPT 2018 (TT 32/2018)</div>
+                      </div>
+                    </div>
+                  </th>
+                  <th style="min-width: 240px;">
+                    <div class="matrix-country-header">
+                      <span>🇫🇮</span>
+                      <div>
+                        <strong>Phần Lan</strong>
+                        <div style="font-size: 10.5px; font-weight: normal; color: var(--text-muted);">OPS 2014 / OPH</div>
+                      </div>
+                    </div>
+                  </th>
+                  <th style="min-width: 240px;">
+                    <div class="matrix-country-header">
+                      <span>🇸🇬</span>
+                      <div>
+                        <strong>Singapore</strong>
+                        <div style="font-size: 10.5px; font-weight: normal; color: var(--text-muted);">Learn for Life / MOE</div>
+                      </div>
+                    </div>
+                  </th>
+                  <th style="min-width: 240px;">
+                    <div class="matrix-country-header">
+                      <span>🇯🇵</span>
+                      <div>
+                        <strong>Nhật Bản</strong>
+                        <div style="font-size: 10.5px; font-weight: normal; color: var(--text-muted);">Courses of Study / MEXT</div>
+                      </div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="matrix-table-body">
+                <!-- Rendered by js/comparison.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 4: CRITERIA ANALYSIS ==================== -->
+        <section class="view-section" id="view-analysis">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>Phân tích Chuyên sâu theo Từng Tiêu chí</h1>
+              <p>Mổ xẻ tương đồng, khác biệt, ưu điểm, hạn chế và bối cảnh áp dụng</p>
+            </div>
+          </div>
+
+          <!-- Horizontal Criteria Selector Tabs -->
+          <div class="criteria-selector-bar" id="criteria-tabs-bar">
+            <!-- Rendered by js/analysis.js -->
+          </div>
+
+          <!-- Active Criterion Header Info -->
+          <div id="analysis-title-area" style="margin-bottom: 20px;"></div>
+
+          <!-- 4 Country Cards for this Criterion -->
+          <div class="analysis-card-grid" id="analysis-countries-cards">
+            <!-- Rendered by js/analysis.js -->
+          </div>
+
+          <!-- Synthesis & Pros/Cons -->
+          <div class="synthesis-card" id="analysis-synthesis-area">
+            <!-- Rendered by js/analysis.js -->
+          </div>
+
+          <!-- Contextual Comparison Chart -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title-area">
+                <h3>Biểu đồ Đối sánh Tiêu chí Hiện tại</h3>
+                <p>Điểm định lượng rubric 1-5 theo chuẩn khảo sát</p>
+              </div>
+            </div>
+            <div class="chart-body" style="height: 240px;">
+              <canvas id="chart-single-criterion"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 5: RADAR CHART ==================== -->
+        <section class="view-section" id="view-radar">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>Biểu đồ Radar Năng lực Đa chiều (8 Trục)</h1>
+              <p>Trực quan hóa cấu trúc thế mạnh và cân đối chương trình tiểu học giữa 4 quốc gia</p>
+            </div>
+          </div>
+
+          <div class="radar-layout">
+            
+            <!-- Radar Canvas Card -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-title-area">
+                  <h3>Biểu đồ Mạng nhện 8 Trục Tiêu chí</h3>
+                  <p>Mỗi trục đại diện cho một tiêu chí theo thang điểm rubric 1.0 – 5.0</p>
+                </div>
+              </div>
+              <div class="chart-body tall" style="height: 440px;">
+                <canvas id="chart-radar-canvas"></canvas>
+              </div>
+            </div>
+
+            <!-- Controls & Rubrics Explanation -->
+            <div class="radar-controls-card">
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--text-main);">Bộ lọc hiển thị Quốc gia</h3>
+              
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" id="radar-toggle-vietnam" checked style="accent-color: var(--color-vn);">
+                  <span style="color: var(--color-vn); font-weight: 600;">🇻🇳 Việt Nam (CT 2018)</span>
+                </label>
+
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" id="radar-toggle-finland" checked style="accent-color: var(--color-fi);">
+                  <span style="color: var(--color-fi); font-weight: 600;">🇫🇮 Phần Lan (OPS 2014)</span>
+                </label>
+
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" id="radar-toggle-singapore" checked style="accent-color: var(--color-sg);">
+                  <span style="color: var(--color-sg); font-weight: 600;">🇸🇬 Singapore (Learn for Life)</span>
+                </label>
+
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" id="radar-toggle-japan" checked style="accent-color: var(--color-jp);">
+                  <span style="color: var(--color-jp); font-weight: 600;">🇯🇵 Nhật Bản (Courses of Study)</span>
+                </label>
+              </div>
+
+              <hr style="border: none; border-top: 1px solid var(--border-subtle); margin: 6px 0;">
+
+              <h4 style="font-size: 13px; font-weight: 700; color: var(--text-main);">Quy tắc Chấm điểm Rubric (Thang 1-5)</h4>
+              <p style="font-size: 11.5px; color: var(--text-muted); line-height: 1.5;">
+                Điểm số trên Radar là kết quả chuẩn hóa quy ước học thuật, phản ánh mức độ hiện đại hóa, tự chủ và nhân văn của chương trình:
+              </p>
+
+              <div class="rubric-scale-box" id="radar-rubrics-list">
+                <!-- Rendered by js/radar.js -->
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 6: RECOMMENDATIONS ==================== -->
+        <section class="view-section" id="view-recommendations">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>Khuyến nghị Có Điều kiện Áp dụng tại Việt Nam</h1>
+              <p>5 giải pháp thích ứng dựa trên bài học kinh nghiệm từ Phần Lan, Singapore và Nhật Bản</p>
+            </div>
+            <div class="view-actions">
+              <button class="btn-primary" id="btn-add-rec">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Thêm Đề xuất Mới</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="recommendations-grid" id="recommendations-container">
+            <!-- Rendered by js/recommendations.js -->
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 7: SOURCES ==================== -->
+        <section class="view-section" id="view-sources">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>Cơ sở Dữ liệu & Nguồn Tài liệu Tham khảo</h1>
+              <p>Quản lý 20+ văn bản chương trình chính thức, báo cáo quốc tế và bài báo khoa học</p>
+            </div>
+            <div class="view-actions">
+              <button class="btn-primary" id="btn-add-source">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Thêm Nguồn Mới</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Source Filter Toolbar -->
+          <div class="table-toolbar">
+            <div class="toolbar-filters">
+              <select class="filter-select" id="source-filter-country" aria-label="Lọc nguồn theo quốc gia">
+                <option value="all">Tất cả quốc gia</option>
+                <option value="vietnam">Việt Nam</option>
+                <option value="finland">Phần Lan</option>
+                <option value="singapore">Singapore</option>
+                <option value="japan">Nhật Bản</option>
+                <option value="international">Quốc tế (OECD, UNESCO)</option>
+              </select>
+
+              <select class="filter-select" id="source-filter-category" aria-label="Lọc theo loại nguồn">
+                <option value="all">Tất cả phân loại</option>
+                <option value="Văn bản chương trình chính thức">Văn bản chương trình chính thức</option>
+                <option value="Tài liệu của Bộ Giáo dục">Tài liệu của Bộ Giáo dục</option>
+                <option value="Báo cáo quốc tế">Báo cáo quốc tế</option>
+                <option value="Bài báo khoa học">Bài báo khoa học</option>
+                <option value="Báo cáo nghiên cứu">Báo cáo nghiên cứu</option>
+              </select>
+
+              <select class="filter-select" id="source-filter-status" aria-label="Lọc trạng thái xác minh">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="verified">Đã xác minh (Verified)</option>
+                <option value="pending">Cần rà soát (Pending)</option>
+              </select>
+
+              <input type="text" class="filter-select" id="source-search-input" placeholder="Tìm kiếm tài liệu, cơ quan..." style="width: 220px;">
+            </div>
+
+            <div id="sources-count-label" style="font-size: 12px; color: var(--text-muted);"></div>
+          </div>
+
+          <!-- Source Table -->
+          <div class="table-responsive source-table-card">
+            <table class="matrix-table" id="sources-table">
+              <thead>
+                <tr>
+                  <th>Mã</th>
+                  <th>Tên tài liệu / Văn bản</th>
+                  <th>Quốc gia & Cơ quan</th>
+                  <th>Phân loại</th>
+                  <th>Tiêu chí hỗ trợ</th>
+                  <th>Trạng thái</th>
+                  <th style="text-align: right;">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="sources-table-body">
+                <!-- Rendered by js/sources.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 8: AI RESEARCH ASSISTANT ==================== -->
+        <section class="view-section" id="view-ai-assistant">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>AI Trợ lý Nghiên cứu Giáo dục (Research Assistant)</h1>
+              <p>Mô-đun thông minh hỗ trợ trích xuất theo 8 tiêu chí, phát hiện dữ liệu thiếu và soạn thảo khuyến nghị</p>
+            </div>
+          </div>
+
+          <div class="ai-ethical-banner" style="margin-bottom: 20px;">
+            <strong>Nguyên tắc Đạo đức AI & Chuẩn mực Học thuật:</strong> AI không tự bịa nguồn, không tự suy diễn số liệu và không tự biến nhận định thành kết luận. Mọi trích xuất đều gắn liền với tên văn bản, trang hoặc điều khoản cụ thể.
+          </div>
+
+          <div class="ai-layout">
+            
+            <!-- AI Input Box -->
+            <div class="ai-card">
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--text-main);">Nhập Văn bản hoặc Chọn Mẫu Dữ liệu</h3>
+
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <span style="font-size: 11.5px; color: var(--text-muted); align-self: center;">Mẫu nhanh:</span>
+                <button class="btn-secondary btn-sm ai-sample-chip" data-sample="vietnam-tt32">🇻🇳 TT 32/2018 (VN)</button>
+                <button class="btn-secondary btn-sm ai-sample-chip" data-sample="finland-ops">🇫🇮 OPS 2014 (Phần Lan)</button>
+                <button class="btn-secondary btn-sm ai-sample-chip" data-sample="japan-mext">🇯🇵 MEXT Tokkatsu (Nhật)</button>
+              </div>
+
+              <div class="ai-input-area">
+                <textarea id="ai-text-input" placeholder="Dán nội dung chương trình giáo dục, trích đoạn bài báo hoặc nhập câu hỏi phân tích vào đây..."></textarea>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div>
+                  <label style="font-size: 11.5px; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 4px;">Hệ thống giáo dục</label>
+                  <select class="filter-select" id="ai-country-select" style="width: 100%;">
+                    <option value="vietnam">🇻🇳 Việt Nam (CT 2018)</option>
+                    <option value="finland">🇫🇮 Phần Lan (OPS 2014)</option>
+                    <option value="singapore">🇸🇬 Singapore (Learn for Life)</option>
+                    <option value="japan">🇯🇵 Nhật Bản (Courses of Study)</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="font-size: 11.5px; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 4px;">Tiêu chí phân loại</label>
+                  <select class="filter-select" id="ai-criterion-select" style="width: 100%;">
+                    <option value="C1">C1: Mục tiêu giáo dục</option>
+                    <option value="C2">C2: Cấu trúc môn học</option>
+                    <option value="C3">C3: Thời lượng học tập</option>
+                    <option value="C4">C4: Năng lực học sinh</option>
+                    <option value="C5">C5: Nội dung chương trình</option>
+                    <option value="C6">C6: Phương pháp dạy học</option>
+                    <option value="C7">C7: Đánh giá học sinh</option>
+                    <option value="C8">C8: Quản lý chương trình</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;">
+                <button class="btn-primary" id="btn-ai-extract">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  <span>Trích xuất Tiêu chí</span>
+                </button>
+                <button class="btn-secondary" id="btn-ai-gap-analysis">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  <span>Phát hiện Dữ liệu thiếu</span>
+                </button>
+                <button class="btn-secondary" id="btn-ai-draft-rec">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  <span>Gợi ý Khuyến nghị</span>
+                </button>
+                <button class="btn-secondary" id="btn-ai-clear" style="margin-left: auto;">Xóa</button>
+              </div>
+            </div>
+
+            <!-- AI Output Results -->
+            <div class="ai-card" id="ai-results-card">
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--text-main);">Kết quả Đối chiếu & Trích dẫn Nguồn</h3>
+              
+              <div id="ai-results-container">
+                <div style="text-align: center; padding: 40px; color: var(--text-muted); font-size: 13px;">
+                  Nhấn <strong>"Trích xuất Tiêu chí"</strong> hoặc chọn một tác vụ phân tích để bắt đầu.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 9: METHODOLOGY ==================== -->
+        <section class="view-section" id="view-methodology">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>Phương pháp Nghiên cứu Giáo dục So sánh (8 Bước)</h1>
+              <p>Quy trình học thuật chuẩn mực theo trường phái so sánh George Bereday & Bray & Thomas</p>
+            </div>
+          </div>
+
+          <div class="methodology-timeline" id="methodology-timeline-container">
+            <!-- Rendered by js/methodology.js -->
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 10: SETTINGS ==================== -->
+        <section class="view-section" id="view-settings">
+          <div class="view-header">
+            <div class="view-title-group">
+              <h1>Cài đặt Hệ thống & Quản trị Dữ liệu</h1>
+              <p>Quản lý cấu hình nghiên cứu, đồng bộ bộ nhớ LocalStorage và sao lưu dữ liệu</p>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+            <div class="chart-card">
+              <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Thông tin Đề tài Nghiên cứu</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px;">CURRICULUM ANALYTICS – PROJECT 03</p>
+              
+              <div style="font-size: 12.5px; display: flex; flex-direction: column; gap: 8px;">
+                <div><strong>Đề tài:</strong> So sánh chương trình tiểu học Việt Nam và ba quốc gia</div>
+                <div><strong>Phạm vi đối chiếu:</strong> Việt Nam, Phần Lan, Singapore, Nhật Bản</div>
+                <div><strong>Số lượng tiêu chí:</strong> 8 tiêu chí chuẩn mực</div>
+                <div><strong>Phiên bản hệ thống:</strong> v3.2.0-Academic (Tương thích Hội đồng)</div>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Quản lý Bộ nhớ Tạm (LocalStorage)</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px;">
+                Các nguồn dữ liệu và khuyến nghị tự thêm được lưu cục bộ trên trình duyệt của bạn.
+              </p>
+              
+              <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="btn-secondary" onclick="exportDataBackup()">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  <span>Sao lưu JSON</span>
+                </button>
+                <button class="btn-secondary" style="color: var(--danger);" onclick="resetToDefaultData()">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                  <span>Khôi phục Dữ liệu Gốc</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- Modal 1: Country Details 10-Point Modal -->
+  <div class="modal-overlay" id="country-details-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div id="country-modal-title"></div>
+        <button class="btn-icon" onclick="ModalManager.close('country-details-modal')" title="Đóng">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="country-modal-body">
+        <!-- Rendered by js/countries.js -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="ModalManager.close('country-details-modal')">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Add/Edit Source Modal -->
+  <div class="modal-overlay" id="source-modal">
+    <div class="modal-container" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3 id="source-modal-title" style="font-size: 16px; font-weight: 700;">Thêm nguồn tài liệu</h3>
+        <button class="btn-icon" onclick="ModalManager.close('source-modal')" title="Đóng">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form id="source-form">
+        <div class="modal-body">
+          <input type="hidden" id="source-id-input">
+          
+          <div>
+            <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Tên văn bản / Tài liệu (*)</label>
+            <input type="text" id="source-title-input" required class="filter-select" style="width: 100%;">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Quốc gia (*)</label>
+              <select id="source-country-input" class="filter-select" style="width: 100%;">
+                <option value="Việt Nam">Việt Nam</option>
+                <option value="Phần Lan">Phần Lan</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Nhật Bản">Nhật Bản</option>
+                <option value="Quốc tế">Quốc tế (OECD, UNESCO)</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Cơ quan ban hành (*)</label>
+              <input type="text" id="source-issuing-input" required class="filter-select" style="width: 100%;">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Năm ban hành</label>
+              <input type="number" id="source-year-input" value="2024" class="filter-select" style="width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Phiên bản</label>
+              <input type="text" id="source-version-input" placeholder="VD: Bản chính thức" class="filter-select" style="width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Trạng thái</label>
+              <select id="source-status-input" class="filter-select" style="width: 100%;">
+                <option value="verified">Đã xác minh</option>
+                <option value="pending">Cần rà soát</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Phân loại tài liệu</label>
+              <select id="source-category-input" class="filter-select" style="width: 100%;">
+                <option value="Văn bản chương trình chính thức">Văn bản chương trình chính thức</option>
+                <option value="Tài liệu của Bộ Giáo dục">Tài liệu của Bộ Giáo dục</option>
+                <option value="Báo cáo quốc tế">Báo cáo quốc tế</option>
+                <option value="Bài báo khoa học">Bài báo khoa học</option>
+                <option value="Báo cáo nghiên cứu">Báo cáo nghiên cứu</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Ngày truy cập</label>
+              <input type="date" id="source-date-input" class="filter-select" style="width: 100%;">
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Đường dẫn URL kiểm chứng</label>
+            <input type="url" id="source-url-input" placeholder="https://..." class="filter-select" style="width: 100%;">
+          </div>
+
+          <div>
+            <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Mô tả nội dung & Tiêu chí hỗ trợ</label>
+            <textarea id="source-desc-input" rows="3" class="filter-select" style="width: 100%; height: auto; padding: 8px; font-family: inherit;"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="ModalManager.close('source-modal')">Hủy</button>
+          <button type="submit" class="btn-primary">Lưu Nguồn Tài Liệu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Add Custom Recommendation Modal -->
+  <div class="modal-overlay" id="add-recommendation-modal">
+    <div class="modal-container" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 style="font-size: 16px; font-weight: 700;">Đề xuất Khuyến nghị Mới cho Việt Nam</h3>
+        <button class="btn-icon" onclick="ModalManager.close('add-recommendation-modal')" title="Đóng">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form id="add-rec-form">
+        <div class="modal-body">
+          <div>
+            <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Tên khuyến nghị (*)</label>
+            <input type="text" id="rec-input-title" required class="filter-select" style="width: 100%;" placeholder="VD: Đổi mới hoạt động trải nghiệm...">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Tham chiếu quốc gia (*)</label>
+              <input type="text" id="rec-input-country" required class="filter-select" style="width: 100%;" placeholder="VD: Phần Lan & Nhật Bản">
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Mức độ ưu tiên</label>
+              <select id="rec-input-priority" class="filter-select" style="width: 100%;">
+                <option value="Cao (Priority 1)">Cao (Priority 1)</option>
+                <option value="Trung bình (Priority 2)">Trung bình (Priority 2)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Vấn đề tại Việt Nam cần giải quyết (*)</label>
+            <textarea id="rec-input-issue" required rows="2" class="filter-select" style="width: 100%; height: auto; padding: 8px;"></textarea>
+          </div>
+
+          <div>
+            <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Điều kiện áp dụng thực tế</label>
+            <textarea id="rec-input-conditions" rows="2" class="filter-select" style="width: 100%; height: auto; padding: 8px;"></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Khó khăn dự kiến</label>
+              <textarea id="rec-input-challenges" rows="2" class="filter-select" style="width: 100%; height: auto; padding: 8px;"></textarea>
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Giải pháp khắc phục</label>
+              <textarea id="rec-input-solutions" rows="2" class="filter-select" style="width: 100%; height: auto; padding: 8px;"></textarea>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Độ khả thi (%)</label>
+              <input type="number" id="rec-input-feasibility" value="85" min="10" max="100" class="filter-select" style="width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Đối tượng áp dụng</label>
+              <input type="text" id="rec-input-audience" placeholder="Giáo viên, Nhà trường..." class="filter-select" style="width: 100%;">
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Cơ sở dữ liệu</label>
+              <input type="text" id="rec-input-grounding" placeholder="Tài liệu tham chiếu" class="filter-select" style="width: 100%;">
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Yếu tố cần điều chỉnh</label>
+            <input type="text" id="rec-input-adjustments" placeholder="VD: Thí điểm trước tại các trường đô thị..." class="filter-select" style="width: 100%;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="ModalManager.close('add-recommendation-modal')">Hủy</button>
+          <button type="submit" class="btn-primary">Thêm Khuyến Nghị</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Global Toast Notifications Container -->
+  <div class="toast-container"></div>
+
+  <!-- Application Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/countries.js"></script>
+  <script src="js/comparison.js"></script>
+  <script src="js/analysis.js"></script>
+  <script src="js/radar.js"></script>
+  <script src="js/recommendations.js"></script>
+  <script src="js/sources.js"></script>
+  <script src="js/ai-assistant.js"></script>
+  <script src="js/methodology.js"></script>
+
+  <!-- Inline Backup / Reset Helpers -->
+  <script>
+    function exportDataBackup() {
+      const backupData = {
+        meta: window.CURRICULUM_DATA.projectMeta,
+        sources: JSON.parse(localStorage.getItem('ca_sources_data') || '[]'),
+        customRecommendations: JSON.parse(localStorage.getItem('ca_custom_recommendations') || '[]'),
+        exportedAt: new Date().toISOString()
+      };
+      const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Curriculum_Analytics_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.showToast('Đã xuất file sao lưu JSON thành công!');
+    }
+
+    function resetToDefaultData() {
+      if (confirm('Bạn có chắc chắn muốn đặt lại toàn bộ dữ liệu nguồn và khuyến nghị về mặc định?')) {
+        localStorage.removeItem('ca_sources_data');
+        localStorage.removeItem('ca_custom_recommendations');
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>

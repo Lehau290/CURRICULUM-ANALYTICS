@@ -1,0 +1,62 @@
+/* Print Stylesheet for Academic Report Export */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  .app-sidebar,
+  .app-header,
+  .btn-primary,
+  .btn-secondary,
+  .btn-icon,
+  .toolbar-filters,
+  .modal-overlay,
+  .toast-container,
+  .sidebar-footer {
+    display: none !important;
+  }
+
+  .app-main {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .page-container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .view-section {
+    display: block !important;
+    page-break-after: always;
+  }
+
+  .academic-disclaimer-banner {
+    border: 1px solid #0284c7 !important;
+    color: #0284c7 !important;
+  }
+
+  .stat-card,
+  .chart-card,
+  .country-card,
+  .recommendation-card,
+  .matrix-table {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+  }
+
+  .matrix-table th {
+    background-color: #f1f5f9 !important;
+    color: #000 !important;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #555;
+  }
+}
