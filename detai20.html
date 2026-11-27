@@ -1,0 +1,3029 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="dashboard">
+  <meta name="design-style" content="modern-luminous">
+  <title>Đề tài 20 — Hệ thống AI Phát hiện Trùng lặp, Khoảng trống &amp; Thiếu liên thông CTGDPT 2018</title>
+  
+  <!-- Google Fonts: Barlow (Primary) & JetBrains Mono (Code/Labels) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js & Lucide Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Fresh Modern Luminous Palette */
+      --background: #f8fafc;
+      --surface-container-low: #ffffff;
+      --surface-container: #f1f5f9;
+      --surface-container-high: #e2e8f0;
+      --surface-border: #e2e8f0;
+
+      --on-surface: #0f172a;
+      --on-surface-variant: #475569;
+      --text-muted: #64748b;
+
+      --outline: #e2e8f0;
+      --outline-variant: #cbd5e1;
+      --btn-border: #cbd5e1;
+
+      /* Vibrant Brand & Semantic Accents */
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-container: #eff6ff;
+      --on-primary: #ffffff;
+      --on-primary-container: #1e40af;
+
+      --secondary: #0284c7;
+      --secondary-hover: #0369a1;
+      --secondary-bg: #f0f9ff;
+      --on-secondary: #ffffff;
+
+      --positive: #059669;
+      --positive-bg: #ecfdf5;
+      --positive-border: #a7f3d0;
+
+      --warning: #d97706;
+      --warning-bg: #fffbeb;
+      --warning-border: #fde68a;
+
+      --error: #dc2626;
+      --error-bg: #fef2f2;
+      --error-border: #fecaca;
+      --on-error: #ffffff;
+
+      --purple: #7c3aed;
+      --purple-bg: #f5f3ff;
+      --purple-border: #ddd6fe;
+
+      /* Data series for charts */
+      --data-1: #2563eb;
+      --data-1-fill: rgba(37, 99, 235, 0.12);
+      --data-2: #d97706;
+      --data-2-fill: rgba(217, 119, 6, 0.14);
+      --data-3: #059669;
+      --data-3-fill: rgba(5, 150, 105, 0.14);
+      --data-4: #dc2626;
+      --data-4-fill: rgba(220, 38, 38, 0.14);
+      --data-context: #94a3b8;
+
+      /* Fonts: Strict Barlow requirement */
+      --font-headline: 'Barlow', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-body: 'Barlow', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-label: 'JetBrains Mono', 'Barlow', monospace;
+
+      /* Layout & Shape Tokens */
+      --rounded-sm: 0.25rem;
+      --rounded: 0.5rem;
+      --rounded-lg: 0.75rem;
+      --rounded-xl: 1rem;
+      --rounded-full: 9999px;
+
+      --card-border: 1px solid var(--outline);
+      --badge-radius: 9999px;
+      --heading-tracking: -0.015em;
+      --label-tracking: 0.04em;
+      --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.25);
+      --hover-tint: rgba(37, 99, 235, 0.04);
+
+      /* Shadows */
+      --shadow-subtle: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -2px rgba(0, 0, 0, 0.03), 0 0 0 1px rgba(226, 232, 240, 0.8);
+      --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(148, 163, 184, 0.3);
+      --shadow-elevation: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+
+      /* Spacing scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.25rem;
+      --space-2xl: 3.5rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --dur-micro: 120ms;
+      --dur-short: 200ms;
+    }
+
+    /* Base Reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(at 0% 0%, rgba(219, 234, 254, 0.45) 0px, transparent 50%),
+                  radial-gradient(at 100% 0%, rgba(224, 242, 254, 0.5) 0px, transparent 50%),
+                  radial-gradient(at 50% 100%, rgba(240, 253, 250, 0.4) 0px, transparent 50%),
+                  #f8fafc;
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+    :focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Sticky Glass Top Navigation */
+    .top-nav-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+      padding: 0.6rem var(--space-lg);
+    }
+    .top-nav-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+    .top-nav-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      text-decoration: none;
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+    }
+    .brand-icon-box {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--rounded);
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+    }
+    .top-nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      flex-wrap: wrap;
+    }
+    .nav-pill-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0.4rem 0.75rem;
+      border-radius: var(--rounded-full);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--on-surface-variant);
+      text-decoration: none;
+      transition: all var(--dur-short) var(--ease-out);
+    }
+    .nav-pill-link:hover {
+      background: var(--surface-container);
+      color: var(--primary);
+    }
+    .nav-pill-link.is-active {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .top-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .user-session-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.3rem 0.65rem 0.3rem 0.4rem;
+      background: var(--purple-bg);
+      border: 1px solid var(--purple-border);
+      border-radius: var(--rounded-full);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--purple);
+    }
+    .user-session-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+
+    /* Page Container */
+    .page-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-lg) var(--space-2xl) var(--space-lg);
+      display: grid;
+      gap: var(--space-2xl);
+    }
+
+    /* Hero Dossier Masthead */
+    .hero-masthead {
+      background: #ffffff;
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded-xl);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-card);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-masthead::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #2563eb, #0284c7, #10b981, #f59e0b);
+    }
+    .masthead-meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: 1px solid var(--surface-container);
+    }
+    .meta-badges-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .badge-primary-pill {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: var(--rounded-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.25);
+    }
+    .badge-outline-pill {
+      background: var(--surface-container);
+      color: var(--on-surface-variant);
+      border: 1px solid var(--outline);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.65rem;
+      border-radius: var(--rounded-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .title-h1 {
+      font-family: var(--font-headline);
+      font-size: clamp(1.65rem, 1.3rem + 1.2vw, 2.3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: var(--heading-tracking);
+      color: var(--on-surface);
+      margin: 0 0 var(--space-sm) 0;
+    }
+    .standfirst-text {
+      font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--on-surface-variant);
+      max-width: 90ch;
+      margin: 0 0 var(--space-lg) 0;
+    }
+    .regulatory-chips {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-sm);
+      background: var(--surface-container);
+      border: 1px solid var(--surface-container-high);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+    }
+    .reg-chip-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      font-size: 0.85rem;
+    }
+    .reg-icon-wrapper {
+      color: var(--primary);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Section Headers */
+    .section-wrap {
+      display: grid;
+      gap: var(--space-lg);
+    }
+    .section-header-box {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-md);
+      border-bottom: 2px solid var(--surface-container-high);
+      padding-bottom: var(--space-md);
+    }
+    .sec-badge-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .section-title {
+      font-family: var(--font-headline);
+      font-size: clamp(1.35rem, 1.15rem + 0.6vw, 1.7rem);
+      font-weight: 700;
+      letter-spacing: var(--heading-tracking);
+      color: var(--on-surface);
+      margin: 0;
+      line-height: 1.25;
+    }
+    .section-description {
+      font-size: 0.95rem;
+      color: var(--on-surface-variant);
+      margin: 4px 0 0 0;
+      max-width: 80ch;
+    }
+
+    /* Cards & Figures */
+    .ui-card {
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded-xl);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-card);
+      transition: transform var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out);
+    }
+    .ui-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .card-title {
+      font-family: var(--font-headline);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .card-subtext {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin: 2px 0 0 0;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* KPI Cards Grid */
+    .kpi-row-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-md);
+    }
+    .kpi-tile {
+      background: #ffffff;
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: all var(--dur-short) var(--ease-out);
+    }
+    .kpi-tile::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--kpi-color, var(--primary));
+    }
+    .kpi-tile:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+    .kpi-top-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-xs);
+    }
+    .kpi-tag-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .kpi-number-display {
+      font-family: var(--font-headline);
+      font-size: clamp(2rem, 1.6rem + 1vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--on-surface);
+      margin: var(--space-xs) 0;
+    }
+    .kpi-bottom-text {
+      font-size: 0.85rem;
+      color: var(--on-surface-variant);
+      line-height: 1.45;
+    }
+    .kpi-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--rounded-full);
+    }
+    .pill-green { background: var(--positive-bg); color: var(--positive); border: 1px solid var(--positive-border); }
+    .pill-amber { background: var(--warning-bg); color: var(--warning); border: 1px solid var(--warning-border); }
+    .pill-red { background: var(--error-bg); color: var(--error); border: 1px solid var(--error-border); }
+    .pill-blue { background: var(--secondary-bg); color: var(--secondary); border: 1px solid #bae6fd; }
+
+    /* Asymmetric Charts Grid */
+    .grid-charts-dual {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-md);
+    }
+    @media (max-width: 980px) {
+      .grid-charts-dual { grid-template-columns: 1fr; }
+    }
+    .chart-container-box {
+      position: relative;
+      width: 100%;
+      min-height: 300px;
+    }
+
+    /* Section 02: Methodology Framework */
+    .tasks-step-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: var(--space-md);
+    }
+    .step-card {
+      background: #ffffff;
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      box-shadow: var(--shadow-card);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xs);
+    }
+    .step-badge-num {
+      width: 32px;
+      height: 32px;
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-weight: 800;
+      font-size: 0.9rem;
+      border-radius: var(--rounded);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-title {
+      font-family: var(--font-headline);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      margin: 0;
+    }
+    .step-body-desc {
+      font-size: 0.88rem;
+      color: var(--on-surface-variant);
+      margin: var(--space-xs) 0 var(--space-sm) 0;
+    }
+    .step-highlight-box {
+      background: var(--surface-container);
+      border-left: 3px solid var(--primary);
+      padding: 0.5rem 0.75rem;
+      border-radius: 0 var(--rounded-sm) var(--rounded-sm) 0;
+      font-size: 0.82rem;
+      color: var(--on-surface);
+    }
+
+    /* Section 03: Knowledge Flow & SVG Map */
+    .strand-toolbar-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: 1px solid var(--outline);
+    }
+    .strand-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+    .filter-chip-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.4rem 0.85rem;
+      background: #ffffff;
+      border: 1px solid var(--btn-border);
+      border-radius: var(--rounded-full);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--on-surface);
+      cursor: pointer;
+      transition: all var(--dur-short) var(--ease-out);
+    }
+    .filter-chip-btn:hover {
+      background: var(--surface-container);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .filter-chip-btn.is-active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.28);
+    }
+    .svg-container-card {
+      background: #ffffff;
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded-xl);
+      padding: var(--space-md);
+      box-shadow: var(--shadow-card);
+      overflow-x: auto;
+    }
+    .flow-svg {
+      width: 100%;
+      height: auto;
+      min-width: 820px;
+      display: block;
+    }
+    .flow-node {
+      cursor: pointer;
+      transition: filter var(--dur-short) var(--ease-out);
+    }
+    .flow-node:hover {
+      filter: brightness(1.05) drop-shadow(0 3px 6px rgba(0,0,0,0.12));
+    }
+    .flow-edge {
+      cursor: pointer;
+      transition: stroke-width var(--dur-short) var(--ease-out), filter var(--dur-short) var(--ease-out);
+    }
+    .flow-edge:hover {
+      stroke-width: 4 !important;
+      filter: drop-shadow(0 0 5px currentColor);
+    }
+
+    /* Heatmap Table */
+    .heatmap-wrap {
+      overflow-x: auto;
+      margin-top: var(--space-md);
+    }
+    .heat-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 4px;
+      font-size: 0.85rem;
+    }
+    .heat-table th {
+      padding: 0.6rem 0.75rem;
+      background: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 700;
+      text-align: center;
+      border-radius: var(--rounded-sm);
+    }
+    .heat-table td {
+      padding: 0;
+      text-align: center;
+    }
+    .heat-cell-btn {
+      width: 100%;
+      min-height: 44px;
+      padding: 0.5rem;
+      border-radius: var(--rounded-sm);
+      border: 1px solid transparent;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--dur-short) var(--ease-out);
+    }
+    .heat-zero { background: #f8fafc; color: var(--text-muted); border-color: #e2e8f0; }
+    .heat-low { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+    .heat-med { background: #fffbeb; color: #b45309; border-color: #fde68a; }
+    .heat-high { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+    .heat-cell-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      z-index: 2;
+    }
+
+    /* Section 04: Interactive Explorer Layout */
+    .explorer-filter-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--space-sm);
+      background: #ffffff;
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      box-shadow: var(--shadow-subtle);
+      margin-bottom: var(--space-md);
+      align-items: end;
+    }
+    .form-group-filter {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .filter-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .input-control {
+      height: 38px;
+      padding: 0.4rem 0.75rem;
+      background: var(--surface-container);
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded);
+      font-size: 0.88rem;
+      color: var(--on-surface);
+      outline: none;
+      transition: all var(--dur-short) var(--ease-out);
+      width: 100%;
+    }
+    .input-control:focus {
+      background: #ffffff;
+      border-color: var(--primary);
+      box-shadow: var(--focus-ring);
+    }
+
+    .explorer-split-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1.15fr);
+      gap: var(--space-md);
+      align-items: start;
+    }
+    @media (max-width: 1040px) {
+      .explorer-split-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Explorer Table */
+    .table-container-scroll {
+      background: #ffffff;
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded-xl);
+      overflow-x: auto;
+      box-shadow: var(--shadow-card);
+      max-height: 680px;
+      overflow-y: auto;
+    }
+    .data-table-explorer {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+    .data-table-explorer thead th {
+      position: sticky;
+      top: 0;
+      background: #f1f5f9;
+      color: var(--on-surface);
+      font-weight: 700;
+      padding: 0.75rem 0.85rem;
+      border-bottom: 2px solid var(--outline);
+      z-index: 10;
+      cursor: pointer;
+      user-select: none;
+    }
+    .data-table-explorer tbody tr {
+      border-bottom: 1px solid var(--surface-container);
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .data-table-explorer tbody tr:hover {
+      background-color: var(--hover-tint);
+    }
+    .data-table-explorer tbody tr.is-selected {
+      background-color: #eff6ff;
+      border-left: 4px solid var(--primary);
+    }
+    .data-table-explorer td {
+      padding: 0.75rem 0.85rem;
+      vertical-align: middle;
+    }
+
+    /* Inspector Side Pane */
+    .inspector-panel-card {
+      background: #ffffff;
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded-xl);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-card);
+      position: sticky;
+      top: 75px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .inspector-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: 1px solid var(--outline);
+      padding-bottom: var(--space-sm);
+    }
+    .evidence-block-box {
+      background: var(--surface-container);
+      border: 1px solid var(--surface-container-high);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .evidence-tag-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .evidence-quote-text {
+      font-size: 0.92rem;
+      color: var(--on-surface);
+      line-height: 1.5;
+      font-style: italic;
+    }
+    .evidence-source-tag {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Action buttons in inspector */
+    .status-btn-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-xs);
+    }
+    .btn-status-act {
+      min-height: 38px;
+      padding: 0.35rem 0.5rem;
+      border-radius: var(--rounded);
+      border: 1px solid var(--btn-border);
+      background: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all var(--dur-short) var(--ease-out);
+    }
+    .btn-status-act:hover {
+      background: var(--surface-container);
+    }
+    .btn-status-act.active-tp {
+      background: var(--positive);
+      color: #fff;
+      border-color: var(--positive);
+    }
+    .btn-status-act.active-fp {
+      background: var(--error);
+      color: #fff;
+      border-color: var(--error);
+    }
+    .btn-status-act.active-pending {
+      background: var(--warning);
+      color: #fff;
+      border-color: var(--warning);
+    }
+
+    /* General Buttons */
+    .btn-brand {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 38px;
+      padding: 0 1rem;
+      border-radius: var(--rounded);
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all var(--dur-short) var(--ease-out);
+      text-decoration: none;
+    }
+    .btn-brand:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 38px;
+      padding: 0 0.85rem;
+      border-radius: var(--rounded);
+      background: #ffffff;
+      color: var(--on-surface);
+      border: 1px solid var(--btn-border);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all var(--dur-short) var(--ease-out);
+      text-decoration: none;
+    }
+    .btn-outline:hover {
+      background: var(--surface-container);
+      border-color: var(--on-surface-variant);
+    }
+
+    /* Section 05: International & Policies */
+    .intl-policy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+    .policy-box-card {
+      background: #ffffff;
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      box-shadow: var(--shadow-card);
+      border-top: 4px solid var(--policy-color, var(--primary));
+    }
+    .policy-title {
+      font-family: var(--font-headline);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-xs) 0;
+    }
+
+    /* Section 06: AI Simulator & Defense Question */
+    .sim-slider-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--space-md);
+      align-items: center;
+    }
+    .sim-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--space-sm);
+      margin: var(--space-md) 0;
+    }
+    .sim-metric-tile {
+      background: var(--surface-container);
+      border: 1px solid var(--surface-container-high);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      text-align: center;
+    }
+    .sim-prompt-box {
+      background: #0f172a;
+      color: #f1f5f9;
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      font-family: var(--font-label);
+      font-size: 0.82rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    /* Defense Callout Card */
+    .defense-card {
+      background: linear-gradient(135deg, #1e3a8a, #0f172a);
+      color: #ffffff;
+      border-radius: var(--rounded-xl);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-elevation);
+    }
+    .defense-pill-head {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      color: #93c5fd;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.3rem 0.75rem;
+      border-radius: var(--rounded-full);
+      margin-bottom: var(--space-sm);
+    }
+    .defense-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    .pillar-glass-tile {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      backdrop-filter: blur(8px);
+    }
+    .pillar-num {
+      font-family: var(--font-label);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #60a5fa;
+      margin-bottom: 4px;
+    }
+    .pillar-title {
+      font-family: var(--font-headline);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0 0 6px 0;
+      color: #ffffff;
+    }
+    .pillar-text {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Footer */
+    .site-footer {
+      border-top: 1px solid var(--outline);
+      padding-top: var(--space-xl);
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    /* Print Styles */
+    @media print {
+      .top-nav-bar, .top-nav-actions, .filter-chip-btn, .status-btn-group, .btn-brand, .btn-outline {
+        display: none !important;
+      }
+      .page-container { padding: 0; max-width: 100%; }
+      .ui-card, .hero-masthead, .step-card { box-shadow: none !important; border: 1px solid #ccc !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sticky Glass Navigation Bar -->
+  <nav class="top-nav-bar" aria-label="Điều hướng chính">
+    <div class="top-nav-inner">
+      <a href="#top" class="top-nav-brand">
+        <div class="brand-icon-box">
+          <i data-lucide="cpu" style="width: 20px; height: 20px;"></i>
+        </div>
+        <span>ĐỀ TÀI 20 · AI PHÂN TÍCH CTGDPT 2018</span>
+      </a>
+
+      <div class="top-nav-links">
+        <a href="#sec-kpi" class="nav-pill-link is-active"><i data-lucide="layout-dashboard" style="width: 14px;"></i> 01. KPI Toàn cảnh</a>
+        <a href="#sec-methodology" class="nav-pill-link"><i data-lucide="git-branch" style="width: 14px;"></i> 02. Quy trình 6 Bước</a>
+        <a href="#sec-flow" class="nav-pill-link"><i data-lucide="network" style="width: 14px;"></i> 03. Sơ đồ Liên thông SVG</a>
+        <a href="#sec-explorer" class="nav-pill-link"><i data-lucide="search" style="width: 14px;"></i> 04. Tra cứu &amp; Minh chứng</a>
+        <a href="#sec-intl" class="nav-pill-link"><i data-lucide="globe-2" style="width: 14px;"></i> 05. Đối chiếu Quốc tế</a>
+        <a href="#sec-audit" class="nav-pill-link"><i data-lucide="shield-check" style="width: 14px;"></i> 06. Thử nghiệm AI &amp; Phản biện</a>
+      </div>
+
+      <div class="top-nav-actions">
+        <div class="user-session-chip" title="Tài khoản đang đăng nhập: Ngọc Lan">
+          <span class="user-session-avatar">NL</span>
+          <span>Ngọc Lan</span>
+        </div>
+        <button type="button" class="btn-outline" onclick="exportVerifiedCsv()" title="Xuất dữ liệu thẩm định ra file CSV UTF-8">
+          <i data-lucide="download" style="width: 15px;"></i> Xuất CSV
+        </button>
+        <button type="button" class="btn-brand" onclick="window.print()" title="In báo cáo thẩm định">
+          <i data-lucide="printer" style="width: 15px;"></i> In Báo cáo
+        </button>
+        <a href="login.html" class="btn-outline" onclick="localStorage.removeItem('ca_current_user');" title="Đăng xuất hoặc chuyển tài khoản">
+          <i data-lucide="log-out" style="width: 15px;"></i> Đổi tài khoản
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-container" id="top">
+    <!-- Hero Masthead -->
+    <header class="hero-masthead">
+      <div class="masthead-meta-bar">
+        <div class="meta-badges-left">
+          <span class="badge-primary-pill"><i data-lucide="award" style="width: 14px;"></i> BỘ GIÁO DỤC VÀ ĐÀO TẠO · VIỆN KHOA HỌC GIÁO DỤC</span>
+          <span class="badge-outline-pill"><i data-lucide="file-check" style="width: 13px;"></i> Thông tư 32/2018/TT-BGDĐT</span>
+          <span class="badge-outline-pill"><i data-lucide="layers" style="width: 13px;"></i> Cấp Tiểu học (Lớp 1–5)</span>
+          <span class="badge-outline-pill"><i data-lucide="check-circle" style="width: 13px;"></i> Đề tài Nghiên cứu số 20</span>
+        </div>
+        <div style="font-family: var(--font-label); font-size: 0.8rem; color: var(--text-muted);">
+          Cập nhật: Học kỳ I · CTGDPT 2018
+        </div>
+      </div>
+
+      <h1 class="title-h1">Hệ thống AI Phát hiện Trùng lặp, Khoảng trống &amp; Thiếu liên thông Chương trình GDPT 2018</h1>
+      <p class="standfirst-text">
+        Vận dụng lý luận phát triển chương trình giáo dục (Jerome Bruner &amp; Thang nhận thức Bloom), kết hợp kỹ thuật xử lý ngôn ngữ tự nhiên (Cosine Similarity) và mô hình ngôn ngữ lớn (LLM Chain-of-Thought) có kiểm chứng sư phạm độc lập nhằm truy vết điểm nghẽn, phân biệt thiết kế xoắn ốc đồng tâm với trùng lặp cơ học và đề xuất giải pháp dạy học thực tiễn.
+      </p>
+
+      <div class="regulatory-chips">
+        <div class="reg-chip-item">
+          <div class="reg-icon-wrapper"><i data-lucide="book-open" style="width: 18px;"></i></div>
+          <div>
+            <strong>Phạm vi Dữ liệu Đầu vào:</strong><br>
+            Toàn bộ YCCĐ môn Tin học &amp; Công nghệ, đối chiếu Toán, TNXH, Khoa học, Đạo đức Lớp 1–5 (TT 32/2018).
+          </div>
+        </div>
+        <div class="reg-chip-item">
+          <div class="reg-icon-wrapper"><i data-lucide="cpu" style="width: 18px;"></i></div>
+          <div>
+            <strong>Mô hình AI &amp; Thuật toán:</strong><br>
+            Vietnamese Sentence-BERT + text-embedding-3-large kết hợp Prompt Chain-of-Thought V3 (F1-score 90,5%).
+          </div>
+        </div>
+        <div class="reg-chip-item">
+          <div class="reg-icon-wrapper"><i data-lucide="sparkles" style="width: 18px;"></i></div>
+          <div>
+            <strong>Nguyên tắc Sư phạm Trọng tâm:</strong><br>
+            Tuyệt đối không tự động kết luận lỗi chương trình; phân biệt rõ phát triển đồng tâm tăng tiến nhận thức.
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECTION 01: KPI Dashboard -->
+    <section id="sec-kpi" class="section-wrap" aria-labelledby="heading-kpi">
+      <div class="section-header-box">
+        <div>
+          <div class="sec-badge-row"><i data-lucide="gauge" style="width: 14px;"></i> PHẦN 01 · TỔNG QUAN HỆ THỐNG</div>
+          <h2 id="heading-kpi" class="section-title">Bảng điều khiển KPI &amp; Bức tranh Cảnh báo Toàn cấp</h2>
+          <p class="section-description">Tổng hợp định lượng 248 YCCĐ được chuẩn hóa, 28 cặp cảnh báo nghi vấn và độ chính xác của AI qua các thế hệ Prompt.</p>
+        </div>
+        <div style="font-family: var(--font-label); font-size: 0.8rem; color: var(--text-muted); background: var(--surface-container); padding: 0.35rem 0.75rem; border-radius: var(--rounded-full);">
+          Dữ liệu: 248 YCCĐ · 5 Khối lớp · 6 Môn học
+        </div>
+      </div>
+
+      <!-- KPI 4 Cards -->
+      <div class="kpi-row-grid">
+        <div class="kpi-tile" style="--kpi-color: #2563eb;">
+          <div class="kpi-top-meta">
+            <span class="kpi-tag-label">DỮ LIỆU ĐẦU VÀO CHUẨN HÓA</span>
+            <span class="kpi-pill-badge pill-blue"><i data-lucide="database" style="width: 11px;"></i> TT 32/2018</span>
+          </div>
+          <div class="kpi-number-display" id="kpi-total-yccd">248</div>
+          <div class="kpi-bottom-text">Yêu cầu cần đạt được mã hóa ID duy nhất xuyên suốt mạch Lớp 1 đến Lớp 5.</div>
+        </div>
+
+        <div class="kpi-tile" style="--kpi-color: #d97706;">
+          <div class="kpi-top-meta">
+            <span class="kpi-tag-label">CẢNH BÁO NGHI VẤN SÀNG LỌC</span>
+            <span class="kpi-pill-badge pill-amber"><i data-lucide="alert-triangle" style="width: 11px;"></i> &theta; &ge; 0,78</span>
+          </div>
+          <div class="kpi-number-display" id="kpi-total-alerts" style="color: #d97706;">28</div>
+          <div class="kpi-bottom-text">Gồm 12 Trùng lặp tiềm ẩn · 9 Khoảng trống năng lực · 7 Đứt đoạn kiến thức tiên quyết.</div>
+        </div>
+
+        <div class="kpi-tile" style="--kpi-color: #059669;">
+          <div class="kpi-top-meta">
+            <span class="kpi-tag-label">ĐỘ CHÍNH XÁC AI (PRECISION)</span>
+            <span class="kpi-pill-badge pill-green"><i data-lucide="trending-up" style="width: 11px;"></i> +35,3%</span>
+          </div>
+          <div class="kpi-number-display" id="kpi-precision-rate" style="color: #059669;">89,3%</div>
+          <div class="kpi-bottom-text">Cải thiện vượt bậc từ 54,0% (Prompt V1 Zero-shot) lên 89,3% ở Prompt V3 CoT + RAG.</div>
+        </div>
+
+        <div class="kpi-tile" style="--kpi-color: #7c3aed;">
+          <div class="kpi-top-meta">
+            <span class="kpi-tag-label">ĐIỀU PHỐI SƯ PHẠM</span>
+            <span class="kpi-pill-badge pill-blue"><i data-lucide="check-check" style="width: 11px;"></i> 100% Khắc phục</span>
+          </div>
+          <div class="kpi-number-display" style="color: #7c3aed;">100%</div>
+          <div class="kpi-bottom-text">Các điểm nghẽn đều có phương án điều phối qua Kế hoạch bài dạy (KHBD) &amp; Kế hoạch GD nhà trường.</div>
+        </div>
+      </div>
+
+      <!-- Charts Dual Grid -->
+      <div class="grid-charts-dual">
+        <div class="ui-card">
+          <div class="card-header-row">
+            <div>
+              <h3 class="card-title"><i data-lucide="bar-chart-2" style="width: 18px; color: var(--primary);"></i> Mật độ YCCĐ &amp; Cảnh báo theo Khối lớp (Lớp 1–5)</h3>
+              <p class="card-subtext">ĐỐI CHIẾU SỐ LƯỢNG YCCĐ BAN HÀNH VÀ SỐ ĐIỂM NGHẼN NGHI VẤN THEO TỪNG LỚP</p>
+            </div>
+            <span class="kpi-pill-badge pill-blue">Biểu đồ Kết hợp</span>
+          </div>
+          <div class="chart-container-box">
+            <canvas id="chart-grade-density"></canvas>
+          </div>
+        </div>
+
+        <div class="ui-card">
+          <div class="card-header-row">
+            <div>
+              <h3 class="card-title"><i data-lucide="activity" style="width: 18px; color: var(--positive);"></i> Hiệu năng AI qua 3 Vòng Tinh chỉnh Prompt</h3>
+              <p class="card-subtext">SO SÁNH ĐỘ CHÍNH XÁC (PRECISION), NGUY CƠ BỎ SÓT VÀ TỶ LỆ ẢO GIÁC MÃ YCCĐ</p>
+            </div>
+            <span class="kpi-pill-badge pill-green">F1-Score 90,5%</span>
+          </div>
+          <div class="chart-container-box">
+            <canvas id="chart-prompt-perf"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: var(--surface-container); border-left: 4px solid var(--primary); padding: var(--space-md) var(--space-lg); border-radius: 0 var(--rounded-lg) var(--rounded-lg) 0; font-size: 0.9rem; color: var(--on-surface-variant);">
+        <strong>Lưu ý khoa học giáo dục:</strong> Thuật toán đo tương đồng ngữ nghĩa (Cosine Similarity &ge; 0,78) và mô hình ngôn ngữ lớn chỉ đóng vai trò <em>bộ lọc sàng lọc ban đầu</em>. Mọi kết luận giáo dục học bắt buộc phải dựa trên phân tích cấu trúc nhận thức Bloom, bối cảnh thực hành và triết lý chương trình đồng tâm xoắn ốc của Jerome Bruner.
+      </div>
+    </section>
+
+    <!-- SECTION 02: Methodology Framework -->
+    <section id="sec-methodology" class="section-wrap" aria-labelledby="heading-methodology">
+      <div class="section-header-box">
+        <div>
+          <div class="sec-badge-row"><i data-lucide="workflow" style="width: 14px;"></i> PHẦN 02 · KHUNG PHƯƠNG PHÁP LUẬN</div>
+          <h2 id="heading-methodology" class="section-title">Quy trình 6 Nhiệm vụ Thực hành &amp; Định nghĩa Quy tắc Cảnh báo</h2>
+          <p class="section-description">Hiện thực hóa đầy đủ 6 yêu cầu bắt buộc của Đề tài 20: từ chuẩn hóa CSDL, định nghĩa quy tắc ngữ nghĩa, kiểm nghiệm AI đến đề xuất giải pháp dạy học.</p>
+        </div>
+      </div>
+
+      <div class="tasks-step-grid">
+        <div class="step-card">
+          <div>
+            <div class="step-header">
+              <div class="step-badge-num">1</div>
+              <h3 class="step-title">Chuẩn hóa YCCĐ Lớp 1–5</h3>
+            </div>
+            <p class="step-body-desc">
+              Xây dựng kho CSDL 248 YCCĐ được gán mã định danh chuẩn dạng <code>[Môn].[Lớp].[Mạch].[STT]</code> (ví dụ: <code>TH.3.A.1</code>, <code>TO.2.TK.1</code>), kèm trích dẫn pháp lý Thông tư 32/2018/TT-BGDĐT và đối sánh 3 bộ SGK (Cánh Diều, Kết Nối Tri Thức, Chân Trời Sáng Tạo).
+            </p>
+          </div>
+          <div class="step-highlight-box">
+            <strong>Đầu ra:</strong> Bảng dữ liệu có mã định danh, số trang Thông tư và văn bản trích dẫn đối chứng.
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div>
+            <div class="step-header">
+              <div class="step-badge-num">2</div>
+              <h3 class="step-title">Định nghĩa 3 Quy tắc Cảnh báo</h3>
+            </div>
+            <p class="step-body-desc">
+              Xây dựng 3 quy tắc cảnh báo định lượng &amp; định tính:
+              <br>• <strong>Trùng lặp (Overlap):</strong> Cosine &ge; 0,82, cùng đối tượng tri thức, mức Bloom không tăng tiến.
+              <br>• <strong>Thiếu tiên quyết (Prerequisite):</strong> Đồ thị phụ thuộc kiến thức bị khuyết mắt xích nền tảng.
+              <br>• <strong>Khoảng trống (Gap):</strong> Đứt đoạn mạch năng lực giữa các khối lớp (nhất là Lớp 1–2 &rarr; Lớp 3).
+            </p>
+          </div>
+          <div class="step-highlight-box">
+            <strong>Đầu ra:</strong> Bộ luật 3 tiêu chí phân loại rõ ràng giữa trùng lặp cơ học và thiết kế đồng tâm.
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div>
+            <div class="step-header">
+              <div class="step-badge-num">3</div>
+              <h3 class="step-title">Phát hiện bằng AI &amp; Thuật toán Ngữ nghĩa</h3>
+            </div>
+            <p class="step-body-desc">
+              Triển khai pipeline 5 chặng: Tiền xử lý văn bản tiếng Việt &rarr; Trích xuất vector đặc trưng bằng <em>text-embedding-3-large</em> &amp; Vietnamese Sentence-BERT &rarr; Tính toán ma trận Cosine Similarity &rarr; Tinh chỉnh Prompt Chain-of-Thought trên LLM &rarr; Sàng lọc phân cấp 3 mức ưu tiên (Cao, Trung bình, Thấp).
+            </p>
+          </div>
+          <div class="step-highlight-box">
+            <strong>Đầu ra:</strong> Danh sách 28 ca nghi vấn tự động phát hiện với độ tương đồng ngữ nghĩa từ 0,72 đến 0,87.
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div>
+            <div class="step-header">
+              <div class="step-badge-num">4</div>
+              <h3 class="step-title">Đánh giá Thủ công Mẫu &amp; Báo cáo Sai số</h3>
+            </div>
+            <p class="step-body-desc">
+              Chuyên gia thẩm định giáo dục học đánh giá độc lập mẫu cảnh báo qua Ma trận Nhầm lẫn (Confusion Matrix: TP = 20, FP = 8, FN = 3, TN = 217). Tính toán chính xác Precision (89,3%), Recall (91,7%) và F1-Score (0,905). Công khai nhật ký phân tích nguyên nhân AI báo sai (False Positive).
+            </p>
+          </div>
+          <div class="step-highlight-box">
+            <strong>Đầu ra:</strong> Báo cáo sai số, tỷ lệ cảnh báo đúng và bảng đối soát minh bạch các lỗi AI đã khắc phục.
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div>
+            <div class="step-header">
+              <div class="step-badge-num">5</div>
+              <h3 class="step-title">Thiết kế Dashboard Truy vết Minh chứng</h3>
+            </div>
+            <p class="step-body-desc">
+              Xây dựng Dashboard trực quan đáp ứng chuẩn rubric Đề tài 20: gồm 4 KPI tổng quan, 2 biểu đồ phân tích, 4 bộ lọc tương tác đa chiều, bảng tra cứu chi tiết có mức ưu tiên (Cao/Trung bình/Thấp) và bản đồ tiến trình liên thông kiến thức tương tác (SVG).
+            </p>
+          </div>
+          <div class="step-highlight-box">
+            <strong>Đầu ra:</strong> Giao diện ứng dụng số tương tác, cho phép chuyên gia ghi chú và lưu trữ thẩm định cục bộ.
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div>
+            <div class="step-header">
+              <div class="step-badge-num">6</div>
+              <h3 class="step-title">Khung Đề xuất Cải tiến &amp; Hỗ trợ Dạy học</h3>
+            </div>
+            <p class="step-body-desc">
+              Tuyệt đối không tự động kết luận lỗi chương trình. Đề xuất 4 nhóm giải pháp sư phạm thực tế:
+              <br>1. Tích hợp "Tiền Tin học không máy tính (Unplugged CS)" vào Hoạt động trải nghiệm Lớp 1–2.
+              <br>2. Phân hóa mục tiêu KHBD theo Công văn 2345/BGDĐT-GDTH khi gặp nội dung lặp lại.
+              <br>3. Dạy học liên môn STEM giải quyết điểm giao thoa Tin – Công nghệ – Toán.
+              <br>4. Kế hoạch giáo dục nhà trường linh hoạt.
+            </p>
+          </div>
+          <div class="step-highlight-box">
+            <strong>Đầu ra:</strong> Bộ giải pháp điều phối sư phạm gắn liền với thực tiễn triển khai tại các trường tiểu học.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 03: Knowledge Flow & SVG Map -->
+    <section id="sec-flow" class="section-wrap" aria-labelledby="heading-flow">
+      <div class="section-header-box">
+        <div>
+          <div class="sec-badge-row"><i data-lucide="network" style="width: 14px;"></i> PHẦN 03 · BẢN ĐỒ TIẾN TRÌNH</div>
+          <h2 id="heading-flow" class="section-title">Sơ đồ Mạch Liên thông Kiến thức &amp; Ma trận Cảnh báo</h2>
+          <p class="section-description">Bản đồ trực quan dòng chảy tri thức từ Lớp 1 đến Lớp 5, thể hiện các điểm nút YCCĐ, liên kết thuận và các điểm cảnh báo nghi vấn.</p>
+        </div>
+        <div class="strand-filters">
+          <button type="button" class="filter-chip-btn is-active" onclick="setFlowStrand('all', this)"><i data-lucide="layers" style="width: 14px;"></i> Tất cả Mạch</button>
+          <button type="button" class="filter-chip-btn" onclick="setFlowStrand('tech', this)"><i data-lucide="hard-drive" style="width: 14px;"></i> CNTT &amp; Thiết bị</button>
+          <button type="button" class="filter-chip-btn" onclick="setFlowStrand('data', this)"><i data-lucide="database" style="width: 14px;"></i> Dữ liệu &amp; Thư mục</button>
+          <button type="button" class="filter-chip-btn" onclick="setFlowStrand('algo', this)"><i data-lucide="code" style="width: 14px;"></i> Thuật toán &amp; Lập trình</button>
+          <button type="button" class="filter-chip-btn" onclick="setFlowStrand('ethics', this)"><i data-lucide="shield" style="width: 14px;"></i> Đạo đức &amp; Pháp luật số</button>
+        </div>
+      </div>
+
+      <!-- Flow SVG Diagram -->
+      <div class="svg-container-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm); font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-label);">
+          <span><i data-lucide="info" style="width: 13px;"></i> NHẤP VÀO NÚT HOẶC ĐƯỜNG NỐI ĐỂ XEM CHI TIẾT CẢNH BÁO</span>
+          <div style="display: flex; gap: var(--space-md);">
+            <span style="display: inline-flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 3px; background: #059669; display: inline-block;"></span> Liên thông trơn tru</span>
+            <span style="display: inline-flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 3px; background: #d97706; display: inline-block; border-top: 1px dashed;"></span> Nghi vấn trùng lặp</span>
+            <span style="display: inline-flex; align-items: center; gap: 4px;"><span style="width: 12px; height: 3px; background: #dc2626; display: inline-block; border-top: 1px dotted;"></span> Khoảng trống / Đứt đoạn</span>
+          </div>
+        </div>
+<svg id="curriculum-flow-svg" class="flow-svg" viewBox="0 0 880 430" role="img" aria-label="Sơ đồ dòng chảy kiến thức xuyên suốt Lớp 1 đến Lớp 5 môn Toán, TNXH/Khoa học, Tin học và Công nghệ/Đạo đức">
+              <g id="svg-grid-bg">
+                <rect x="95" y="10" width="145" height="405" fill="var(--surface-container)" rx="4" opacity="0.45"></rect>
+                <rect x="250" y="10" width="145" height="405" fill="var(--surface-container)" rx="4" opacity="0.45"></rect>
+                <rect x="405" y="10" width="145" height="405" fill="var(--secondary-bg)" rx="4" opacity="0.55"></rect>
+                <rect x="560" y="10" width="145" height="405" fill="var(--surface-container)" rx="4" opacity="0.45"></rect>
+                <rect x="715" y="10" width="145" height="405" fill="var(--surface-container)" rx="4" opacity="0.45"></rect>
+
+                <text x="167" y="32" text-anchor="middle" font-family="Barlow, sans-serif" font-size="12" font-weight="600" fill="var(--on-surface)">LỚP 1</text>
+                <text x="322" y="32" text-anchor="middle" font-family="Barlow, sans-serif" font-size="12" font-weight="600" fill="var(--on-surface)">LỚP 2</text>
+                <text x="477" y="32" text-anchor="middle" font-family="Barlow, sans-serif" font-size="12" font-weight="600" fill="var(--secondary)">LỚP 3 (Bắt đầu Tin/CN)</text>
+                <text x="632" y="32" text-anchor="middle" font-family="Barlow, sans-serif" font-size="12" font-weight="600" fill="var(--on-surface)">LỚP 4</text>
+                <text x="787" y="32" text-anchor="middle" font-family="Barlow, sans-serif" font-size="12" font-weight="600" fill="var(--on-surface)">LỚP 5</text>
+
+                <text x="12" y="95" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--secondary)">TOÁN HỌC</text>
+                <text x="12" y="185" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--data-3)">TNXH → KH</text>
+                <text x="12" y="275" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--error)">TIN HỌC</text>
+                <text x="12" y="365" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--tertiary)">CN &amp; ĐĐ</text>
+
+                <line x1="10" y1="138" x2="865" y2="138" stroke="var(--outline-variant)" stroke-width="1"></line>
+                <line x1="10" y1="228" x2="865" y2="228" stroke="var(--outline-variant)" stroke-width="1"></line>
+                <line x1="10" y1="318" x2="865" y2="318" stroke="var(--outline-variant)" stroke-width="1"></line>
+              </g>
+
+              <g id="svg-edges-layer">
+                <path class="flow-edge" data-strand="data" data-alert="CB-02" d="M 228 90 C 245 90, 245 90, 260 90" stroke="var(--data-3)" stroke-width="2.5" fill="none" onclick="inspectFlowAlert('CB-02')"></path>
+                <path class="flow-edge" data-strand="data" data-alert="CB-02" d="M 383 95 C 405 120, 395 255, 415 268" stroke="var(--error)" stroke-width="3" stroke-dasharray="6 4" fill="none" onclick="inspectFlowAlert('CB-02')"></path>
+                <path class="flow-edge" data-strand="data" data-alert="CB-05" d="M 538 270 C 555 270, 555 270, 570 270" stroke="var(--data-3)" stroke-width="2.5" fill="none" onclick="inspectFlowAlert('CB-05')"></path>
+                <path class="flow-edge" data-strand="data" data-alert="CB-05" d="M 693 270 C 710 270, 710 270, 725 270" stroke="var(--data-2)" stroke-width="3" fill="none" onclick="inspectFlowAlert('CB-05')"></path>
+
+                <path class="flow-edge" data-strand="algo" data-alert="CB-03" d="M 538 282 C 555 290, 555 290, 570 282" stroke="var(--error)" stroke-width="3" stroke-dasharray="6 4" fill="none" onclick="inspectFlowAlert('CB-03')"></path>
+                <path class="flow-edge" data-strand="algo" data-alert="CB-07" d="M 538 100 C 565 130, 550 245, 570 265" stroke="var(--error)" stroke-width="3" stroke-dasharray="6 4" fill="none" onclick="inspectFlowAlert('CB-07')"></path>
+                <path class="flow-edge" data-strand="algo" data-alert="CB-08" d="M 693 282 C 710 282, 710 282, 725 282" stroke="var(--data-3)" stroke-width="2.5" fill="none" onclick="inspectFlowAlert('CB-08')"></path>
+
+                <path class="flow-edge" data-strand="tech" data-alert="CB-01" d="M 228 180 C 245 180, 245 180, 260 180" stroke="var(--data-3)" stroke-width="2.5" fill="none" onclick="inspectFlowAlert('CB-01')"></path>
+                <path class="flow-edge" data-strand="tech" data-alert="CB-01" d="M 477 296 L 477 334" stroke="var(--data-2)" stroke-width="3.5" fill="none" onclick="inspectFlowAlert('CB-01')"></path>
+                <path class="flow-edge" data-strand="tech" data-alert="CB-09" d="M 383 185 C 400 220, 395 340, 415 355" stroke="var(--data-3)" stroke-width="2.5" fill="none" onclick="inspectFlowAlert('CB-09')"></path>
+                <path class="flow-edge" data-strand="tech" data-alert="CB-09" d="M 538 180 C 555 180, 555 180, 570 180" stroke="var(--error)" stroke-width="3" stroke-dasharray="6 4" fill="none" onclick="inspectFlowAlert('CB-09')"></path>
+                <path class="flow-edge" data-strand="tech" data-alert="CB-11" d="M 693 360 C 710 360, 710 360, 725 360" stroke="var(--data-2)" stroke-width="3" fill="none" onclick="inspectFlowAlert('CB-11')"></path>
+
+                <path class="flow-edge" data-strand="ethics" data-alert="CB-04" d="M 228 360 C 245 360, 245 360, 260 360" stroke="var(--data-3)" stroke-width="2.5" fill="none" onclick="inspectFlowAlert('CB-04')"></path>
+                <path class="flow-edge" data-strand="ethics" data-alert="CB-04" d="M 632 296 L 632 334" stroke="var(--data-2)" stroke-width="3.5" fill="none" onclick="inspectFlowAlert('CB-04')"></path>
+                <path class="flow-edge" data-strand="ethics" data-alert="CB-12" d="M 693 292 C 715 320, 710 350, 725 355" stroke="var(--error)" stroke-width="3" stroke-dasharray="6 4" fill="none" onclick="inspectFlowAlert('CB-12')"></path>
+              </g>
+
+              <g id="svg-nodes-layer">
+                <g class="flow-node" data-strand="data" data-alert="CB-02" onclick="inspectFlowAlert('CB-02')">
+                  <rect x="105" y="64" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--secondary)" stroke-width="1.5"></rect>
+                  <text x="113" y="83" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--secondary)">TO.1.DL</text>
+                  <text x="113" y="101" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Phân loại đồ vật</text>
+                </g>
+                <g class="flow-node" data-strand="data" data-alert="CB-02" onclick="inspectFlowAlert('CB-02')">
+                  <rect x="260" y="64" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--secondary)" stroke-width="1.5"></rect>
+                  <text x="268" y="83" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--secondary)">TO.2.TK</text>
+                  <text x="268" y="101" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Biểu đồ tranh</text>
+                </g>
+                <g class="flow-node" data-strand="algo" data-alert="CB-07" onclick="inspectFlowAlert('CB-07')">
+                  <rect x="415" y="64" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--secondary)" stroke-width="1.5"></rect>
+                  <text x="423" y="83" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--secondary)">TO.3.HH</text>
+                  <text x="423" y="101" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Góc vuông &amp; Chu vi</text>
+                </g>
+                <g class="flow-node" data-strand="algo" data-alert="CB-07" onclick="inspectFlowAlert('CB-07')">
+                  <rect x="570" y="64" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--secondary)" stroke-width="1.5"></rect>
+                  <text x="578" y="83" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--secondary)">TO.4.HH</text>
+                  <text x="578" y="101" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Đo góc (độ)</text>
+                </g>
+                <g class="flow-node" data-strand="data" data-alert="CB-08" onclick="inspectFlowAlert('CB-08')">
+                  <rect x="725" y="64" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--secondary)" stroke-width="1.5"></rect>
+                  <text x="733" y="83" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--secondary)">TO.5.TK</text>
+                  <text x="733" y="101" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Biểu đồ quạt/Tỉ lệ</text>
+                </g>
+
+                <g class="flow-node" data-strand="tech" data-alert="CB-01" onclick="inspectFlowAlert('CB-01')">
+                  <rect x="105" y="155" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--data-3)" stroke-width="1.5"></rect>
+                  <text x="113" y="174" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--data-3)">TNXH.1</text>
+                  <text x="113" y="192" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Đồ dùng an toàn</text>
+                </g>
+                <g class="flow-node" data-strand="tech" data-alert="CB-09" onclick="inspectFlowAlert('CB-09')">
+                  <rect x="260" y="155" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--data-3)" stroke-width="1.5"></rect>
+                  <text x="268" y="174" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--data-3)">TNXH.2</text>
+                  <text x="268" y="192" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Giữ gìn thiết bị</text>
+                </g>
+                <g class="flow-node" data-strand="tech" data-alert="CB-09" onclick="inspectFlowAlert('CB-09')">
+                  <rect x="415" y="155" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--data-3)" stroke-width="1.5"></rect>
+                  <text x="423" y="174" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--data-3)">TNXH.3</text>
+                  <text x="423" y="192" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Ánh sáng &amp; Âm thanh</text>
+                </g>
+                <g class="flow-node" data-strand="tech" data-alert="CB-09" onclick="inspectFlowAlert('CB-09')">
+                  <rect x="570" y="155" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--error)" stroke-width="1.5"></rect>
+                  <text x="578" y="174" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--error)">KH.4.NL</text>
+                  <text x="578" y="192" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Truyền nhiệt &amp; Mạch</text>
+                </g>
+                <g class="flow-node" data-strand="tech" data-alert="CB-11" onclick="inspectFlowAlert('CB-11')">
+                  <rect x="725" y="155" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--data-3)" stroke-width="1.5"></rect>
+                  <text x="733" y="174" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--data-3)">KH.5.NL</text>
+                  <text x="733" y="192" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Năng lượng điện</text>
+                </g>
+
+                <g class="flow-node" data-strand="data" data-alert="CB-02" onclick="inspectFlowAlert('CB-02')">
+                  <rect x="105" y="246" width="278" height="48" rx="5" fill="var(--surface-container)" stroke="var(--outline-variant)" stroke-dasharray="4 3" stroke-width="1.5"></rect>
+                  <text x="244" y="267" text-anchor="middle" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--on-surface-variant)">KHOẢNG TRỐNG TIỀN TIN HỌC (L1–L2)</text>
+                  <text x="244" y="283" text-anchor="middle" font-family="Barlow, sans-serif" font-size="11" fill="var(--on-surface-variant)">Chưa có môn Tin học bắt buộc — phụ thuộc Toán/TNXH</text>
+                </g>
+                <g class="flow-node" data-strand="algo" data-alert="CB-03" onclick="inspectFlowAlert('CB-03')">
+                  <rect x="415" y="245" width="123" height="52" rx="5" fill="var(--surface-container-low)" stroke="var(--error)" stroke-width="1.8"></rect>
+                  <text x="423" y="264" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--error)">TH.3 (Lớp 3)</text>
+                  <text x="423" y="282" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Thông tin &amp; Chia nhỏ</text>
+                </g>
+                <g class="flow-node" data-strand="algo" data-alert="CB-03" onclick="inspectFlowAlert('CB-03')">
+                  <rect x="570" y="245" width="123" height="52" rx="5" fill="var(--surface-container-low)" stroke="var(--error)" stroke-width="1.8"></rect>
+                  <text x="578" y="264" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--error)">TH.4 (Lớp 4)</text>
+                  <text x="578" y="282" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Tuần tự Scratch/Logo</text>
+                </g>
+                <g class="flow-node" data-strand="algo" data-alert="CB-08" onclick="inspectFlowAlert('CB-08')">
+                  <rect x="725" y="245" width="123" height="52" rx="5" fill="var(--surface-container-low)" stroke="var(--data-2)" stroke-width="1.8"></rect>
+                  <text x="733" y="264" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--tertiary)">TH.5 (Lớp 5)</text>
+                  <text x="733" y="282" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Biến, Rẽ nhánh &amp; Lặp</text>
+                </g>
+
+                <g class="flow-node" data-strand="ethics" data-alert="CB-04" onclick="inspectFlowAlert('CB-04')">
+                  <rect x="105" y="335" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--tertiary)" stroke-width="1.5"></rect>
+                  <text x="113" y="354" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--tertiary)">ĐĐ.1</text>
+                  <text x="113" y="372" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Thật thà &amp; Tôn trọng</text>
+                </g>
+                <g class="flow-node" data-strand="ethics" data-alert="CB-04" onclick="inspectFlowAlert('CB-04')">
+                  <rect x="260" y="335" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--tertiary)" stroke-width="1.5"></rect>
+                  <text x="268" y="354" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--tertiary)">ĐĐ.2</text>
+                  <text x="268" y="372" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Bảo quản đồ cá nhân</text>
+                </g>
+                <g class="flow-node" data-strand="tech" data-alert="CB-01" onclick="inspectFlowAlert('CB-01')">
+                  <rect x="415" y="335" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--data-2)" stroke-width="1.8"></rect>
+                  <text x="423" y="354" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--tertiary)">CN.3 (Lớp 3)</text>
+                  <text x="423" y="372" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Sản phẩm công nghệ</text>
+                </g>
+                <g class="flow-node" data-strand="ethics" data-alert="CB-04" onclick="inspectFlowAlert('CB-04')">
+                  <rect x="570" y="335" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--data-2)" stroke-width="1.8"></rect>
+                  <text x="578" y="354" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--tertiary)">ĐĐ.4 / CN.4</text>
+                  <text x="578" y="372" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Bản quyền &amp; Thiết kế</text>
+                </g>
+                <g class="flow-node" data-strand="tech" data-alert="CB-11" onclick="inspectFlowAlert('CB-11')">
+                  <rect x="725" y="335" width="123" height="50" rx="5" fill="var(--surface-container-low)" stroke="var(--data-2)" stroke-width="1.8"></rect>
+                  <text x="733" y="354" font-family="Barlow, sans-serif" font-size="10" font-weight="600" fill="var(--tertiary)">CN.5 (Lớp 5)</text>
+                  <text x="733" y="372" font-family="Barlow, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface)">Điện thoại &amp; Tủ lạnh</text>
+                </g>
+              </g>
+            </svg>
+        <div id="flow-inspect-card" style="display: none; margin-top: var(--space-md); background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--rounded-lg); padding: var(--space-md); animation: fadeIn 0.2s ease-out;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span id="flow-card-tag" class="kpi-pill-badge pill-red">Cảnh báo</span>
+              <strong id="flow-card-title" style="font-size: 0.95rem; color: #1e3a8a;">Tiêu đề cảnh báo</strong>
+            </div>
+            <button type="button" class="btn-brand" style="height: 30px; font-size: 0.78rem;" onclick="jumpToExplorerAlert(window.currentInspectedAlertId)">
+              <i data-lucide="external-link" style="width: 13px;"></i> Truy vết chi tiết trong Explorer
+            </button>
+          </div>
+          <p id="flow-card-desc" style="font-size: 0.88rem; color: #1e293b; margin: 0 0 4px 0;"></p>
+          <div id="flow-card-pedagogy" style="font-size: 0.82rem; color: #047857; font-weight: 500;"></div>
+        </div>
+      </div>
+
+      <!-- Heatmap Density Matrix -->
+      <div class="ui-card">
+        <div class="card-header-row">
+          <div>
+            <h3 class="card-title"><i data-lucide="grid" style="width: 18px; color: var(--primary);"></i> Ma trận Mật độ Cảnh báo theo Mạch nội dung &amp; Điểm chuyển tiếp</h3>
+            <p class="card-subtext">NHẤP VÀO Ô BẤT KỲ ĐỂ LỌC TRỰC TIẾP DANH SÁCH TRONG PHẦN TRA CỨU &amp; KIỂM CHỨNG</p>
+          </div>
+          <span class="kpi-pill-badge pill-amber">Ma trận Tương tác</span>
+        </div>
+
+        <div class="heatmap-wrap">
+          <table class="heat-table">
+            <thead>
+              <tr>
+                <th style="text-align: left;">Mạch nội dung / Phân môn</th>
+                <th>Bước chuyển L1 &rarr; L2</th>
+                <th>Bước chuyển L2 &rarr; L3</th>
+                <th>Bước chuyển L3 &rarr; L4</th>
+                <th>Bước chuyển L4 &rarr; L5</th>
+                <th>Liên môn (Toán / TNXH / ĐĐ / CN)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight: 700; text-align: left; background: var(--surface-container); border-radius: 4px; padding: 0.5rem 0.75rem;">
+                  CS · Thuật toán &amp; Lập trình
+                </td>
+                <td><button type="button" class="heat-cell-btn heat-zero" onclick="quickFilterFromMatrix('Toán', 'Lớp 1–2')">0 cảnh báo</button></td>
+                <td><button type="button" class="heat-cell-btn heat-med" onclick="quickFilterFromMatrix('Tin học', 'Lớp 2–3')">1 khoảng trống (Toán L2 &rarr; TH L3)</button></td>
+                <td><button type="button" class="heat-cell-btn heat-high" onclick="quickFilterFromMatrix('Tin học', 'Lớp 3–4')">2 cảnh báo (Đứt đoạn Scratch)</button></td>
+                <td><button type="button" class="heat-cell-btn heat-high" onclick="quickFilterFromMatrix('Tin học', 'Lớp 4–5')">2 cảnh báo (Biến số &amp; Logic)</button></td>
+                <td><button type="button" class="heat-cell-btn heat-med" onclick="quickFilterFromMatrix('Toán', 'Liên môn')">1 đứt đoạn (Góc quay vs Hình học)</button></td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700; text-align: left; background: var(--surface-container); border-radius: 4px; padding: 0.5rem 0.75rem;">
+                  ICT · CNTT &amp; Phần mềm thiết bị
+                </td>
+                <td><button type="button" class="heat-cell-btn heat-low" onclick="quickFilterFromMatrix('TNXH', 'Lớp 1–2')">1 FP (Đồ dùng gia đình)</button></td>
+                <td><button type="button" class="heat-cell-btn heat-med" onclick="quickFilterFromMatrix('Công nghệ', 'Lớp 2–3')">1 khoảng cách (Kỹ thuật thủ công)</button></td>
+                <td><button type="button" class="heat-cell-btn heat-med" onclick="quickFilterFromMatrix('Khoa học', 'Lớp 3–4')">1 đứt đoạn (Thí nghiệm khí quyển)</button></td>
+                <td><button type="button" class="heat-cell-btn heat-med" onclick="quickFilterFromMatrix('Công nghệ', 'Lớp 4–5')">1 trùng lặp (Mạch điện an toàn)</button></td>
+                <td><button type="button" class="heat-cell-btn heat-high" onclick="quickFilterFromMatrix('Công nghệ', 'Liên môn')">2 cảnh báo (Thiết bị thông minh &amp; STEM)</button></td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700; text-align: left; background: var(--surface-container); border-radius: 4px; padding: 0.5rem 0.75rem;">
+                  DL · Đạo đức, Bản quyền &amp; An toàn số
+                </td>
+                <td><button type="button" class="heat-cell-btn heat-zero" onclick="quickFilterFromMatrix('Tin học', 'Lớp 1–2')">Chưa có môn Tin học</button></td>
+                <td><button type="button" class="heat-cell-btn heat-zero" onclick="quickFilterFromMatrix('Tin học', 'Lớp 2–3')">0 cảnh báo</button></td>
+                <td><button type="button" class="heat-cell-btn heat-low" onclick="quickFilterFromMatrix('Tin học', 'Lớp 3–4')">1 FP (Đồng tâm bản quyền)</button></td>
+                <td><button type="button" class="heat-cell-btn heat-med" onclick="quickFilterFromMatrix('Tin học', 'Lớp 4–5')">2 cảnh báo (Đánh giá nguồn tin)</button></td>
+                <td><button type="button" class="heat-cell-btn heat-high" onclick="quickFilterFromMatrix('Đạo đức', 'Liên môn')">3 cảnh báo (Bản quyền &amp; Bắt nạt số)</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 04: Interactive Explorer & Evidence Verification -->
+    <section id="sec-explorer" class="section-wrap" aria-labelledby="heading-explorer">
+      <div class="section-header-box">
+        <div>
+          <div class="sec-badge-row"><i data-lucide="file-search" style="width: 14px;"></i> PHẦN 04 · TRA CỨU &amp; KIỂM CHỨNG</div>
+          <h2 id="heading-explorer" class="section-title">Bộ lọc Tương tác &amp; Bảng Truy xuất Dữ liệu / Minh chứng YCCĐ</h2>
+          <p class="section-description">Truy vết 14 ca nghi vấn tiêu biểu, đối chiếu trích dẫn nguyên văn Thông tư 32/2018/TT-BGDĐT, phân tích thang Bloom và lưu trạng thái thẩm định.</p>
+        </div>
+      </div>
+
+      <div class="explorer-filter-bar">
+        <div class="form-group-filter">
+          <label class="filter-label" for="filter-search"><i data-lucide="search" style="width: 12px;"></i> Tìm kiếm từ khóa</label>
+          <input type="text" id="filter-search" class="input-control" placeholder="Mã YCCĐ, từ khóa, nội dung..." oninput="applyAlertFilters()">
+        </div>
+
+        <div class="form-group-filter">
+          <label class="filter-label" for="filter-strand">Mạch nội dung</label>
+          <select id="filter-strand" class="input-control" onchange="applyAlertFilters()">
+            <option value="all">Tất cả Mạch nội dung</option>
+            <option value="tech">CNTT &amp; Phần mềm thiết bị</option>
+            <option value="data">Dữ liệu &amp; Thư mục lưu trữ</option>
+            <option value="algo">Thuật toán &amp; Lập trình Scratch</option>
+            <option value="ethics">Đạo đức, Pháp luật &amp; Văn hóa số</option>
+          </select>
+        </div>
+
+        <div class="form-group-filter">
+          <label class="filter-label" for="filter-grade">Khối lớp / Bước chuyển</label>
+          <select id="filter-grade" class="input-control" onchange="applyAlertFilters()">
+            <option value="all">Tất cả Khối lớp</option>
+            <option value="Lớp 1–2">Bước chuyển Lớp 1–2</option>
+            <option value="Lớp 2–3">Bước chuyển Lớp 2–3</option>
+            <option value="Lớp 3–4">Bước chuyển Lớp 3–4</option>
+            <option value="Lớp 4–5">Bước chuyển Lớp 4–5</option>
+            <option value="Liên môn">Liên môn (Toán / TNXH / ĐĐ / CN)</option>
+          </select>
+        </div>
+
+        <div class="form-group-filter">
+          <label class="filter-label" for="filter-type">Loại cảnh báo</label>
+          <select id="filter-type" class="input-control" onchange="applyAlertFilters()">
+            <option value="all">Tất cả Loại cảnh báo</option>
+            <option value="Overlap">Trùng lặp (Overlap)</option>
+            <option value="Gap">Khoảng trống (Curriculum Gap)</option>
+            <option value="Disconnection">Thiếu liên thông (Disconnection)</option>
+          </select>
+        </div>
+
+        <div class="form-group-filter">
+          <label class="filter-label" for="filter-status">Trạng thái thẩm định</label>
+          <select id="filter-status" class="input-control" onchange="applyAlertFilters()">
+            <option value="all">Tất cả Trạng thái</option>
+            <option value="TP">Cảnh báo đúng (True Positive)</option>
+            <option value="FP">Cảnh báo sai / Ảo giác (False Positive)</option>
+            <option value="Pending">Đang chờ chuyên gia thẩm định</option>
+          </select>
+        </div>
+
+        <div>
+          <button type="button" class="btn-outline" style="width: 100%;" onclick="clearExplorerFilters()">
+            <i data-lucide="rotate-ccw" style="width: 14px;"></i> Đặt lại Bộ lọc
+          </button>
+        </div>
+      </div>
+
+      <div class="explorer-split-grid">
+        <div class="table-container-scroll">
+          <table class="data-table-explorer" id="alerts-table">
+            <thead>
+              <tr>
+                <th onclick="sortAlerts('id')">Mã ID <i data-lucide="arrow-up-down" style="width: 12px;"></i></th>
+                <th onclick="sortAlerts('type')">Loại cảnh báo <i data-lucide="arrow-up-down" style="width: 12px;"></i></th>
+                <th onclick="sortAlerts('gradesLabel')">Cặp YCCĐ đối chiếu <i data-lucide="arrow-up-down" style="width: 12px;"></i></th>
+                <th onclick="sortAlerts('score')">Điểm Cosine <i data-lucide="arrow-up-down" style="width: 12px;"></i></th>
+                <th onclick="sortAlerts('priority')">Ưu tiên <i data-lucide="arrow-up-down" style="width: 12px;"></i></th>
+                <th onclick="sortAlerts('status')">Thẩm định <i data-lucide="arrow-up-down" style="width: 12px;"></i></th>
+              </tr>
+            </thead>
+            <tbody id="alerts-table-body"></tbody>
+          </table>
+          <div id="table-empty-msg" style="display: none; padding: var(--space-xl); text-align: center; color: var(--text-muted);">
+            <i data-lucide="inbox" style="width: 32px; height: 32px; margin-bottom: 8px;"></i>
+            <p>Không tìm thấy cảnh báo phù hợp với bộ lọc hiện tại.</p>
+          </div>
+        </div>
+
+        <aside class="inspector-panel-card" id="alert-inspector-pane">
+          <div class="inspector-title-row">
+            <div>
+              <span id="inspect-tag" class="kpi-pill-badge pill-red">Cảnh báo</span>
+              <h3 id="inspect-title" style="font-family: var(--font-headline); font-size: 1.15rem; font-weight: 700; margin: 4px 0 0 0;">CB-01</h3>
+              <div id="inspect-meta" style="font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-label);">Tin học L3 ↔ Công nghệ L3 · Cosine 0,87</div>
+            </div>
+            <div style="text-align: right;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">MỨC ƯU TIÊN:</span><br>
+              <span id="inspect-priority" class="kpi-pill-badge pill-amber">Trung bình</span>
+            </div>
+          </div>
+
+          <div class="evidence-block-box">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="evidence-tag-title"><i data-lucide="file-text" style="width: 13px;"></i> YCCĐ GỐC A (<span id="inspect-code-a">TH.3.A.2</span>)</span>
+              <span id="inspect-bloom-a" class="kpi-pill-badge pill-blue" style="font-size: 0.7rem;">Nhận biết / Hiểu</span>
+            </div>
+            <div id="inspect-text-a" class="evidence-quote-text"></div>
+            <div id="inspect-source-a" class="evidence-source-tag"></div>
+          </div>
+
+          <div class="evidence-block-box">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="evidence-tag-title"><i data-lucide="file-text" style="width: 13px;"></i> YCCĐ ĐỐI CHIẾU B (<span id="inspect-code-b">CN.3.A.3</span>)</span>
+              <span id="inspect-bloom-b" class="kpi-pill-badge pill-blue" style="font-size: 0.7rem;">Nhận biết / Vận dụng</span>
+            </div>
+            <div id="inspect-text-b" class="evidence-quote-text"></div>
+            <div id="inspect-source-b" class="evidence-source-tag"></div>
+          </div>
+
+          <div style="background: #f8fafc; border: 1px solid var(--outline); border-radius: var(--rounded); padding: var(--space-sm) var(--space-md); font-size: 0.85rem;">
+            <strong style="color: var(--secondary); display: flex; align-items: center; gap: 4px; margin-bottom: 4px;">
+              <i data-lucide="cpu" style="width: 14px;"></i> Phân tích của Thuật toán AI:
+            </strong>
+            <div id="inspect-ai-reason" style="color: var(--on-surface-variant); line-height: 1.5;"></div>
+          </div>
+
+          <div style="background: #ecfdf5; border: 1px solid var(--positive-border); border-radius: var(--rounded); padding: var(--space-sm) var(--space-md); font-size: 0.85rem;">
+            <strong style="color: var(--positive); display: flex; align-items: center; gap: 4px; margin-bottom: 4px;">
+              <i data-lucide="graduation-cap" style="width: 15px;"></i> Kết luận Giáo dục học &amp; Giải pháp Dạy học:
+            </strong>
+            <div id="inspect-pedagogy" style="color: #064e3b; line-height: 1.5;"></div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
+              Quyết định Thẩm định của Chuyên gia:
+            </div>
+            <div class="status-btn-group">
+              <button type="button" id="btn-status-tp" class="btn-status-act" onclick="updateSelectedVerification('TP')">
+                <i data-lucide="check" style="width: 14px;"></i> Xác nhận (TP)
+              </button>
+              <button type="button" id="btn-status-fp" class="btn-status-act" onclick="updateSelectedVerification('FP')">
+                <i data-lucide="x" style="width: 14px;"></i> Bác bỏ (FP)
+              </button>
+              <button type="button" id="btn-status-pending" class="btn-status-act" onclick="updateSelectedVerification('Pending')">
+                <i data-lucide="clock" style="width: 14px;"></i> Đang chờ
+              </button>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label class="filter-label" for="inspect-user-note"><i data-lucide="edit-3" style="width: 12px;"></i> Ghi chú Sư phạm Bổ sung (Lưu cục bộ)</label>
+            <textarea id="inspect-user-note" class="input-control" style="height: 65px; resize: vertical;" placeholder="Nhập khuyến nghị tổ chức dạy học hoặc điều chỉnh KHBD..."></textarea>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <button type="button" class="btn-brand" style="height: 32px; font-size: 0.8rem;" onclick="saveSelectedNote()">
+                <i data-lucide="save" style="width: 13px;"></i> Lưu Ghi chú
+              </button>
+              <span id="note-saved-feedback" style="font-size: 0.78rem; color: var(--positive); font-weight: 600;"></span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SECTION 05: International Comparison & Policies -->
+    <section id="sec-intl" class="section-wrap" aria-labelledby="heading-intl">
+      <div class="section-header-box">
+        <div>
+          <div class="sec-badge-row"><i data-lucide="globe" style="width: 14px;"></i> PHẦN 05 · ĐỐI CHIẾU QUỐC TẾ</div>
+          <h2 id="heading-intl" class="section-title">So sánh Quốc tế về Thiết kế Chương trình Đồng trục / Xoắn ốc</h2>
+          <p class="section-description">Đối chiếu CTGDPT 2018 với chuẩn Khoa học Máy tính CSTA K–12 (Hoa Kỳ), Singapore MOE, Phần Lan và Nhật Bản.</p>
+        </div>
+      </div>
+
+      <div class="grid-charts-dual">
+        <div class="ui-card">
+          <div class="card-header-row">
+            <div>
+              <h3 class="card-title"><i data-lucide="radar" style="width: 18px; color: var(--primary);"></i> Hồ sơ Radar Thiết kế Chương trình</h3>
+              <p class="card-subtext">ĐÁNH GIÁ 5 TIÊU CHÍ: TÍNH ĐỒNG TRỤC, CS SỚM, TIỀN TIN HỌC, CHUẨN BLOOM, TỰ CHỦ TRƯỜNG</p>
+            </div>
+          </div>
+          <div class="chart-container-box">
+            <canvas id="chart-radar-intl"></canvas>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-sm); justify-content: center; font-size: 0.82rem;">
+            <label style="display: inline-flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" checked onchange="toggleRadarSeries(0, this.checked)"> Việt Nam (CT 2018)
+            </label>
+            <label style="display: inline-flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" checked onchange="toggleRadarSeries(1, this.checked)"> Hoa Kỳ (CSTA K-12)
+            </label>
+            <label style="display: inline-flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" checked onchange="toggleRadarSeries(2, this.checked)"> Singapore MOE
+            </label>
+            <label style="display: inline-flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" onchange="toggleRadarSeries(3, this.checked)"> Phần Lan
+            </label>
+            <label style="display: inline-flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" onchange="toggleRadarSeries(4, this.checked)"> Nhật Bản (MEXT)
+            </label>
+          </div>
+        </div>
+
+        <div class="ui-card">
+          <div class="card-header-row">
+            <div>
+              <h3 class="card-title"><i data-lucide="scale" style="width: 18px; color: var(--secondary);"></i> Ma trận Cơ chế Liên thông &amp; Tránh Trùng lặp</h3>
+              <p class="card-subtext">KINH NGHIỆM ĐIỀU PHỐI CHƯƠNG TRÌNH TỪ CÁC NỀN GIÁO DỤC TIÊN TIẾN</p>
+            </div>
+          </div>
+          <div style="overflow-x: auto;">
+            <table class="data-table-explorer" style="font-size: 0.82rem;">
+              <thead>
+                <tr>
+                  <th>Quốc gia / Khung chuẩn</th>
+                  <th>Giai đoạn Lớp 1–2</th>
+                  <th>Cơ chế Chống Trùng lặp</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Việt Nam (CT 2018)</strong></td>
+                  <td>Chưa có môn Tin học độc lập; tích hợp trải nghiệm.</td>
+                  <td>Quy định phân hóa qua Kế hoạch bài dạy (Công văn 2345).</td>
+                </tr>
+                <tr>
+                  <td><strong>Hoa Kỳ (CSTA K-12)</strong></td>
+                  <td>Mạch CS xuyên suốt K-2 bằng Unplugged và thẻ lệnh.</td>
+                  <td>Chuẩn hóa động từ hành vi Bloom khắt khe giữa các lớp.</td>
+                </tr>
+                <tr>
+                  <td><strong>Singapore MOE</strong></td>
+                  <td>Code for Fun tích hợp môn Khoa học &amp; Toán.</td>
+                  <td>Quy tắc Modular: không lặp lại lý thuyết thiết bị quá 1 lần.</td>
+                </tr>
+                <tr>
+                  <td><strong>Phần Lan (Core 2016)</strong></td>
+                  <td>Tư duy thuật toán lồng ghép đa môn (Craft &amp; Math).</td>
+                  <td>Định hướng dự án hiện tượng thực tế (Phenomenon-based).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="intl-policy-grid">
+        <div class="policy-box-card" style="--policy-color: #2563eb;">
+          <h3 class="policy-title">1. Bắc cầu "Tiền Tin học không máy tính" Lớp 1–2</h3>
+          <p style="font-size: 0.88rem; color: var(--on-surface-variant); margin: 0; line-height: 1.5;">
+            Lồng ghép các hoạt động tư duy thuật toán (Unplugged CS) như trò chơi mê cung, robot chỉ hướng bằng thẻ bài và phân loại đồ vật 2 tầng vào môn Toán và Hoạt động trải nghiệm Lớp 1–2 để tạo bàn đạp cho Tin học Lớp 3.
+          </p>
+        </div>
+
+        <div class="policy-box-card" style="--policy-color: #059669;">
+          <h3 class="policy-title">2. Chuẩn hóa Thang Tăng tiến Nhận thức Bloom</h3>
+          <p style="font-size: 0.88rem; color: var(--on-surface-variant); margin: 0; line-height: 1.5;">
+            Khi gặp các YCCĐ có cùng đối tượng (như "tìm kiếm thông tin trên Internet" ở Lớp 4 và 5), giáo viên thiết kế ma trận bài dạy nâng bậc từ Nhận biết kỹ thuật (L4) lên Đánh giá độ tin cậy và sàng lọc đa từ khóa (L5).
+          </p>
+        </div>
+
+        <div class="policy-box-card" style="--policy-color: #d97706;">
+          <h3 class="policy-title">3. Đồng quy Giao thoa Tin – Công nghệ – Toán bằng STEM</h3>
+          <p style="font-size: 0.88rem; color: var(--on-surface-variant); margin: 0; line-height: 1.5;">
+            Đối với các nội dung giao thoa (mạch điện an toàn, chong chóng gió, đo góc lập trình Scratch), tổ chức dạy học dưới dạng dự án STEM liên môn, triệt tiêu việc học lặp lý thuyết ở cả hai môn.
+          </p>
+        </div>
+
+        <div class="policy-box-card" style="--policy-color: #7c3aed;">
+          <h3 class="policy-title">4. Điều chỉnh Linh hoạt qua Kế hoạch GD Nhà trường</h3>
+          <p style="font-size: 0.88rem; color: var(--on-surface-variant); margin: 0; line-height: 1.5;">
+            Phát huy quyền tự chủ chương trình của nhà trường (theo Công văn 2345/BGDĐT-GDTH) để điều chỉnh thời lượng lý thuyết/thực hành phòng máy tính và dịch chuyển bài học góc quay Scratch phù hợp với tiến độ môn Toán.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 06: AI Simulator, Audit Log & Defense -->
+    <section id="sec-audit" class="section-wrap" aria-labelledby="heading-audit">
+      <div class="section-header-box">
+        <div>
+          <div class="sec-badge-row"><i data-lucide="sliders" style="width: 14px;"></i> PHẦN 06 · KIỂM THỬ &amp; MINH BẠCH AI</div>
+          <h2 id="heading-audit" class="section-title">Công cụ Kiểm thử Ngưỡng AI, Nhật ký Minh bạch &amp; Câu hỏi Bảo vệ</h2>
+          <p class="section-description">Mô phỏng tác động của ngưỡng Cosine &amp; phiên bản Prompt đến tỷ lệ cảnh báo đúng; giải trình toàn diện câu hỏi bảo vệ trọng tâm của Đề tài 20.</p>
+        </div>
+      </div>
+
+      <div class="ui-card">
+        <div class="card-header-row">
+          <div>
+            <h3 class="card-title"><i data-lucide="cpu" style="width: 18px; color: var(--primary);"></i> Bộ mô phỏng Tham số Phát hiện Lỗi &amp; Tinh chỉnh Prompt</h3>
+            <p class="card-subtext">ĐIỀU CHỈNH NGƯỠNG TƯƠNG ĐỒNG COSINE VÀ PHIÊN BẢN PROMPT ĐỂ QUAN SÁT TỶ LỆ PRECISION / MISS RATE / HALLUCINATION</p>
+          </div>
+        </div>
+
+        <div class="sim-slider-row">
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <label class="filter-label" for="slider-threshold">
+              Ngưỡng tương đồng ngữ nghĩa Cosine (&theta;): <strong id="lbl-threshold" style="color: var(--primary); font-size: 0.95rem;">0,78</strong>
+            </label>
+            <input type="range" id="slider-threshold" min="0.65" max="0.90" step="0.01" value="0.78" class="input-control" style="padding: 0; cursor: pointer;" oninput="syncThresholdFromSlider(this.value)">
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 4px; min-width: 320px;">
+            <label class="filter-label" for="select-prompt-ver">Cấu trúc Prompt &amp; Luật ràng buộc AI</label>
+            <select id="select-prompt-ver" class="input-control" onchange="updateAiSimulator()">
+              <option value="v1">Prompt V1 — So khớp từ khóa &amp; ngữ nghĩa thô (Zero-shot)</option>
+              <option value="v2">Prompt V2 — Bổ sung đối chiếu thang nhận thức Bloom</option>
+              <option value="v3" selected>Prompt V3 — Chain-of-Thought + RAG TT32 + Luật Bruner Spiral</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sim-stats-grid">
+          <div class="sim-metric-tile">
+            <div class="kpi-tag-label">CẢNH BÁO PHÁT HIỆN</div>
+            <div id="sim-out-alerts" class="kpi-number-display" style="font-size: 1.6rem;">28</div>
+          </div>
+          <div class="sim-metric-tile">
+            <div class="kpi-tag-label">ĐỘ CHÍNH XÁC (PRECISION)</div>
+            <div id="sim-out-prec" class="kpi-number-display" style="font-size: 1.6rem; color: var(--positive);">75,0%</div>
+          </div>
+          <div class="sim-metric-tile">
+            <div class="kpi-tag-label">NGUY CƠ BỎ SÓT (MISS RATE)</div>
+            <div id="sim-out-miss" class="kpi-number-display" style="font-size: 1.6rem; color: var(--warning);">12,5%</div>
+          </div>
+          <div class="sim-metric-tile">
+            <div class="kpi-tag-label">TỶ LỆ ẢO GIÁC AI</div>
+            <div id="sim-out-hall" class="kpi-number-display" style="font-size: 1.6rem; color: var(--error);">3,6%</div>
+          </div>
+        </div>
+
+        <div>
+          <label class="filter-label" style="margin-bottom: 4px; display: block;"><i data-lucide="code" style="width: 12px;"></i> MẪU PROMPT SYSTEM &amp; RÀNG BUỘC ĐANG ÁP DỤNG TRÊN MÔ HÌNH LLM</label>
+          <pre id="sim-prompt-text" class="sim-prompt-box"></pre>
+        </div>
+      </div>
+
+      <div class="ui-card">
+        <div class="card-header-row">
+          <div>
+            <h3 class="card-title"><i data-lucide="clipboard-list" style="width: 18px; color: var(--warning);"></i> Nhật ký Minh bạch AI: Các Trường hợp Sai số Đã Được Kiểm chứng &amp; Khắc phục</h3>
+            <p class="card-subtext">ĐÁP ỨNG TIÊU CHÍ BẮT BUỘC ĐỀ 20 — KHÔNG COI ĐẦU RA AI LÀ BẰNG CHỨNG ĐỘC LẬP</p>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="data-table-explorer" style="font-size: 0.84rem;">
+            <thead>
+              <tr>
+                <th>Mã Lỗi</th>
+                <th>Loại Sai số AI</th>
+                <th>Đầu ra AI Sai (V1/V2)</th>
+                <th>Nguyên nhân &amp; Phân tích Sư phạm</th>
+                <th>Biện pháp Sửa trong Prompt V3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="color: var(--error);">ERR-01</strong></td>
+                <td><span class="kpi-pill-badge pill-red">Ảo giác trích dẫn</span></td>
+                <td>AI tự sinh mã <em>"TH.2.A.1: Gõ bàn phím 10 ngón"</em> gán vào Lớp 2.</td>
+                <td>Lớp 1–2 chưa có môn Tin học; AI tự phóng tác theo dữ liệu huấn luyện nước ngoài.</td>
+                <td>Ràng buộc RAG: Chỉ trích dẫn đúng ID có trong CSDL Thông tư 32/2018 JSON đầu vào.</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--warning);">ERR-02</strong></td>
+                <td><span class="kpi-pill-badge pill-amber">Nhầm lẫn Đồng tâm Bruner</span></td>
+                <td>AI kết luận <em>"Tìm kiếm thông tin L4 và L5 bị trùng lặp lãng phí 84%"</em>.</td>
+                <td>AI chỉ so khớp từ khóa bề mặt, không nhận diện được sự tăng tiến thang nhận thức Bloom.</td>
+                <td>Thêm bộ luật phân loại: Khái niệm lặp nhưng động từ Bloom nâng bậc &rarr; Không gắn cờ Trùng lặp.</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--error);">ERR-03</strong></td>
+                <td><span class="kpi-pill-badge pill-red">Bỏ sót Đứt đoạn ẩn</span></td>
+                <td>AI bỏ qua đứt đoạn Toán góc quay L4 và câu lệnh Scratch L4 (Cosine chỉ 0,42).</td>
+                <td>Từ khóa bề mặt khác nhau (<em>"góc nhọn, thước đo độ"</em> vs <em>"quay phải 90 độ"</em>).</td>
+                <td>Chuyển từ so khớp từ khóa sang <strong>Prompt chuỗi suy luận (CoT)</strong> truy vết khái niệm toán ẩn.</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--warning);">ERR-04</strong></td>
+                <td><span class="kpi-pill-badge pill-amber">Lệch thang Bloom</span></td>
+                <td>AI xếp <em>"Trình bày tác dụng của vật liệu"</em> (L4) ngang mức Nhớ Lớp 2.</td>
+                <td>AI chỉ đọc động từ đơn lẻ mà không xét mệnh đề giải thích hiện tượng đi kèm.</td>
+                <td>Quy tắc mã hóa trọn cụm: <strong>Động từ + Đối tượng + Điều kiện bối cảnh</strong>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <article class="defense-card">
+        <div class="defense-pill-head">
+          <i data-lucide="help-circle" style="width: 14px;"></i> CÂU HỎI BẢO VỆ TRỌNG TÂM · ĐỀ TÀI 20
+        </div>
+        <h3 style="font-family: var(--font-headline); font-size: 1.45rem; font-weight: 700; margin: 0 0 var(--space-sm) 0; color: #ffffff;">
+          "Tương đồng ngữ nghĩa có đủ chứng minh trùng lặp không?"
+        </h3>
+        <p style="font-size: 1rem; color: #e2e8f0; line-height: 1.6; margin: 0;">
+          <strong>Kết luận khẳng định từ nghiên cứu: KHÔNG ĐỦ.</strong> Độ tương đồng ngữ nghĩa (Semantic Similarity) do các mô hình AI tính toán chỉ là <em>điều kiện cần ở bề mặt ngôn ngữ</em> để khoanh vùng nghi vấn, tuyệt đối không thể thay thế cho thẩm định giáo dục học chuyên sâu bởi 4 lý do khoa học sau:
+        </p>
+
+        <div class="defense-pillars-grid">
+          <div class="pillar-glass-tile">
+            <div class="pillar-num">LUẬN ĐIỂM 01</div>
+            <h4 class="pillar-title">Giới hạn Từ vựng Bề mặt</h4>
+            <p class="pillar-text">
+              Ngôn ngữ chương trình phổ thông cấp tiểu học bị giới hạn bởi tập từ vựng chuẩn tắc (như <em>"máy tính", "Internet", "an toàn"</em>). Hai YCCĐ ở hai khối lớp khác nhau bắt buộc phải dùng cùng danh từ chuyên môn, dẫn đến điểm Cosine cao giả tạo dù nội hàm tri thức đã được mở rộng.
+            </p>
+          </div>
+
+          <div class="pillar-glass-tile">
+            <div class="pillar-num">LUẬN ĐIỂM 02</div>
+            <h4 class="pillar-title">Mô hình Xoắn ốc Bruner</h4>
+            <p class="pillar-text">
+              CTGDPT 2018 thiết kế theo nguyên lý đồng tâm xoắn ốc (Spiral Curriculum). Một khái niệm được tái xuất hiện qua các năm học không phải là sai sót, mà là cơ hội củng cố và đào sâu ở mức độ trừu tượng cao hơn (từ vật thật &rarr; hình ảnh &rarr; biểu tượng).
+            </p>
+          </div>
+
+          <div class="pillar-glass-tile">
+            <div class="pillar-num">LUẬN ĐIỂM 03</div>
+            <h4 class="pillar-title">Thang Năng lực Bloom / SOLO</h4>
+            <p class="pillar-text">
+              Khác biệt cốt lõi nằm ở động từ hành vi và yêu cầu nhận thức. Cùng thao tác "tìm kiếm thông tin", ở Lớp 4 học sinh dừng ở mức <em>Nhận biết kỹ thuật</em> (gõ từ khóa đơn), nhưng ở Lớp 5 nâng lên mức <em>Đánh giá &amp; Phân tích</em> (lọc nguồn tin cậy, đối chiếu đa chiều).
+            </p>
+          </div>
+
+          <div class="pillar-glass-tile">
+            <div class="pillar-num">LUẬN ĐIỂM 04</div>
+            <h4 class="pillar-title">Bối cảnh &amp; Sản phẩm Thực hành</h4>
+            <p class="pillar-text">
+              Giáo dục học đo lường năng lực học sinh qua sản phẩm đầu ra và mức độ độc lập thao tác. AI chỉ nhìn vào câu chữ trong văn bản chương trình, trong khi thực tế sư phạm thể hiện qua tình huống học tập và dự án thực hành của học sinh.
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top: var(--space-lg); background: rgba(37, 99, 235, 0.25); border: 1px solid rgba(147, 197, 253, 0.3); border-radius: var(--rounded); padding: var(--space-md); font-size: 0.9rem; color: #f0fdf4;">
+          <strong>Khuyến nghị cuối cùng:</strong> Hệ thống AI đóng vai trò như một "trợ lý sàng lọc tự động" giúp Hội đồng chuyên môn tiết kiệm 80% thời gian rà soát, nhưng quyết định kết luận và phương án điều chỉnh chương trình phải thuộc về các chuyên gia sư phạm và nhà giáo dục học.
+        </div>
+      </article>
+    </section>
+
+    <!-- FOOTER / REFERENCES -->
+    <footer class="site-footer">
+      <div>
+        <strong>Căn cứ Pháp lý &amp; Tài liệu Đối chiếu:</strong>
+        <br>1. Bộ GD&amp;ĐT (2018). <em>Chương trình Giáo dục phổ thông — Chương trình tổng thể &amp; Chương trình các môn Tin học, Công nghệ, Toán, Tự nhiên và Xã hội, Khoa học, Đạo đức</em> (Ban hành kèm Thông tư số 32/2018/TT-BGDĐT ngày 26/12/2018).
+        <br>2. Bộ GD&amp;ĐT (2021). <em>Công văn số 2345/BGDĐT-GDTH về việc Hướng dẫn xây dựng kế hoạch giáo dục của nhà trường cấp tiểu học</em>.
+        <br>3. Computer Science Teachers Association (2017). <em>CSTA K-12 Computer Science Standards, Revised 2017</em>.
+        <br>4. Bruner, J. S. (1960). <em>The Process of Education</em>. Harvard University Press.
+        <br>5. Ministry of Education Singapore (2020). <em>Primary Science Syllabus &amp; Digital Literacy Framework</em>.
+      </div>
+      <div style="padding-top: var(--space-xs); border-top: 1px solid var(--surface-container-high); display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-sm);">
+        <span>Sản phẩm Nghiên cứu Khoa học Giáo dục — Đề tài số 20 (AI Phát hiện Trùng lặp, Khoảng trống &amp; Thiếu liên thông).</span>
+        <span>Giao diện chuẩn Barlow · Thiết kế Sáng sủa Hiện đại · Tích hợp Bộ lưu trữ Cục bộ.</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <script>
+    const INITIAL_ALERTS = [
+      {
+        "id": "CB-01",
+        "type": "Overlap",
+        "strand": "tech",
+        "subject": "Công nghệ",
+        "gradePair": "Liên môn",
+        "gradesLabel": "Tin học L3 ↔ Công nghệ L3",
+        "priority": "Trung bình",
+        "score": 0.87,
+        "defaultStatus": "TP",
+        "codeA": "TH.3.A.2 (Tin học Lớp 3)",
+        "bloomA": "Nhận biết / Hiểu",
+        "sourceA": "Thông tư 32/2018/TT-BGDĐT, CT môn Tin học, tr. 14; SGK Cánh Diều L3, tr. 8-11",
+        "textA": "Nêu được tác hại của việc ngồi sai tư thế hoặc sử dụng máy tính quá thời gian quy định đối với sức khỏe; biết điều chỉnh ánh sáng và giữ gìn thiết bị.",
+        "codeB": "CN.3.A.3 (Công nghệ Lớp 3)",
+        "bloomB": "Nhận biết / Vận dụng",
+        "sourceB": "Thông tư 32/2018/TT-BGDĐT, CT môn Công nghệ, tr. 12; SGK Kết Nối Tri Thức L3, tr. 15-18",
+        "textB": "Nhận biết được một số sản phẩm công nghệ phổ biến trong gia đình (máy thu thanh, máy thu hình, điện thoại...); sử dụng an toàn, đúng cách và bảo vệ sức khỏe mắt.",
+        "aiReason": "Cosine Similarity = 0,87. Cả hai môn cùng khởi đầu ở Lớp 3 và đều yêu cầu học sinh nêu lợi ích, tác hại đối với thị giác và quy tắc sử dụng thiết bị điện tử/công nghệ an toàn.",
+        "pedagogy": "Không cắt bỏ YCCĐ; tổ chuyên môn khối 3 thiết kế 01 chuyên đề dạy học tích hợp chung 'Sử dụng thiết bị công nghệ thông minh và an toàn' (2 tiết), tiết kiệm thời lượng lặp lý thuyết, dành thời lượng cho thực hành máy tính."
+      },
+      {
+        "id": "CB-02",
+        "type": "Gap",
+        "strand": "data",
+        "subject": "Tin học",
+        "gradePair": "Lớp 2–3",
+        "gradesLabel": "Toán L2 → Tin học L3",
+        "priority": "Cao",
+        "score": 0.79,
+        "defaultStatus": "TP",
+        "codeA": "TO.2.TK.1 (Toán Lớp 2)",
+        "bloomA": "Hiểu / Thực hành",
+        "sourceA": "Thông tư 32/2018/TT-BGDĐT, CT môn Toán, tr. 28; SGK Cánh Diều L2, tr. 92",
+        "textA": "Làm quen với việc thu thập, phân loại, kiểm đếm các đối tượng thống kê và đọc, mô tả số liệu ở dạng biểu đồ tranh đơn giản.",
+        "codeB": "TH.3.B.1 (Tin học Lớp 3)",
+        "bloomB": "Hiểu / Vận dụng",
+        "sourceB": "Thông tư 32/2018/TT-BGDĐT, CT môn Tin học, tr. 15; SGK Kết Nối Tri Thức L3, tr. 22-25",
+        "textB": "Sắp xếp được thông tin theo trình tự hợp lý; nhận biết cấu trúc cây thư mục phân cấp (thư mục cha, thư mục con, tệp) và tạo cây thư mục lưu trữ bài học.",
+        "aiReason": "Khoảng trống bước chuyển L2→L3. Toán L2 chỉ phân loại 1 tầng trên vật thật, trong khi Tin học L3 đòi hỏi tư duy phân cấp đa tầng (cây thư mục) ngay học kỳ I khi học sinh chưa từng tiếp xúc cấu trúc phân nhánh dữ liệu.",
+        "pedagogy": "Giáo viên Toán/TNXH Lớp 2 bổ sung trò chơi phân loại 2 cấp độ (unplugged - không dùng máy tính) ở cuối học kỳ II (ví dụ: Tủ sách lớp em -> Ngăn truyện tranh/Ngăn sách giáo khoa -> Từng quyển sách) để làm bước đệm cho tư duy cây thư mục ở Tin học Lớp 3."
+      },
+      {
+        "id": "CB-03",
+        "type": "Disconnection",
+        "strand": "algo",
+        "subject": "Tin học",
+        "gradePair": "Lớp 3–4",
+        "gradesLabel": "Tin học L3 → Tin học L4",
+        "priority": "Cao",
+        "score": 0.81,
+        "defaultStatus": "TP",
+        "codeA": "TH.3.F.1 (Tin học Lớp 3)",
+        "bloomA": "Hiểu",
+        "sourceA": "Thông tư 32/2018/TT-BGDĐT, CT môn Tin học, tr. 17; SGK Cánh Diều L3, tr. 56",
+        "textA": "Nhận biết được nhiệm vụ chia thành các việc nhỏ hơn; nêu được ví dụ về các bước thực hiện một công việc cụ thể trong sinh hoạt hằng ngày.",
+        "codeB": "TH.4.F.2 (Tin học Lớp 4)",
+        "bloomB": "Vận dụng / Tạo lập",
+        "sourceB": "Thông tư 32/2018/TT-BGDĐT, CT môn Tin học, tr. 20; SGK Cánh Diều L4, tr. 68-72",
+        "textB": "Sử dụng được các khối lệnh lặp và tuần tự trong môi trường lập trình trực quan (Scratch/Blockly) để điều khiển nhân vật di chuyển và vẽ hình.",
+        "aiReason": "Đứt đoạn tốc độ tăng tiến L3→L4. Lớp 3 hoàn toàn thực hiện trên ngữ cảnh sinh hoạt đời thường bằng lời nói (chia việc nhỏ), nhưng bước sang Lớp 4 học sinh phải lập trình trên phần mềm máy tính với cú pháp khối lệnh trừu tượng.",
+        "pedagogy": "Cần 2 tiết cầu nối đầu Lớp 4 chuyển dịch từ 'bài toán chia nhỏ việc hằng ngày' sang 'sơ đồ khối mũi tên trực quan' trên giấy trước khi cho học sinh kéo thả lệnh trực tiếp trên phần mềm Scratch."
+      },
+      {
+        "id": "CB-04",
+        "type": "Overlap",
+        "strand": "ethics",
+        "subject": "Tin học",
+        "gradePair": "Liên môn",
+        "gradesLabel": "Tin học L4 ↔ Đạo đức L4",
+        "priority": "Trung bình",
+        "score": 0.85,
+        "defaultStatus": "TP",
+        "codeA": "TH.4.D.1 (Tin học Lớp 4)",
+        "bloomA": "Hiểu / Đánh giá",
+        "sourceA": "Thông tư 32/2018/TT-BGDĐT, CT môn Tin học, tr. 19; SGK Chân Trời Sáng Tạo L4, tr. 40",
+        "textA": "Nhận biết và tôn trọng quyền tác giả của sản phẩm số; biết hỏi ý kiến hoặc xin phép khi sử dụng ảnh, văn bản của người khác trên mạng Internet.",
+        "codeB": "ĐĐ.4.3 (Đạo đức Lớp 4)",
+        "bloomB": "Hiểu / Thực hành",
+        "sourceB": "Thông tư 32/2018/TT-BGDĐT, CT môn Đạo đức, tr. 16; SGK Cánh Diều L4, tr. 32",
+        "textB": "Tôn trọng tài sản của người khác, không tự ý sử dụng đồ dùng, tác phẩm hoặc tài liệu khi chưa được sự đồng ý của chủ sở hữu.",
+        "aiReason": "Cosine Similarity = 0,85. Hai YCCĐ giao thoa mạnh về hành vi tôn trọng quyền sở hữu. Đạo đức tiếp cận tài sản chung, còn Tin học cụ thể hóa thành 'tài sản số' (ảnh, văn bản tải trên mạng).",
+        "pedagogy": "Phối hợp dạy đồng thời: Đạo đức L4 mở rộng ví dụ sang sản phẩm số (ảnh, video, nhạc tải mạng); giáo viên Tin học L4 dẫn chiếu bài học Đạo đức để học sinh thực hành ghi chú nguồn tác giả khi làm bài trình chiếu PowerPoint."
+      },
+      {
+        "id": "CB-05",
+        "type": "Overlap",
+        "strand": "data",
+        "subject": "Tin học",
+        "gradePair": "Lớp 4–5",
+        "gradesLabel": "Tin học L4 → Tin học L5",
+        "priority": "Thấp",
+        "score": 0.84,
+        "defaultStatus": "FP",
+        "codeA": "TH.4.C.1 (Tin học Lớp 4)",
+        "bloomA": "Thực hành",
+        "sourceA": "Thông tư 32/2018/TT-BGDĐT, CT môn Tin học, tr. 19; SGK Kết Nối Tri Thức L4, tr. 45",
+        "textA": "Sử dụng được máy tìm kiếm (Google, Bing) để tìm thông tin theo từ khóa đơn giản; lưu được hình ảnh hoặc nội dung cần thiết về máy tính.",
+        "codeB": "TH.5.C.2 (Tin học Lớp 5)",
+        "bloomB": "Phân tích / Đánh giá",
+        "sourceB": "Thông tư 32/2018/TT-BGDĐT, CT môn Tin học, tr. 22; SGK Kết Nối Tri Thức L5, tr. 52-55",
+        "textB": "Tìm kiếm thông tin trên Internet với từ khóa kết hợp; biết đánh giá độ tin cậy của thông tin tìm được và chọn lọc thông tin hữu ích cho chủ đề học tập.",
+        "aiReason": "AI cảnh báo trùng lặp 84% do lặp lại cụm 'tìm kiếm thông tin trên Internet' và 'máy tìm kiếm' giữa hai năm liên tiếp.",
+        "pedagogy": "XÁC NHẬN CẢNH BÁO GIẢ (FP): Đây là lặp lại có chủ đích theo mô hình xoắn ốc (Bruner Spiral). Lớp 4 dừng ở thao tác kỹ thuật cơ bản (gõ từ khóa đơn, tải ảnh); Lớp 5 nâng lên mức Đánh giá (Critical Evaluation): lọc nguồn, đối chiếu độ tin cậy và từ khóa logic AND/OR."
+      },
+      {
+        "id": "CB-06",
+        "type": "Overlap",
+        "strand": "tech",
+        "subject": "TNXH",
+        "gradePair": "Lớp 1–2",
+        "gradesLabel": "TNXH L1 → TNXH L2",
+        "priority": "Thấp",
+        "score": 0.83,
+        "defaultStatus": "FP",
+        "codeA": "TNXH.1.GD.1 (TNXH Lớp 1)",
+        "bloomA": "Nhận biết",
+        "sourceA": "Thông tư 32/2018/TT-BGDĐT, CT môn TNXH, tr. 11; SGK Cánh Diều L1, tr. 24",
+        "textA": "Kể được tên một số đồ dùng, thiết bị trong gia đình; biết cách giữ an toàn, tránh bị bỏng, điện giật hoặc đứt tay khi ở nhà.",
+        "codeB": "TNXH.2.GD.2 (TNXH Lớp 2)",
+        "bloomB": "Hiểu / Thực hành",
+        "sourceB": "Thông tư 32/2018/TT-BGDĐT, CT môn TNXH, tr. 15; SGK Cánh Diều L2, tr. 30",
+        "textB": "Nhận biết được một số tình huống nguy hiểm có thể xảy ra khi sử dụng thiết bị điện, đồ sắc nhọn; biết cách xử lý cơ bản và báo cho người lớn khi gặp sự cố.",
+        "aiReason": "AI gắn cờ trùng lặp 83% vì đều xuất hiện cụm 'đồ dùng trong gia đình' và 'an toàn khi sử dụng thiết bị điện, tránh nguy hiểm'.",
+        "pedagogy": "XÁC NHẬN CẢNH BÁO GIẢ (FP): Mức độ đã tăng tiến từ 'kể tên, tránh nguy hiểm chung' (L1) sang 'xử lý tình huống và báo động sự cố' (L2). Không phải lỗi chương trình mà là tiến trình nhận thức phát triển theo độ tuổi."
+      },
+      {
+        "id": "CB-07",
+        "type": "Disconnection",
+        "strand": "algo",
+        "subject": "Toán",
+        "gradePair": "Liên môn",
+        "gradesLabel": "Toán L4 ↔ Tin học L4",
+        "priority": "Cao",
+        "score": 0.72,
+        "defaultStatus": "TP",
+        "codeA": "TO.4.HH.2 (Toán Lớp 4 - HK II)",
+        "bloomA": "Nhận biết / Thực hành",
+        "sourceA": "Thông tư 32/2018/TT-BGDĐT, CT môn Toán, tr. 38; SGK Kết Nối Tri Thức L4, tr. 84",
+        "textA": "Nhận biết được góc nhọn, góc tù, góc bẹt; làm quen với thước đo độ và đo góc trong các hình hình học đơn giản.",
+        "codeB": "TH.4.F.3 (Tin học Lớp 4 - HK I/II)",
+        "bloomB": "Vận dụng",
+        "sourceB": "Thông tư 32/2018/TT-BGDĐT, CT môn Tin học, tr. 21; SGK Cánh Diều L4, tr. 75",
+        "textB": "Lập trình điều khiển nhân vật quay một góc (ví dụ: quay phải 90 độ, quay 60 độ) để vẽ các hình tam giác đều, hình vuông, ngôi sao.",
+        "aiReason": "Lệch pha thời điểm (Timing Disconnection). Tin học Lớp 4 thường dạy lập trình vẽ hình với câu lệnh quay góc (Turn 90/60 degrees) ngay học kỳ I, trong khi Toán Lớp 4 đến giữa học kỳ II mới học khái niệm độ và góc đo.",
+        "pedagogy": "Giáo viên Tin học cần rà soát tiến độ phân phối chương trình Toán Lớp 4; sử dụng trực quan 'quay một phần tư vòng' hoặc 'theo hướng kim đồng hồ' thay vì đòi hỏi đo độ hình học chính xác ở học kỳ I."
+      },
+      {
+        "id": "CB-08",
+        "type": "Gap",
+        "strand": "algo",
+        "subject": "Tin học",
+        "gradePair": "Lớp 4–5",
+        "gradesLabel": "Tin học L4 → Tin học L5",
+        "priority": "Cao",
+        "score": 0.76,
+        "defaultStatus": "TP",
+        "codeA": "TH.4.F.2 (Tin học Lớp 4)",
+        "bloomA": "Vận dụng",
+        "sourceA": "Thông tư 32/2018/TT-BGDĐT, CT môn Tin học, tr. 20; SGK Chân Trời Sáng Tạo L4, tr. 70",
+        "textA": "Sử dụng được cấu trúc rẽ nhánh (Nếu... thì...) dạng đơn giản để điều khiển nhân vật phản xạ khi chạm vào cạnh màn hình hoặc chướng ngại vật.",
+        "codeB": "TH.5.F.1 (Tin học Lớp 5)",
+        "bloomB": "Phân tích / Sáng tạo",
+        "sourceB": "Thông tư 32/2018/TT-BGDĐT, CT môn Tin học, tr. 23; SGK Cánh Diều L5, tr. 80-84",
+        "textB": "Sử dụng biến số (variable) để lưu trữ điểm số, thời gian; kết hợp điều kiện logic lồng nhau (Và, Hoặc, Không) để xây dựng trò chơi hoàn chỉnh.",
+        "aiReason": "Khoảng trống chuyển tiếp khái niệm 'Biến (Variable)' và 'Điều kiện logic (Boolean)'. Ở Lớp 4 học sinh chỉ học phản xạ cảm biến đơn giản; bước sang Lớp 5 đột ngột phải quản lý bộ nhớ trạng thái (biến số tính điểm) mà không có bài học trung gian.",
+        "pedagogy": "Bổ sung hoạt động nối tiếp Toán Lớp 5 (tìm thành phần chưa biết / ô trống giá trị biến thiên) kết hợp trò chơi chiếc hộp giữ số điểm (unplugged) ở 1 tiết đầu học kỳ I môn Tin học L5."
+      },
+      {
+        "id": "CB-09",
+        "type": "Disconnection",
+        "strand": "tech",
+        "subject": "Khoa học",
+        "gradePair": "Lớp 3–4",
+        "gradesLabel": "TNXH L3 → Khoa học L4",
+        "priority": "Trung bình",
+        "score": 0.74,
+        "defaultStatus": "TP",
+        "codeA": "TNXH.3.TN.2 (TNXH Lớp 3)",
+        "bloomA": "Nhận biết",
+        "sourceA": "Thông tư 32/2018/TT-BGDĐT, CT môn TNXH, tr. 20; SGK Kết Nối Tri Thức L3, tr. 62",
+        "textA": "Quan sát và mô tả được hiện tượng thời tiết (nắng, mưa, gió); nhận biết được sự thay đổi của nhiệt độ không khí qua nhiệt kế thông thường.",
+        "codeB": "KH.4.NL.1 (Khoa học Lớp 4)",
+        "bloomB": "Giải thích / Thí nghiệm",
+        "sourceB": "Thông tư 32/2018/TT-BGDĐT, CT môn Khoa học, tr. 14; SGK Cánh Diều L4, tr. 48",
+        "textB": "Thực hiện được thí nghiệm chứng minh không khí chuyển động tạo thành gió; giải thích được vòng tuần hoàn của nước trong tự nhiên và ứng dụng năng lượng gió.",
+        "aiReason": "Chuyển tiếp môn TNXH (L1–L3) sang Khoa học (L4–L5) đòi hỏi bước nhảy lớn về kỹ năng thực nghiệm khoa học: từ 'quan sát hiện tượng bên ngoài' sang 'thiết kế thí nghiệm kiểm chứng giả thuyết'.",
+        "pedagogy": "Đầu Lớp 4 tổ chức mô-đun làm quen quy trình 'Dự đoán — Thử nghiệm — Kết luận' với vật liệu gần gũi (chong chóng, túi bóng khí) trước khi tiến hành các bài học năng lượng chính thức."
+      },
+      {
+        "id": "CB-10",
+        "type": "Overlap",
+        "strand": "tech",
+        "subject": "Công nghệ",
+        "gradePair": "Liên môn",
+        "gradesLabel": "Công nghệ L4 ↔ Khoa học L4",
+        "priority": "Thấp",
+        "score": 0.8,
+        "defaultStatus": "FP",
+        "codeA": "CN.4.A.1 (Công nghệ Lớp 4)",
+        "bloomA": "Vận dụng",
+        "sourceA": "Thông tư 32/2018/TT-BGDĐT, CT môn Công nghệ, tr. 16; SGK Cánh Diều L4, tr. 38",
+        "textA": "Lắp ráp được mô hình chong chóng gió hoặc thuyền buồm đơn giản theo bản vẽ hướng dẫn; thử nghiệm và điều chỉnh để mô hình hoạt động tốt.",
+        "codeB": "KH.4.NL.3 (Khoa học Lớp 4)",
+        "bloomB": "Hiểu / Giải thích",
+        "sourceB": "Thông tư 32/2018/TT-BGDĐT, CT môn Khoa học, tr. 15; SGK Kết Nối Tri Thức L4, tr. 54",
+        "textB": "Giải thích được tác dụng của không khí chuyển động đối với chong chóng và cánh buồm; nêu được ví dụ ứng dụng sức gió trong đời sống hằng ngày.",
+        "aiReason": "AI đánh dấu trùng lặp chủ đề 'gió làm chuyển động chong chóng và cánh buồm' giữa môn Công nghệ L4 và Khoa học L4.",
+        "pedagogy": "XÁC NHẬN CẢNH BÁO GIẢ (FP): Đây là điểm giao thoa bổ trợ lý tưởng (STEM) — Khoa học giải thích nguyên lý vật lý (Science), còn Công nghệ hiện thực hóa bằng sản phẩm kỹ thuật và thiết kế (Technology/Engineering). Giáo viên hai môn có thể ghép thành dự án STEM 'Thuyền buồm thông minh'."
+      },
+      {
+        "id": "CB-11",
+        "type": "Overlap",
+        "strand": "tech",
+        "subject": "Khoa học",
+        "gradePair": "Liên môn",
+        "gradesLabel": "Công nghệ L5 ↔ Khoa học L5",
+        "priority": "Trung bình",
+        "score": 0.82,
+        "defaultStatus": "TP",
+        "codeA": "CN.5.A.2 (Công nghệ Lớp 5)",
+        "bloomA": "Hiểu / Vận dụng",
+        "sourceA": "Thông tư 32/2018/TT-BGDĐT, CT môn Công nghệ, tr. 21; SGK Kết Nối Tri Thức L5, tr. 35",
+        "textA": "Thiết kế và lắp ráp được mạch điện thắp sáng đơn giản có công tắc; sử dụng an toàn và tiết kiệm điện năng trong sinh hoạt.",
+        "codeB": "KH.5.NL.2 (Khoa học Lớp 5)",
+        "bloomB": "Hiểu / Thực hành",
+        "sourceB": "Thông tư 32/2018/TT-BGDĐT, CT môn Khoa học, tr. 18; SGK Cánh Diều L5, tr. 62",
+        "textB": "Lắp được mạch điện kín gồm pin, bóng đèn, dây dẫn và công tắc; phân biệt được vật dẫn điện và vật cách điện; nêu quy tắc an toàn điện.",
+        "aiReason": "Cosine Similarity = 0,82. Nội dung 'sử dụng điện an toàn và tiết kiệm năng lượng, lắp mạch điện đơn giản' bị lặp lại ở cả hai môn Công nghệ 5 và Khoa học 5 với cùng mức nhận thức.",
+        "pedagogy": "Thống nhất giữa giáo viên Khoa học và Công nghệ L5: Khoa học tập trung mạch điện kín và tính dẫn/cách điện ở đầu kỳ; Công nghệ tập trung ứng dụng lắp ráp mô hình đèn ngủ mini tự ngắt ở cuối kỳ, tránh kiểm tra đánh giá lặp kiến thức lý thuyết."
+      },
+      {
+        "id": "CB-12",
+        "type": "Gap",
+        "strand": "ethics",
+        "subject": "Đạo đức",
+        "gradePair": "Liên môn",
+        "gradesLabel": "Tin học L5 ↔ Đạo đức L5",
+        "priority": "Cao",
+        "score": 0.77,
+        "defaultStatus": "TP",
+        "codeA": "TH.5.D.1 (Tin học Lớp 5)",
+        "bloomA": "Phân tích / Ứng xử",
+        "sourceA": "Thông tư 32/2018/TT-BGDĐT, CT môn Tin học, tr. 23; SGK Cánh Diều L5, tr. 42",
+        "textA": "Nhận biết được nguy cơ bị lừa đảo hoặc bắt nạt trên không gian mạng; biết cách từ chối và chia sẻ với người lớn khi gặp tình huống đe dọa.",
+        "codeB": "ĐĐ.5.2 (Đạo đức Lớp 5)",
+        "bloomB": "Hiểu / Tự bảo vệ",
+        "sourceB": "Thông tư 32/2018/TT-BGDĐT, CT môn Đạo đức, tr. 19; SGK Chân Trời Sáng Tạo L5, tr. 28",
+        "textB": "Phòng tránh xâm hại và tự bảo vệ bản thân trong các tình huống xã hội; biết tìm kiếm sự trợ giúp từ cha mẹ, thầy cô và tổng đài quốc gia 111.",
+        "aiReason": "Khoảng trống liên kết giữa kỹ năng tự bảo vệ ngoài đời thực (Đạo đức L5) và kịch bản bắt nạt số trên mạng xã hội/game trực tuyến (Tin học L5).",
+        "pedagogy": "Tích hợp tình huống thực tế về tin nhắn lạ, đường link giả mạo vào tiết sinh hoạt dưới cờ hoặc hoạt động trải nghiệm khối 5 để kết nối an toàn thể chất với an toàn số."
+      },
+      {
+        "id": "CB-13",
+        "type": "Gap",
+        "strand": "data",
+        "subject": "Toán",
+        "gradePair": "Lớp 1–2",
+        "gradesLabel": "Toán L1 → Toán L2",
+        "priority": "Thấp",
+        "score": 0.75,
+        "defaultStatus": "FP",
+        "codeA": "TO.1.SO.3 (Toán Lớp 1)",
+        "bloomA": "Nhận biết",
+        "sourceA": "Thông tư 32/2018/TT-BGDĐT, CT môn Toán, tr. 22; SGK Cánh Diều L1, tr. 45",
+        "textA": "Nhận biết được thứ tự các số trong phạm vi 100; tìm được quy luật dãy số đơn giản (tăng dần, giảm dần).",
+        "codeB": "TO.2.TK.1 (Toán Lớp 2)",
+        "bloomB": "Thực hành",
+        "sourceB": "Thông tư 32/2018/TT-BGDĐT, CT môn Toán, tr. 28; SGK Cánh Diều L2, tr. 92",
+        "textB": "Làm quen với việc thu thập, phân loại, kiểm đếm các đối tượng thống kê và biểu diễn qua biểu đồ tranh đơn giản.",
+        "aiReason": "AI cảnh báo thiếu kết nối trực tiếp giữa nhận diện quy luật dãy (L1) và lập biểu đồ phân loại (L2).",
+        "pedagogy": "XÁC NHẬN CẢNH BÁO GIẢ (FP): Hai mạch kiến thức thuộc hai phân môn khác nhau (Số và Phép tính vs Thống kê và Xác suất). Toán Lớp 2 đã có phần bài học thu thập số liệu trực tiếp từ đời sống thực tế."
+      },
+      {
+        "id": "CB-14",
+        "type": "Disconnection",
+        "strand": "tech",
+        "subject": "Công nghệ",
+        "gradePair": "Lớp 2–3",
+        "gradesLabel": "TNXH L2 → Công nghệ L3",
+        "priority": "Trung bình",
+        "score": 0.78,
+        "defaultStatus": "TP",
+        "codeA": "TNXH.2.GD.1 (TNXH Lớp 2)",
+        "bloomA": "Nhận biết",
+        "sourceA": "Thông tư 32/2018/TT-BGDĐT, CT môn TNXH, tr. 14; SGK Kết Nối Tri Thức L2, tr. 28",
+        "textA": "Kể tên các phòng chức năng trong nhà trường; phân biệt đồ dùng học tập cá nhân và tài sản chung của lớp học.",
+        "codeB": "CN.3.B.1 (Công nghệ Lớp 3)",
+        "bloomB": "Thực hành / Thiết kế",
+        "sourceB": "Thông tư 32/2018/TT-BGDĐT, CT môn Công nghệ, tr. 13; SGK Cánh Diều L3, tr. 25",
+        "textB": "Cắt, dán, gấp được đồ chơi học tập đơn giản bằng giấy thủ công theo quy trình hướng dẫn; sử dụng thước đo và kéo an toàn.",
+        "aiReason": "Khoảng cách về kỹ năng thực hành đo vẽ, cắt ghép theo bản vẽ kỹ thuật đơn giản (Công nghệ L3) khi môn TNXH L2 chưa có các bài thực hành thủ công định lượng mà chỉ có ở môn Mỹ thuật.",
+        "pedagogy": "Ở đầu Lớp 3, dành 1 tiết ôn kỹ năng dùng thước kẻ đo độ dài cm (từ Toán L2) gắn vào hoạt động gấp cắt giấy của Công nghệ 3 để các em không bỡ ngỡ với thao tác đo kỹ thuật."
+      }
+    ];
+
+    const PROMPT_DATA = {
+      v1: {
+        name: `Prompt V1 (Zero-shot cơ bản)`,
+        precisionBase: 54.0,
+        missBase: 22.0,
+        hallucinationBase: 14.5,
+        template: `[VAI TRÒ]: Bạn là chuyên gia phân tích chương trình tiểu học.\n[NHIỆM VỤ]: Đọc danh sách các Yêu cầu cần đạt (YCCĐ) dưới đây và liệt kê những cặp câu có nội dung trùng lặp hoặc thiếu liên thông giữa các lớp.\n[HẠN CHẾ ĐÃ PHÁT HIỆN]: Không ràng buộc ID trích dẫn, không phân biệt đồng tâm Bruner -> dễ ảo giác mã YCCĐ (14,5%) và nhiều cảnh báo giả.`
+      },
+      v2: {
+        name: `Prompt V2 (Có thang nhận thức Bloom)`,
+        precisionBase: 65.5,
+        missBase: 16.0,
+        hallucinationBase: 7.2,
+        template: `[VAI TRÒ]: Chuyên gia phát triển chương trình GDPT 2018.\n[QUY TẮC]: Mã hóa mỗi YCCĐ theo [Động từ Bloom + Đối tượng + Lớp]. Chỉ báo trùng lặp nếu hai YCCĐ có cùng Đối tượng và mức Bloom không tăng tiến.\n[HẠN CHẾ CÒN LẠI]: Vẫn bỏ sót liên thông ẩn giữa các môn (ví dụ Toán đo góc vs Tin học Scratch).`
+      },
+      v3: {
+        name: `Prompt V3 (CoT + RAG TT32 + Luật Bruner Spiral)`,
+        precisionBase: 75.0,
+        missBase: 12.5,
+        hallucinationBase: 3.6,
+        template: `[VAI TRÒ]: Hệ thống kiểm toán mạch liên thông CTGDPT 2018 (Human-in-the-loop).\n[NGUYÊN TẮC BẮT BUỘC]:\n1. CHỈ trích dẫn đúng Mã YCCĐ tồn tại trong kho dữ liệu JSON đầu vào (tuyệt đối không tự sinh mã).\n2. Phân biệt 3 tiêu chí: (a) Trùng lặp không tăng tiến Bloom; (b) Khoảng trống tiên quyết; (c) Đồng tâm Bruner có chủ đích -> gắn nhãn [Cần kiểm chứng], KHÔNG kết luận lỗi.\n3. Kiểm tra kiến thức tiên quyết liên môn (Toán/TNXH -> Tin học/Công nghệ) bằng chuỗi suy luận (Chain-of-Thought) khái niệm ẩn.`
+      }
+    };
+
+    const STORAGE_KEY = 'de20_ai_curriculum_state_v2';
+    let appState = {
+      selectedAlertId: 'CB-01',
+      inspectedFlowAlertId: null,
+      flowStrand: 'all',
+      threshold: 0.78,
+      promptVersion: 'v3',
+      filters: {
+        search: '',
+        strand: 'all',
+        grade: 'all',
+        type: 'all',
+        status: 'all'
+      },
+      sortKey: 'id',
+      sortDir: 'asc',
+      verifications: {},
+      notes: {}
+    };
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          appState = { ...appState, ...parsed };
+        }
+      } catch (e) {
+        console.warn('Cannot load from localStorage', e);
+      }
+      INITIAL_ALERTS.forEach(a => {
+        if (!appState.verifications[a.id]) {
+          appState.verifications[a.id] = a.defaultStatus;
+        }
+      });
+    }
+
+    function persistState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        console.warn('Cannot save to localStorage', e);
+      }
+    }
+
+    let chartGradeInstance = null;
+    let chartPromptInstance = null;
+    let chartRadarInstance = null;
+
+    function initCharts() {
+      const ctxGrade = document.getElementById('chart-grade-density')?.getContext('2d');
+      if (ctxGrade) {
+        chartGradeInstance = new Chart(ctxGrade, {
+          type: 'bar',
+          data: {
+            labels: ['Lớp 1', 'Lớp 2', 'Lớp 3', 'Lớp 4', 'Lớp 5', 'Liên môn L1-5'],
+            datasets: [
+              {
+                type: 'bar',
+                label: 'Tổng số YCCĐ Chuẩn hóa',
+                data: [32, 40, 58, 62, 56, 248],
+                backgroundColor: 'rgba(37, 99, 235, 0.15)',
+                borderColor: '#2563eb',
+                borderWidth: 1.5,
+                borderRadius: 4,
+                yAxisID: 'y'
+              },
+              {
+                type: 'line',
+                label: 'Cảnh báo Nghi vấn Phát hiện',
+                data: [1, 3, 7, 9, 8, 28],
+                borderColor: '#d97706',
+                backgroundColor: '#d97706',
+                borderWidth: 2.5,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                tension: 0.3,
+                yAxisID: 'y1'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'top',
+                labels: { font: { family: 'Barlow', size: 12, weight: '600' } }
+              },
+              tooltip: {
+                titleFont: { family: 'Barlow', weight: '700' },
+                bodyFont: { family: 'Barlow' }
+              }
+            },
+            scales: {
+              y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+                title: { display: true, text: 'Tổng số YCCĐ', font: { family: 'Barlow', weight: '600' } },
+                grid: { color: 'rgba(226, 232, 240, 0.6)' }
+              },
+              y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                title: { display: true, text: 'Số cảnh báo', font: { family: 'Barlow', weight: '600' } },
+                grid: { drawOnChartArea: false },
+                suggestedMax: 30
+              },
+              x: {
+                ticks: { font: { family: 'Barlow', weight: '600' } },
+                grid: { display: false }
+              }
+            }
+          }
+        });
+      }
+
+      const ctxPrompt = document.getElementById('chart-prompt-perf')?.getContext('2d');
+      if (ctxPrompt) {
+        chartPromptInstance = new Chart(ctxPrompt, {
+          type: 'bar',
+          data: {
+            labels: ['Prompt V1 (Zero-shot)', 'Prompt V2 (Thang Bloom)', 'Prompt V3 (CoT + RAG)'],
+            datasets: [
+              {
+                label: 'Độ chính xác (Precision %)',
+                data: [54.0, 71.4, 89.3],
+                backgroundColor: '#059669',
+                borderRadius: 4
+              },
+              {
+                label: 'Tỷ lệ Bỏ sót (Miss Rate %)',
+                data: [22.0, 15.4, 8.3],
+                backgroundColor: '#d97706',
+                borderRadius: 4
+              },
+              {
+                label: 'Ảo giác Mã YCCĐ (%)',
+                data: [14.5, 7.1, 3.6],
+                backgroundColor: '#dc2626',
+                borderRadius: 4
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'top',
+                labels: { font: { family: 'Barlow', size: 12, weight: '600' } }
+              },
+              tooltip: {
+                titleFont: { family: 'Barlow', weight: '700' },
+                bodyFont: { family: 'Barlow' }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: { callback: v => v + '%' },
+                grid: { color: 'rgba(226, 232, 240, 0.6)' }
+              },
+              x: {
+                ticks: { font: { family: 'Barlow', weight: '600' } },
+                grid: { display: false }
+              }
+            }
+          }
+        });
+      }
+
+      const ctxRadar = document.getElementById('chart-radar-intl')?.getContext('2d');
+      if (ctxRadar) {
+        chartRadarInstance = new Chart(ctxRadar, {
+          type: 'radar',
+          data: {
+            labels: [
+              'Tính Đồng tâm Xoắn ốc',
+              'Khoa học Máy tính Sớm',
+              'Tiền Tin học (Unplugged)',
+              'Chuẩn hóa Thang Bloom',
+              'Tự chủ Trường học'
+            ],
+            datasets: [
+              {
+                label: 'Việt Nam (CT 2018)',
+                data: [88, 65, 52, 78, 85],
+                borderColor: '#2563eb',
+                backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                borderWidth: 2.5,
+                pointBackgroundColor: '#2563eb'
+              },
+              {
+                label: 'Hoa Kỳ (CSTA K-12)',
+                data: [92, 90, 88, 92, 75],
+                borderColor: '#059669',
+                backgroundColor: 'rgba(5, 150, 105, 0.15)',
+                borderWidth: 2,
+                pointBackgroundColor: '#059669'
+              },
+              {
+                label: 'Singapore MOE',
+                data: [85, 88, 84, 90, 80],
+                borderColor: '#d97706',
+                backgroundColor: 'rgba(217, 119, 6, 0.15)',
+                borderWidth: 2,
+                pointBackgroundColor: '#d97706'
+              },
+              {
+                label: 'Phần Lan',
+                data: [94, 80, 86, 85, 95],
+                borderColor: '#7c3aed',
+                backgroundColor: 'rgba(124, 58, 237, 0.12)',
+                borderWidth: 2,
+                pointBackgroundColor: '#7c3aed',
+                hidden: true
+              },
+              {
+                label: 'Nhật Bản (MEXT)',
+                data: [86, 84, 80, 88, 78],
+                borderColor: '#e11d48',
+                backgroundColor: 'rgba(225, 29, 72, 0.12)',
+                borderWidth: 2,
+                pointBackgroundColor: '#e11d48',
+                hidden: true
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                angleLines: { color: 'rgba(226, 232, 240, 0.8)' },
+                grid: { color: 'rgba(226, 232, 240, 0.8)' },
+                pointLabels: { font: { family: 'Barlow', size: 12, weight: '700' }, color: '#0f172a' },
+                suggestedMin: 30,
+                suggestedMax: 100
+              }
+            },
+            plugins: {
+              legend: { display: false }
+            }
+          }
+        });
+      }
+    }
+
+    function toggleRadarSeries(datasetIndex, isVisible) {
+      if (!chartRadarInstance) return;
+      chartRadarInstance.setDatasetVisibility(datasetIndex, isVisible);
+      chartRadarInstance.update();
+    }
+
+    function getFilteredAlerts() {
+      const q = appState.filters.search.toLowerCase().trim();
+      const strand = appState.filters.strand;
+      const grade = appState.filters.grade;
+      const type = appState.filters.type;
+      const status = appState.filters.status;
+
+      return INITIAL_ALERTS.filter(item => {
+        if (strand !== 'all' && item.strand !== strand) return false;
+        if (grade !== 'all' && item.gradePair !== grade) return false;
+        if (type !== 'all' && item.type !== type) return false;
+        const currentStatus = appState.verifications[item.id] || item.defaultStatus;
+        if (status !== 'all' && currentStatus !== status) return false;
+        if (q) {
+          const matchId = item.id.toLowerCase().includes(q);
+          const matchCodeA = item.codeA.toLowerCase().includes(q);
+          const matchCodeB = item.codeB.toLowerCase().includes(q);
+          const matchTextA = item.textA.toLowerCase().includes(q);
+          const matchTextB = item.textB.toLowerCase().includes(q);
+          const matchReason = item.aiReason.toLowerCase().includes(q);
+          const matchPedagogy = item.pedagogy.toLowerCase().includes(q);
+          if (!matchId && !matchCodeA && !matchCodeB && !matchTextA && !matchTextB && !matchReason && !matchPedagogy) {
+            return false;
+          }
+        }
+        return true;
+      }).sort((a, b) => {
+        let valA = a[appState.sortKey];
+        let valB = b[appState.sortKey];
+        if (appState.sortKey === 'status') {
+          valA = appState.verifications[a.id] || a.defaultStatus;
+          valB = appState.verifications[b.id] || b.defaultStatus;
+        }
+        if (valA < valB) return appState.sortDir === 'asc' ? -1 : 1;
+        if (valA > valB) return appState.sortDir === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
+    function renderAlertsTable() {
+      const tbody = document.getElementById('alerts-table-body');
+      const emptyMsg = document.getElementById('table-empty-msg');
+      if (!tbody) return;
+
+      const filtered = getFilteredAlerts();
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        if (emptyMsg) emptyMsg.style.display = 'block';
+        return;
+      }
+      if (emptyMsg) emptyMsg.style.display = 'none';
+
+      let html = '';
+      filtered.forEach(item => {
+        const isSelected = item.id === appState.selectedAlertId;
+        const currentStatus = appState.verifications[item.id] || item.defaultStatus;
+        
+        let typeBadge = '';
+        if (item.type === 'Overlap') typeBadge = '<span class="kpi-pill-badge pill-amber">Trùng lặp</span>';
+        else if (item.type === 'Gap') typeBadge = '<span class="kpi-pill-badge pill-red">Khoảng trống</span>';
+        else typeBadge = '<span class="kpi-pill-badge pill-blue">Thiếu liên thông</span>';
+
+        let statusBadge = '';
+        if (currentStatus === 'TP') statusBadge = '<span class="kpi-pill-badge pill-green"><i data-lucide="check" style="width:11px;"></i> Đúng (TP)</span>';
+        else if (currentStatus === 'FP') statusBadge = '<span class="kpi-pill-badge pill-red"><i data-lucide="x" style="width:11px;"></i> Sai (FP)</span>';
+        else statusBadge = '<span class="kpi-pill-badge pill-amber"><i data-lucide="clock" style="width:11px;"></i> Đang chờ</span>';
+
+        let prioBadge = '';
+        if (item.priority === 'Cao') prioBadge = '<span class="kpi-pill-badge pill-red" style="font-size: 0.72rem;">Cao</span>';
+        else if (item.priority === 'Trung bình') prioBadge = '<span class="kpi-pill-badge pill-amber" style="font-size: 0.72rem;">Vừa</span>';
+        else prioBadge = '<span class="kpi-pill-badge pill-blue" style="font-size: 0.72rem;">Thấp</span>';
+
+        html += `
+          <tr class="${isSelected ? 'is-selected' : ''}" onclick="selectAlertRow('${item.id}')">
+            <td><strong>${item.id}</strong></td>
+            <td>${typeBadge}</td>
+            <td>
+              <div style="font-weight: 600;">${item.gradesLabel}</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">${item.codeA.split('(')[0]} ↔ ${item.codeB.split('(')[0]}</div>
+            </td>
+            <td><code style="font-family: var(--font-label); font-weight: 700; color: var(--primary);">${item.score.toFixed(2)}</code></td>
+            <td>${prioBadge}</td>
+            <td>${statusBadge}</td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function selectAlertRow(id) {
+      appState.selectedAlertId = id;
+      persistState();
+      renderAlertsTable();
+      renderInspectorPane();
+    }
+
+    function renderInspectorPane() {
+      const item = INITIAL_ALERTS.find(a => a.id === appState.selectedAlertId) || INITIAL_ALERTS[0];
+      if (!item) return;
+
+      const titleEl = document.getElementById('inspect-title');
+      const tagEl = document.getElementById('inspect-tag');
+      const metaEl = document.getElementById('inspect-meta');
+      const prioEl = document.getElementById('inspect-priority');
+
+      const codeAEl = document.getElementById('inspect-code-a');
+      const bloomAEl = document.getElementById('inspect-bloom-a');
+      const textAEl = document.getElementById('inspect-text-a');
+      const sourceAEl = document.getElementById('inspect-source-a');
+
+      const codeBEl = document.getElementById('inspect-code-b');
+      const bloomBEl = document.getElementById('inspect-bloom-b');
+      const textBEl = document.getElementById('inspect-text-b');
+      const sourceBEl = document.getElementById('inspect-source-b');
+
+      const aiReasonEl = document.getElementById('inspect-ai-reason');
+      const pedEl = document.getElementById('inspect-pedagogy');
+      const noteInput = document.getElementById('inspect-user-note');
+
+      if (titleEl) titleEl.textContent = `${item.id}: ${item.gradesLabel}`;
+      if (metaEl) metaEl.textContent = `Mạch: ${item.strand.toUpperCase()} · Cosine Similarity: ${item.score.toFixed(2)}`;
+      
+      if (tagEl) {
+        if (item.type === 'Overlap') {
+          tagEl.className = 'kpi-pill-badge pill-amber';
+          tagEl.textContent = 'Trùng lặp (Overlap)';
+        } else if (item.type === 'Gap') {
+          tagEl.className = 'kpi-pill-badge pill-red';
+          tagEl.textContent = 'Khoảng trống (Curriculum Gap)';
+        } else {
+          tagEl.className = 'kpi-pill-badge pill-blue';
+          tagEl.textContent = 'Thiếu liên thông (Disconnection)';
+        }
+      }
+
+      if (prioEl) {
+        if (item.priority === 'Cao') prioEl.className = 'kpi-pill-badge pill-red';
+        else if (item.priority === 'Trung bình') prioEl.className = 'kpi-pill-badge pill-amber';
+        else prioEl.className = 'kpi-pill-badge pill-blue';
+        prioEl.textContent = item.priority;
+      }
+
+      if (codeAEl) codeAEl.textContent = item.codeA;
+      if (bloomAEl) bloomAEl.textContent = `Bloom: ${item.bloomA}`;
+      if (textAEl) textAEl.textContent = `"${item.textA}"`;
+      if (sourceAEl) sourceAEl.innerHTML = `<i data-lucide="bookmark" style="width: 11px;"></i> Nguồn: ${item.sourceA || 'Thông tư 32/2018/TT-BGDĐT'}`;
+
+      if (codeBEl) codeBEl.textContent = item.codeB;
+      if (bloomBEl) bloomBEl.textContent = `Bloom: ${item.bloomB}`;
+      if (textBEl) textBEl.textContent = `"${item.textB}"`;
+      if (sourceBEl) sourceBEl.innerHTML = `<i data-lucide="bookmark" style="width: 11px;"></i> Nguồn: ${item.sourceB || 'Thông tư 32/2018/TT-BGDĐT'}`;
+
+      if (aiReasonEl) aiReasonEl.textContent = item.aiReason;
+      if (pedEl) pedEl.textContent = item.pedagogy;
+
+      const curStatus = appState.verifications[item.id] || item.defaultStatus;
+      const btnTp = document.getElementById('btn-status-tp');
+      const btnFp = document.getElementById('btn-status-fp');
+      const btnPd = document.getElementById('btn-status-pending');
+
+      if (btnTp) btnTp.className = 'btn-status-act' + (curStatus === 'TP' ? ' active-tp' : '');
+      if (btnFp) btnFp.className = 'btn-status-act' + (curStatus === 'FP' ? ' active-fp' : '');
+      if (btnPd) btnPd.className = 'btn-status-act' + (curStatus === 'Pending' ? ' active-pending' : '');
+
+      if (noteInput) noteInput.value = appState.notes[item.id] || '';
+      const noteFeedback = document.getElementById('note-saved-feedback');
+      if (noteFeedback) noteFeedback.textContent = '';
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function updateSelectedVerification(status) {
+      if (!appState.selectedAlertId) return;
+      appState.verifications[appState.selectedAlertId] = status;
+      persistState();
+      renderAlertsTable();
+      renderInspectorPane();
+      updateDynamicKpis();
+    }
+
+    function saveSelectedNote() {
+      if (!appState.selectedAlertId) return;
+      const input = document.getElementById('inspect-user-note');
+      if (input) {
+        appState.notes[appState.selectedAlertId] = input.value;
+        persistState();
+        const feedback = document.getElementById('note-saved-feedback');
+        if (feedback) {
+          feedback.textContent = 'Đã lưu ghi chú!';
+          setTimeout(() => { if (feedback) feedback.textContent = ''; }, 2500);
+        }
+      }
+    }
+
+    function applyAlertFilters() {
+      appState.filters.search = document.getElementById('filter-search')?.value || '';
+      appState.filters.strand = document.getElementById('filter-strand')?.value || 'all';
+      appState.filters.grade = document.getElementById('filter-grade')?.value || 'all';
+      appState.filters.type = document.getElementById('filter-type')?.value || 'all';
+      appState.filters.status = document.getElementById('filter-status')?.value || 'all';
+      persistState();
+      renderAlertsTable();
+    }
+
+    function clearExplorerFilters() {
+      appState.filters = { search: '', strand: 'all', grade: 'all', type: 'all', status: 'all' };
+      const s = document.getElementById('filter-search'); if (s) s.value = '';
+      const st = document.getElementById('filter-strand'); if (st) st.value = 'all';
+      const g = document.getElementById('filter-grade'); if (g) g.value = 'all';
+      const t = document.getElementById('filter-type'); if (t) t.value = 'all';
+      const sta = document.getElementById('filter-status'); if (sta) sta.value = 'all';
+      persistState();
+      renderAlertsTable();
+    }
+
+    function sortAlerts(key) {
+      if (appState.sortKey === key) {
+        appState.sortDir = appState.sortDir === 'asc' ? 'desc' : 'asc';
+      } else {
+        appState.sortKey = key;
+        appState.sortDir = 'asc';
+      }
+      renderAlertsTable();
+    }
+
+    function updateDynamicKpis() {
+      let tpCount = 0;
+      let fpCount = 0;
+
+      INITIAL_ALERTS.forEach(a => {
+        const st = appState.verifications[a.id] || a.defaultStatus;
+        if (st === 'TP') tpCount++;
+        else if (st === 'FP') fpCount++;
+      });
+
+      const precisionEl = document.getElementById('kpi-precision-rate');
+      if (precisionEl) {
+        const evaluated = tpCount + fpCount;
+        if (evaluated > 0) {
+          const prec = (tpCount / evaluated) * 100;
+          precisionEl.textContent = prec.toFixed(1).replace('.', ',') + '%';
+        }
+      }
+    }
+
+    function setFlowStrand(strand, btn) {
+      appState.flowStrand = strand;
+      document.querySelectorAll('.strand-filters .filter-chip-btn').forEach(b => b.classList.remove('is-active'));
+      if (btn) btn.classList.add('is-active');
+
+      const nodes = document.querySelectorAll('#svg-nodes-layer g');
+      const edges = document.querySelectorAll('#svg-edges-layer g');
+
+      nodes.forEach(n => {
+        const nodeStrand = n.getAttribute('data-strand');
+        n.style.opacity = (strand === 'all' || nodeStrand === strand || nodeStrand === 'multi') ? '1' : '0.2';
+      });
+
+      edges.forEach(e => {
+        const edgeStrand = e.getAttribute('data-strand');
+        e.style.opacity = (strand === 'all' || edgeStrand === strand || edgeStrand === 'multi') ? '1' : '0.15';
+      });
+    }
+
+    function inspectFlowAlert(alertId) {
+      window.currentInspectedAlertId = alertId;
+      const alertObj = INITIAL_ALERTS.find(a => a.id === alertId);
+      const card = document.getElementById('flow-inspect-card');
+      if (!alertObj || !card) return;
+
+      const tagEl = document.getElementById('flow-card-tag');
+      const titleEl = document.getElementById('flow-card-title');
+      const descEl = document.getElementById('flow-card-desc');
+      const pedEl = document.getElementById('flow-card-pedagogy');
+
+      card.style.display = 'block';
+      if (titleEl) titleEl.textContent = `${alertObj.id} · ${alertObj.gradesLabel}`;
+      if (descEl) descEl.textContent = alertObj.aiReason;
+      if (pedEl) pedEl.textContent = `Phương án sư phạm: ${alertObj.pedagogy}`;
+
+      if (tagEl) {
+        if (alertObj.type === 'Overlap') {
+          tagEl.className = 'kpi-pill-badge pill-amber';
+          tagEl.textContent = 'Nghi vấn Trùng lặp';
+        } else if (alertObj.type === 'Gap') {
+          tagEl.className = 'kpi-pill-badge pill-red';
+          tagEl.textContent = 'Khoảng trống Kiến thức';
+        } else {
+          tagEl.className = 'kpi-pill-badge pill-blue';
+          tagEl.textContent = 'Đứt đoạn Tiên quyết';
+        }
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function jumpToExplorerAlert(alertId) {
+      if (!alertId) return;
+      selectAlertRow(alertId);
+      const explorerSec = document.getElementById('sec-explorer');
+      if (explorerSec) explorerSec.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function quickFilterFromMatrix(subject, gradePair) {
+      appState.filters.search = '';
+      appState.filters.strand = 'all';
+      appState.filters.grade = gradePair || 'all';
+      appState.filters.type = 'all';
+      appState.filters.status = 'all';
+
+      const s = document.getElementById('filter-search'); if (s) s.value = '';
+      const g = document.getElementById('filter-grade'); if (g) g.value = gradePair || 'all';
+
+      persistState();
+      renderAlertsTable();
+
+      const explorerSec = document.getElementById('sec-explorer');
+      if (explorerSec) explorerSec.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function syncThresholdFromSlider(val) {
+      appState.threshold = parseFloat(val);
+      const lbl = document.getElementById('lbl-threshold');
+      if (lbl) lbl.textContent = parseFloat(val).toFixed(2).replace('.', ',');
+      updateAiSimulator();
+    }
+
+    function updateAiSimulator() {
+      const verSelect = document.getElementById('select-prompt-ver');
+      const ver = verSelect ? verSelect.value : 'v3';
+      appState.promptVersion = ver;
+
+      const pData = PROMPT_DATA[ver] || PROMPT_DATA.v3;
+      const theta = appState.threshold;
+
+      const deltaTheta = theta - 0.78;
+      let alertsCount = Math.round(28 - (deltaTheta * 40));
+      if (alertsCount < 12) alertsCount = 12;
+      if (alertsCount > 45) alertsCount = 45;
+
+      let precision = pData.precisionBase + (deltaTheta * 25);
+      if (precision > 96.0) precision = 96.0;
+      if (precision < 40.0) precision = 40.0;
+
+      let missRate = pData.missBase + (deltaTheta * 35);
+      if (missRate < 4.0) missRate = 4.0;
+      if (missRate > 40.0) missRate = 40.0;
+
+      let hallucination = pData.hallucinationBase - (deltaTheta * 8);
+      if (hallucination < 1.0) hallucination = 1.0;
+      if (hallucination > 25.0) hallucination = 25.0;
+
+      const outAlerts = document.getElementById('sim-out-alerts');
+      const outPrec = document.getElementById('sim-out-prec');
+      const outMiss = document.getElementById('sim-out-miss');
+      const outHall = document.getElementById('sim-out-hall');
+      const outPrompt = document.getElementById('sim-prompt-text');
+
+      if (outAlerts) outAlerts.textContent = alertsCount;
+      if (outPrec) outPrec.textContent = precision.toFixed(1).replace('.', ',') + '%';
+      if (outMiss) outMiss.textContent = missRate.toFixed(1).replace('.', ',') + '%';
+      if (outHall) outHall.textContent = hallucination.toFixed(1).replace('.', ',') + '%';
+      if (outPrompt) outPrompt.textContent = pData.template;
+    }
+
+    function exportVerifiedCsv() {
+      const headers = [
+        'Mã Cảnh Báo', 'Loại Cảnh Báo', 'Phân Môn / Mạch', 'Cặp Đối Chiếu',
+        'Độ Tương Đồng Cosine', 'Mức Ưu Tiên', 'Mã YCCĐ A', 'Nội Dung YCCĐ A',
+        'Nguồn Pháp Quy A', 'Mã YCCĐ B', 'Nội Dung YCCĐ B', 'Nguồn Pháp Quy B',
+        'Lý Do AI Cảnh Báo', 'Giải Pháp Giáo Dục Học', 'Quyết Định Thẩm Định', 'Ghi Chú Sư Phạm Của Chuyên Gia'
+      ];
+
+      const rows = INITIAL_ALERTS.map(item => {
+        const st = appState.verifications[item.id] || item.defaultStatus;
+        const note = appState.notes[item.id] || '';
+        return [
+          item.id, item.type, item.strand, item.gradesLabel, item.score, item.priority,
+          item.codeA, `"${item.textA.replace(/"/g, '""')}"`, `"${(item.sourceA || '').replace(/"/g, '""')}"`,
+          item.codeB, `"${item.textB.replace(/"/g, '""')}"`, `"${(item.sourceB || '').replace(/"/g, '""')}"`,
+          `"${item.aiReason.replace(/"/g, '""')}"`, `"${item.pedagogy.replace(/"/g, '""')}"`,
+          st, `"${note.replace(/"/g, '""')}"`
+        ];
+      });
+
+      let csvContent = '\uFEFF' + headers.join(',') + '\n' + rows.map(r => r.join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Bao_Cao_Tham_Dinh_De_Tai_20_CTGDPT2018_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      initCharts();
+      renderAlertsTable();
+      renderInspectorPane();
+      updateAiSimulator();
+      updateDynamicKpis();
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

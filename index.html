@@ -693,10 +693,21 @@
                     <div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);">NL</div>
                     <div>
                       <strong style="font-size: 13px; color: var(--text-main);">Ngọc Lan</strong>
-                      <div style="font-size: 11px; color: var(--text-muted);">Đồng Chủ nhiệm & Phân tích (ngoclan.research@gmail.com)</div>
+                      <div style="font-size: 11px; color: var(--text-muted);">Chủ nhiệm Đề tài 20 (ngoclan.research@gmail.com)</div>
                     </div>
                   </div>
                   <button class="btn-secondary btn-sm" onclick="AuthManager.switchUser('ngoclan')">Chuyển sang</button>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-subtle); padding: 10px 12px; border-radius: var(--radius-md);">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="user-avatar" style="background: linear-gradient(135deg, #059669 0%, #0d9488 100%);">KH</div>
+                    <div>
+                      <strong style="font-size: 13px; color: var(--text-main);">Kim Hân</strong>
+                      <div style="font-size: 11px; color: var(--text-muted);">Chủ nhiệm Đề tài 17 (kimhan.research@gmail.com)</div>
+                    </div>
+                  </div>
+                  <button class="btn-secondary btn-sm" onclick="AuthManager.switchUser('kimhan')">Chuyển sang</button>
                 </div>
               </div>
             </div>
@@ -958,10 +969,21 @@
                 <div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);">NL</div>
                 <div>
                   <strong style="font-size: 13px; color: var(--text-main);">Ngọc Lan</strong>
-                  <div style="font-size: 11px; color: var(--text-muted);">Đồng Chủ nhiệm & Quản trị Phân tích</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Chủ nhiệm Đề tài 20 (AI &amp; CTGDPT 2018)</div>
                 </div>
               </div>
               <button class="btn-primary btn-sm" id="btn-switch-user-lan">Đăng nhập</button>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-subtle); padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="user-avatar" style="background: linear-gradient(135deg, #059669 0%, #0d9488 100%);">KH</div>
+                <div>
+                  <strong style="font-size: 13px; color: var(--text-main);">Kim Hân</strong>
+                  <div style="font-size: 11px; color: var(--text-muted);">Chủ nhiệm Đề tài 17 (Năng lực số &amp; AI Tiểu học)</div>
+                </div>
+              </div>
+              <button class="btn-primary btn-sm" id="btn-switch-user-han">Đăng nhập</button>
             </div>
           </div>
         </div>
@@ -985,12 +1007,12 @@
       <form id="admin-login-form">
         <div class="modal-body">
           <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 12px;">
-            Hệ thống phân quyền nghiên cứu cho Ban Chủ nhiệm Đề tài 03.
+            Hệ thống phân quyền nghiên cứu cho Ban Chủ nhiệm.
           </p>
 
           <div style="margin-bottom: 12px;">
             <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Tên tài khoản hoặc Họ tên</label>
-            <input type="text" id="login-username-input" class="filter-select" style="width: 100%;" placeholder="Nhập 'Lê Trung Hậu' hoặc 'Ngọc Lan'..." required>
+            <input type="text" id="login-username-input" class="filter-select" style="width: 100%;" placeholder="Nhập 'Ngọc Lan', 'Kim Hân' hoặc 'Lê Trung Hậu'..." required>
           </div>
 
           <div style="margin-bottom: 14px;">
@@ -999,10 +1021,11 @@
           </div>
 
           <div style="background-color: var(--bg-subtle); padding: 10px; border-radius: var(--radius-sm); font-size: 11.5px; color: var(--text-muted);">
-            💡 <strong>Đăng nhập nhanh:</strong> Nhấn chọn một trong hai tài khoản dưới đây:
-            <div style="display: flex; gap: 8px; margin-top: 6px;">
-              <button type="button" class="btn-secondary btn-sm" onclick="AuthManager.switchUser('letrunghau')">Lê Trung Hậu</button>
-              <button type="button" class="btn-secondary btn-sm" onclick="AuthManager.switchUser('ngoclan')">Ngọc Lan</button>
+            💡 <strong>Đăng nhập nhanh:</strong> Nhấn chọn tài khoản dưới đây:
+            <div style="display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap;">
+              <button type="button" class="btn-secondary btn-sm" onclick="AuthManager.switchUser('ngoclan')">Ngọc Lan (Đề tài 20)</button>
+              <button type="button" class="btn-secondary btn-sm" onclick="AuthManager.switchUser('kimhan')">Kim Hân (Đề tài 17)</button>
+              <button type="button" class="btn-secondary btn-sm" onclick="AuthManager.switchUser('letrunghau')">Lê Trung Hậu (Đề tài 03)</button>
             </div>
           </div>
         </div>

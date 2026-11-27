@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="dashboard">
+  <meta name="design-style" content="modern-executive">
+  <title>Đề tài 17 · Bảng điều khiển Chính sách Năng lực số, AI &amp; CTGDPT 2018 Tiểu học (2018–2026)</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+:root {
+  color-scheme: light;
+  --background: #f8fafc;
+  --surface-container-low: #ffffff;
+  --surface-container: #f1f5f9;
+  --surface-container-high: #e2e8f0;
+  --on-surface: #0f172a;
+  --on-surface-variant: #475569;
+  --on-surface-subtle: #64748b;
+  --outline: #cbd5e1;
+  --outline-variant: #e2e8f0;
+  --border-subtle: #cbd5e1;
+  --primary: #1d4ed8;
+  --primary-dark: #1e40af;
+  --on-primary: #ffffff;
+  --primary-container: #eff6ff;
+  --on-primary-container: #1d4ed8;
+  --secondary: #0284c7;
+  --on-secondary: #ffffff;
+  --secondary-soft: #f0f9ff;
+  --tertiary: #d97706;
+  --tertiary-soft: #fef3c7;
+  --error: #dc2626;
+  --on-error: #ffffff;
+  --error-soft: #fee2e2;
+  --positive: #059669;
+  --positive-soft: #ecfdf5;
+  --warning: #d97706;
+  --warning-soft: #fef3c7;
+  --focus: #2563eb;
+  --data-1: #2563eb;
+  --data-1-alpha: rgba(37, 99, 235, 0.16);
+  --data-2: #e11d48;
+  --data-2-alpha: rgba(225, 29, 72, 0.16);
+  --data-3: #059669;
+  --data-3-alpha: rgba(5, 150, 105, 0.16);
+  --data-4: #d97706;
+  --data-5: #7c3aed;
+  --data-6: #0891b2;
+  --data-context: #94a3b8;
+  --font-headline: 'Barlow', system-ui, -apple-system, sans-serif;
+  --font-body: 'Barlow', system-ui, -apple-system, sans-serif;
+  --font-label: 'JetBrains Mono', 'Barlow', monospace;
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded: 10px;
+  --rounded-lg: 14px;
+  --rounded-xl: 18px;
+  --rounded-full: 9999px;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
+  --shadow-hover: 0 12px 20px -3px rgba(37, 99, 235, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --section-rule: 2px solid var(--primary);
+  --card-border: 1px solid var(--outline-variant);
+  --badge-radius: 6px;
+  --heading-tracking: -0.015em;
+  --label-tracking: 0.03em;
+  --display-size: clamp(1.85rem, 1.45rem + 1.4vw, 2.5rem);
+  --headline-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.65rem);
+  --subhead-size: clamp(1.08rem, 1rem + 0.3vw, 1.25rem);
+  --body-size: clamp(0.95rem, 0.92rem + 0.15vw, 1.02rem);
+  --label-size: 0.8125rem;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.25rem;
+  --space-2xl: 3.5rem;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 150ms;
+  --dur-normal: 250ms;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
+  color: var(--on-surface);
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+:focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+
+.page-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  padding: 0 var(--space-lg) var(--space-2xl) var(--space-lg);
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.top-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(248, 250, 252, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--outline-variant);
+  padding: 0.6rem var(--space-lg);
+  margin-bottom: var(--space-md);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03);
+}
+.top-navbar-inner {
+  max-width: 1360px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+.brand-group { display: flex; align-items: center; gap: var(--space-sm); }
+.brand-badge {
+  background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+  color: #ffffff;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--rounded-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.25);
+}
+.brand-sub { font-size: 0.82rem; color: var(--on-surface-variant); font-weight: 500; }
+.nav-links { display: flex; align-items: center; gap: 0.25rem; flex-wrap: wrap; }
+.nav-btn {
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--rounded-sm);
+  color: var(--on-surface-variant);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all var(--dur-fast) var(--ease-out);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.nav-btn:hover { background: var(--surface-container); color: var(--primary); }
+.nav-btn.is-active { background: var(--primary-container); color: var(--primary-dark); font-weight: 700; }
+.nav-actions { display: flex; align-items: center; gap: var(--space-xs); }
+
+.user-session-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.25rem 0.65rem 0.25rem 0.35rem;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: var(--rounded-full);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #059669;
+}
+.user-session-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #059669, #0d9488);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.hero-header {
+  background: linear-gradient(180deg, #ffffff 0%, var(--surface-container) 100%);
+  border: var(--card-border);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+.hero-header::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--positive) 100%);
+}
+.hero-meta-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-sm); margin-bottom: var(--space-md); }
+.hero-meta-left { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
+.pill-topic {
+  background: var(--primary-container);
+  color: var(--primary-dark);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--rounded-full);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+}
+.hero-meta-text { font-size: 0.85rem; color: var(--on-surface-subtle); font-family: var(--font-label); }
+.hero-title { font-family: var(--font-headline); font-weight: 700; font-size: var(--display-size); letter-spacing: var(--heading-tracking); line-height: 1.15; color: var(--on-surface); margin: 0 0 var(--space-sm) 0; }
+.hero-standfirst { font-size: var(--subhead-size); color: var(--on-surface-variant); line-height: 1.5; margin: 0; max-width: 88ch; }
+
+.section-wrap { scroll-margin-top: 80px; }
+.section-header { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: var(--space-lg); }
+.section-tag-row { display: flex; align-items: center; gap: var(--space-xs); }
+.section-tag { font-family: var(--font-headline); font-weight: 700; font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--primary); background: var(--primary-container); padding: 0.25rem 0.6rem; border-radius: var(--badge-radius); }
+.section-title { font-family: var(--font-headline); font-weight: 700; font-size: var(--headline-size); letter-spacing: var(--heading-tracking); color: var(--on-surface); margin: 0; }
+.section-deck { font-size: var(--body-size); color: var(--on-surface-variant); margin: 0; max-width: 82ch; }
+
+.modern-card { background: var(--surface-container-low); border: var(--card-border); border-radius: var(--rounded-lg); padding: var(--space-lg); box-shadow: var(--shadow-sm); transition: box-shadow var(--dur-normal) var(--ease-out), transform var(--dur-normal) var(--ease-out); }
+.modern-card:hover { box-shadow: var(--shadow-md); }
+.card-title { font-family: var(--font-headline); font-weight: 700; font-size: var(--subhead-size); color: var(--on-surface); margin: 0 0 var(--space-xs) 0; display: flex; align-items: center; gap: var(--space-xs); }
+.card-subtitle { font-size: 0.85rem; color: var(--on-surface-subtle); margin: 0 0 var(--space-md) 0; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-md); margin-bottom: var(--space-lg); }
+.kpi-card { background: var(--surface-container-low); border: var(--card-border); border-radius: var(--rounded-lg); padding: var(--space-lg); display: flex; flex-direction: column; justify-content: space-between; gap: var(--space-xs); box-shadow: var(--shadow-sm); border-top: 4px solid var(--primary); position: relative; }
+.kpi-card.accent-emerald { border-top-color: var(--positive); }
+.kpi-card.accent-amber { border-top-color: var(--tertiary); }
+.kpi-card.accent-violet { border-top-color: var(--data-5); }
+.kpi-header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-xs); }
+.kpi-label { font-family: var(--font-headline); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--on-surface-variant); }
+.kpi-icon-wrap { width: 36px; height: 36px; border-radius: var(--rounded-sm); display: flex; align-items: center; justify-content: center; background: var(--surface-container); color: var(--primary); }
+.kpi-value { font-family: var(--font-headline); font-weight: 800; font-size: clamp(2rem, 1.8rem + 1vw, 2.75rem); line-height: 1.1; color: var(--on-surface); margin: 0.35rem 0; }
+.kpi-subtext { font-size: 0.82rem; color: var(--on-surface-subtle); line-height: 1.4; display: flex; align-items: center; gap: 0.35rem; }
+
+.filter-panel { background: var(--surface-container); border: var(--card-border); border-radius: var(--rounded-lg); padding: var(--space-md) var(--space-lg); margin-bottom: var(--space-lg); }
+.filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md); align-items: end; }
+.field-group { display: flex; flex-direction: column; gap: 0.35rem; }
+.field-label { font-size: 0.82rem; font-weight: 600; color: var(--on-surface-variant); display: flex; align-items: center; gap: 0.35rem; }
+.field-control { min-height: 42px; padding: 0.5rem 0.75rem; border-radius: var(--rounded-sm); border: 1px solid var(--border-subtle); background: var(--surface-container-low); color: var(--on-surface); font-size: 0.9rem; font-family: var(--font-body); width: 100%; transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out); }
+.field-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); outline: none; }
+.filter-meta-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); margin-top: var(--space-md); padding-top: var(--space-sm); border-top: 1px solid var(--outline-variant); flex-wrap: wrap; font-size: 0.875rem; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; min-height: 42px; padding: 0.5rem 1rem; border-radius: var(--rounded-sm); font-size: 0.875rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all var(--dur-fast) var(--ease-out); text-decoration: none; }
+.btn-primary { background: var(--primary); color: #ffffff; box-shadow: 0 1px 3px rgba(37, 99, 235, 0.25); }
+.btn-primary:hover { background: var(--primary-dark); box-shadow: 0 4px 8px rgba(37, 99, 235, 0.35); }
+.btn-secondary { background: var(--surface-container-low); color: var(--on-surface); border-color: var(--border-subtle); }
+.btn-secondary:hover { background: var(--surface-container); border-color: var(--on-surface-variant); }
+.btn-sm { min-height: 34px; padding: 0.3rem 0.65rem; font-size: 0.8125rem; }
+.btn-outline { background: transparent; color: var(--on-surface); border: 1px solid var(--outline); }
+.btn-outline:hover { background: var(--surface-container); }
+
+.split-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: var(--space-lg); }
+@media (max-width: 1024px) { .split-2 { grid-template-columns: 1fr; } }
+
+.timeline-strip { display: flex; gap: var(--space-xs); overflow-x: auto; padding-bottom: var(--space-sm); margin-bottom: var(--space-md); }
+.timeline-chip { padding: 0.5rem 0.95rem; border-radius: var(--rounded-full); border: 1px solid var(--border-subtle); background: var(--surface-container-low); color: var(--on-surface); font-weight: 600; font-size: 0.875rem; cursor: pointer; white-space: nowrap; transition: all var(--dur-fast) var(--ease-out); }
+.timeline-chip:hover { border-color: var(--primary); background: var(--surface-container); }
+.timeline-chip.is-active { background: var(--primary); color: #ffffff; border-color: var(--primary); box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3); }
+
+.table-container { max-height: 580px; overflow-y: auto; border: var(--card-border); border-radius: var(--rounded-lg); background: var(--surface-container-low); }
+.modern-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.875rem; }
+.modern-table th { position: sticky; top: 0; background: var(--surface-container); color: var(--on-surface); font-weight: 700; padding: 0.75rem 1rem; border-bottom: 2px solid var(--outline-variant); z-index: 5; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.modern-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--outline-variant); vertical-align: middle; }
+.modern-table tbody tr { cursor: pointer; transition: background-color var(--dur-fast) var(--ease-out); }
+.modern-table tbody tr:hover { background-color: var(--surface-container); }
+.modern-table tbody tr.is-selected { background-color: var(--primary-container) !important; outline: 2px solid var(--primary); outline-offset: -2px; }
+
+.badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.55rem; border-radius: var(--badge-radius); font-size: 0.75rem; font-weight: 700; white-space: nowrap; }
+.badge-valid { background: var(--positive-soft); color: var(--positive); }
+.badge-expired { background: var(--error-soft); color: var(--error); }
+.badge-modified { background: var(--warning-soft); color: var(--warning); }
+.badge-ai-match { background: var(--positive-soft); color: var(--positive); border: 1px solid rgba(5, 150, 105, 0.2); }
+.badge-ai-fixed { background: var(--error-soft); color: var(--error); border: 1px solid rgba(220, 38, 38, 0.2); }
+.badge-tag { background: var(--surface-container); color: var(--on-surface-variant); }
+
+.chip-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: var(--space-md); }
+.chip-btn { padding: 0.45rem 0.85rem; border-radius: var(--rounded-full); border: 1px solid var(--border-subtle); background: var(--surface-container-low); color: var(--on-surface-variant); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all var(--dur-fast) var(--ease-out); display: inline-flex; align-items: center; gap: 0.35rem; }
+.chip-btn:hover { background: var(--surface-container); color: var(--on-surface); border-color: var(--primary); }
+.chip-btn.is-active { background: var(--primary); color: #ffffff; border-color: var(--primary); box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25); }
+
+.progression-chart-card { background: linear-gradient(180deg, #ffffff 0%, var(--surface-container) 100%); border: var(--card-border); border-radius: var(--rounded-lg); padding: var(--space-lg); margin-bottom: var(--space-lg); box-shadow: var(--shadow-sm); }
+.chart-header-group { margin-bottom: var(--space-md); }
+.chart-stage-container { display: flex; align-items: flex-end; justify-content: space-between; height: 280px; padding: var(--space-md) var(--space-lg) 0 var(--space-lg); background: #ffffff; border: 1px solid var(--outline-variant); border-radius: var(--rounded-lg); position: relative; gap: var(--space-md); }
+.chart-grid-lines { position: absolute; top: 0; left: 0; right: 0; bottom: 40px; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none; padding: var(--space-md) var(--space-lg) 0 var(--space-lg); }
+.grid-line { border-bottom: 1px dashed #e2e8f0; width: 100%; display: flex; align-items: flex-end; justify-content: flex-start; color: #94a3b8; font-size: 0.75rem; padding-bottom: 2px; font-family: var(--font-label); }
+.progression-col { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; z-index: 2; cursor: pointer; position: relative; }
+.progression-bar-fill { width: 82%; max-width: 95px; background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%); border-radius: 8px 8px 0 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); position: relative; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2); }
+@keyframes column-pulse-glow {
+  0% { filter: brightness(1); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+  50% { filter: brightness(1.25); box-shadow: 0 0 24px 8px rgba(37, 99, 235, 0.75), 0 0 10px rgba(56, 189, 248, 0.9); transform: translateY(-6px) scale(1.02); }
+  100% { filter: brightness(1); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+}
+.progression-col:hover .progression-bar-fill { animation: column-pulse-glow 1.1s infinite ease-in-out; background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%); }
+.progression-col.is-active .progression-bar-fill { background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 0 20px rgba(217, 119, 6, 0.6); transform: translateY(-4px); }
+.col-value-badge { position: absolute; top: -28px; left: 50%; transform: translateX(-50%); background: #0f172a; color: #ffffff; font-size: 0.78rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: var(--rounded-full); opacity: 0; transition: opacity var(--dur-fast) var(--ease-out); white-space: nowrap; pointer-events: none; }
+.progression-col:hover .col-value-badge, .progression-col.is-active .col-value-badge { opacity: 1; }
+.col-label-title { margin-top: 0.6rem; font-size: 0.82rem; font-weight: 700; color: var(--on-surface); text-align: center; line-height: 1.2; }
+.col-label-sub { font-size: 0.75rem; color: var(--on-surface-subtle); text-align: center; }
+.progression-detail-banner { margin-top: var(--space-md); padding: var(--space-md) var(--space-lg); background: var(--surface-container); border-left: 4px solid var(--primary); border-radius: var(--rounded-sm); display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); flex-wrap: wrap; }
+
+.yccd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: var(--space-md); }
+.yccd-card { background: var(--surface-container-low); border: var(--card-border); border-radius: var(--rounded-lg); padding: var(--space-lg); display: flex; flex-direction: column; justify-content: space-between; box-shadow: var(--shadow-sm); transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out); }
+.yccd-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.yccd-card-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-xs); margin-bottom: var(--space-sm); }
+.yccd-bullet-list { margin: var(--space-xs) 0 var(--space-md) 0; padding-left: 1.25rem; font-size: 0.88rem; display: flex; flex-direction: column; gap: 0.45rem; color: var(--on-surface); }
+.yccd-bullet-list li { line-height: 1.5; }
+.yccd-note-box { background: var(--surface-container); border-radius: var(--rounded-sm); padding: 0.5rem 0.75rem; font-size: 0.82rem; color: var(--on-surface-variant); border-left: 3px solid var(--secondary); }
+
+.integration-subject-nav { display: flex; gap: var(--space-xs); flex-wrap: wrap; margin-bottom: var(--space-lg); }
+.integration-tab-btn { padding: 0.6rem 1.1rem; border-radius: var(--rounded-lg); border: 1px solid var(--border-subtle); background: var(--surface-container-low); color: var(--on-surface); font-weight: 700; font-size: 0.92rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; transition: all var(--dur-fast) var(--ease-out); }
+.integration-tab-btn:hover { background: var(--surface-container); border-color: var(--primary); }
+.integration-tab-btn.is-active { background: var(--primary); color: #ffffff; border-color: var(--primary); box-shadow: 0 4px 8px rgba(37, 99, 235, 0.25); }
+
+.integration-table { width: 100%; border-collapse: separate; border-spacing: 0; border: var(--card-border); border-radius: var(--rounded-lg); overflow: hidden; background: #ffffff; }
+.integration-table th { background: var(--surface-container); padding: 0.85rem 1rem; text-align: left; font-weight: 700; font-size: 0.85rem; color: var(--on-surface); border-bottom: 2px solid var(--outline-variant); }
+.integration-table td { padding: 1rem; border-bottom: 1px solid var(--outline-variant); vertical-align: top; font-size: 0.88rem; }
+.integration-table tr:last-child td { border-bottom: none; }
+.integration-table tr:hover { background-color: var(--surface-container); }
+
+.country-selector-strip { display: flex; gap: var(--space-xs); flex-wrap: wrap; margin-bottom: var(--space-md); }
+.country-tab-btn { padding: 0.5rem 1rem; border-radius: var(--rounded-full); border: 1px solid var(--border-subtle); background: var(--surface-container-low); font-weight: 700; font-size: 0.875rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all var(--dur-fast) var(--ease-out); }
+.country-tab-btn:hover { border-color: var(--primary); }
+.country-tab-btn.is-active { background: var(--primary); color: #ffffff; border-color: var(--primary); box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25); }
+
+.quiz-card { background: var(--surface-container-low); border: var(--card-border); border-radius: var(--rounded-lg); padding: var(--space-lg); margin-bottom: var(--space-md); }
+.quiz-options-group { display: flex; gap: var(--space-sm); margin-top: var(--space-sm); flex-wrap: wrap; }
+.quiz-btn { padding: 0.5rem 1rem; border-radius: var(--rounded-sm); border: 1px solid var(--border-subtle); background: var(--surface-container-low); font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: all var(--dur-fast) var(--ease-out); }
+.quiz-btn:hover { background: var(--surface-container); }
+.quiz-feedback { margin-top: var(--space-sm); padding: 0.65rem 0.95rem; border-radius: var(--rounded-sm); font-size: 0.85rem; display: none; }
+.quiz-feedback.is-correct { display: block; background: var(--positive-soft); color: var(--positive); border: 1px solid rgba(5, 150, 105, 0.3); }
+.quiz-feedback.is-wrong { display: block; background: var(--error-soft); color: var(--error); border: 1px solid rgba(220, 38, 38, 0.3); }
+
+.prompt-box { background: #0f172a; color: #e2e8f0; padding: var(--space-md); border-radius: var(--rounded-sm); font-family: var(--font-label); font-size: 0.82rem; line-height: 1.5; overflow-x: auto; white-space: pre-wrap; }
+.chart-box { position: relative; width: 100%; height: 320px; }
+.chart-box-radar { position: relative; width: 100%; height: 360px; }
+
+@media print {
+  .top-navbar, .jump-nav, .filter-panel, .masthead-actions, .timeline-strip { display: none !important; }
+  body { background: #ffffff !important; color: #000000 !important; }
+  .modern-card, .kpi-card { box-shadow: none !important; border: 1px solid #cccccc !important; }
+  .page-grid { padding: 0 !important; max-width: 100% !important; }
+}
+
+.full-width-repo { width: 100%; max-height: 850px; overflow-y: auto; overflow-x: auto; border: var(--card-border); border-radius: var(--rounded-lg); background: var(--surface-container-low); box-shadow: var(--shadow-sm); }
+.spacious-table { width: 100%; min-width: 950px; border-collapse: collapse; }
+.spacious-table th { padding: 0.95rem 1.15rem; background: var(--surface-container); color: var(--on-surface); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--outline-variant); position: sticky; top: 0; z-index: 10; }
+.spacious-table td { padding: 0.95rem 1.15rem; border-bottom: 1px solid var(--outline-variant); vertical-align: middle; font-size: 0.88rem; }
+.doc-main-row { cursor: pointer; transition: background-color var(--dur-fast) var(--ease-out); }
+.doc-main-row:hover { background-color: var(--surface-container) !important; }
+.doc-main-row.is-expanded { background-color: var(--surface-container-high) !important; border-left: 4px solid var(--primary); }
+.doc-main-row.is-selected { background-color: var(--primary-container) !important; }
+.doc-table-title { font-weight: 600; color: var(--on-surface); font-size: 0.94rem; line-height: 1.45; margin-bottom: 0.35rem; }
+.doc-table-themes { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+
+.repo-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-md); margin-bottom: var(--space-md); padding: var(--space-sm) var(--space-md); background: var(--surface-container-low); border: var(--card-border); border-radius: var(--rounded-md); }
+.repo-search-wrap { display: flex; align-items: center; gap: var(--space-xs); flex: 1; min-width: 280px; max-width: 520px; background: var(--surface); border: 1px solid var(--outline-variant); border-radius: var(--rounded-md); padding: 0.4rem 0.75rem; }
+.repo-search-input { border: none; outline: none; background: transparent; width: 100%; font-family: inherit; font-size: 0.88rem; color: var(--on-surface); }
+.repo-actions-right { display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; }
+.repo-count-badge { font-size: 0.82rem; color: var(--on-surface-variant); padding: 0.35rem 0.65rem; background: var(--surface); border-radius: var(--rounded-sm); border: 1px solid var(--outline-variant); }
+.view-switch-group { display: flex; border: 1px solid var(--outline-variant); border-radius: var(--rounded-md); overflow: hidden; background: var(--surface); }
+.view-switch-btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.75rem; font-size: 0.82rem; font-weight: 600; border: none; background: transparent; color: var(--on-surface-variant); cursor: pointer; transition: all var(--dur-fast) var(--ease-out); }
+.view-switch-btn:hover { background: var(--surface-container-high); color: var(--on-surface); }
+.view-switch-btn.active { background: var(--primary); color: var(--on-primary); }
+
+.doc-detail-row { background: var(--surface-container-lowest) !important; cursor: default !important; }
+.doc-detail-row td { padding: 0 !important; border-bottom: 2px solid var(--primary) !important; }
+.doc-detail-box { padding: var(--space-lg); border-left: 4px solid var(--primary); background: var(--surface-container-lowest); animation: fadeIn 0.2s ease-in-out; }
+.doc-detail-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: var(--space-md); margin-bottom: var(--space-md); padding-bottom: var(--space-sm); border-bottom: 1px solid var(--outline-variant); }
+.doc-detail-code-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-xs); margin-bottom: 0.35rem; }
+.doc-detail-title { margin: 0; font-size: 1.15rem; font-weight: 700; color: var(--on-surface); line-height: 1.35; }
+.doc-detail-actions { display: flex; align-items: center; gap: var(--space-xs); }
+.doc-detail-grid { display: grid; grid-template-columns: 1.2fr 1.3fr 1.1fr; gap: var(--space-md); align-items: stretch; }
+@media (max-width: 1100px) { .doc-detail-grid { grid-template-columns: 1fr; } }
+
+.doc-detail-card { background: var(--surface); border: 1px solid var(--outline-variant); border-radius: var(--rounded-md); padding: var(--space-md); display: flex; flex-direction: column; }
+.doc-detail-card.highlight-quote { border-left: 3px solid var(--primary); background: var(--surface-container-low); }
+.doc-detail-card.highlight-impact { border-left: 3px solid var(--data-2); background: var(--surface-container-low); }
+.detail-card-label { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; font-weight: 700; color: var(--on-surface-variant); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.detail-quote-text { font-size: 0.88rem; font-style: italic; color: var(--on-surface); line-height: 1.5; margin-bottom: var(--space-sm); flex: 1; }
+.detail-impact-text { font-size: 0.88rem; color: var(--on-surface); line-height: 1.5; margin-bottom: var(--space-sm); flex: 1; }
+.detail-audit-box { background: var(--surface); border: 1px solid var(--outline-variant); border-radius: var(--rounded-sm); padding: 0.5rem 0.75rem; margin-top: auto; }
+
+.doc-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(460px, 1fr)); gap: var(--space-lg); margin-top: var(--space-md); }
+@media (max-width: 640px) { .doc-card-grid { grid-template-columns: 1fr; } }
+.repo-card { background: var(--surface); border: 1px solid var(--outline-variant); border-radius: var(--rounded-lg); padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-sm); box-shadow: var(--shadow-sm); transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out); }
+.repo-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--primary); }
+
+.doc-modal-backdrop { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(4px); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: var(--space-md); }
+.doc-modal-content { background: #ffffff; border: 1px solid var(--outline-variant); border-radius: var(--rounded-lg); max-width: 960px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); padding: var(--space-xl); }
+.doc-modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: var(--space-sm); border-bottom: 1px solid var(--outline-variant); }
+  </style>
+</head>
+<body>
+
+  <!-- STICKY TOP NAVBAR -->
+  <header class="top-navbar">
+    <div class="top-navbar-inner">
+      <div class="brand-group">
+        <span class="brand-badge"><i data-lucide="book-marked" style="width: 16px; height: 16px;"></i> ĐỀ TÀI 17</span>
+        <span class="brand-sub">Năng lực số &amp; AI Tiểu học (2018–2026)</span>
+      </div>
+
+      <nav class="nav-links" aria-label="Điều hướng các phân hệ">
+        <a href="#sec-overview" class="nav-btn is-active"><i data-lucide="layout-dashboard" style="width: 15px; height: 15px;"></i> Chỉ số &amp; Lọc</a>
+        <a href="#sec-timeline" class="nav-btn"><i data-lucide="trending-up" style="width: 15px; height: 15px;"></i> Trọng tâm</a>
+        <a href="#sec-repository" class="nav-btn"><i data-lucide="file-text" style="width: 15px; height: 15px;"></i> 22 Văn bản</a>
+        <a href="#sec-curriculum" class="nav-btn"><i data-lucide="layers" style="width: 15px; height: 15px;"></i> YCCĐ Lớp 1–5</a>
+        <a href="#sec-integration" class="nav-btn" style="color: var(--primary); font-weight: 700;"><i data-lucide="sparkles" style="width: 15px; height: 15px;"></i> Đề xuất tích hợp môn học</a>
+        <a href="#sec-international" class="nav-btn"><i data-lucide="globe-2" style="width: 15px; height: 15px;"></i> 3 Quốc gia</a>
+        <a href="#sec-ai-log" class="nav-btn"><i data-lucide="shield-check" style="width: 15px; height: 15px;"></i> Minh bạch AI</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="user-session-chip" title="Tài khoản đang đăng nhập: Kim Hân">
+          <span class="user-session-avatar">KH</span>
+          <span>Kim Hân</span>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="exportFilteredCsv()" title="Tải dữ liệu 22 văn bản dạng CSV">
+          <i data-lucide="download" style="width: 14px; height: 14px;"></i> Xuất CSV
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="window.print()" title="In hoặc lưu dạng PDF">
+          <i data-lucide="printer" style="width: 14px; height: 14px;"></i> In Báo cáo
+        </button>
+        <a href="login.html" class="btn btn-outline btn-sm" onclick="localStorage.removeItem('ca_current_user');" title="Đăng xuất hoặc chuyển tài khoản">
+          <i data-lucide="log-out" style="width: 14px; height: 14px;"></i> Đổi tài khoản
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-grid">
+
+    <!-- HERO HEADER -->
+    <header class="hero-header">
+      <div class="hero-meta-bar">
+        <div class="hero-meta-left">
+          <span class="pill-topic">BÁO CÁO PHÂN TÍCH CHUYÊN SÂU · CTGDPT 2018</span>
+          <span class="hero-meta-text">TRÍ TUỆ NHÂN TẠO · NĂNG LỰC SỐ TIỂU HỌC · THỂ CHẾ HÓA 2018–2026</span>
+        </div>
+        <div class="hero-meta-text">
+          <i data-lucide="check-circle-2" style="width: 14px; height: 14px; color: var(--positive); display: inline-block; vertical-align: middle;"></i> 22 văn bản chuẩn hóa
+        </div>
+      </div>
+
+      <h1 class="hero-title">Chính sách Năng lực số, Trí tuệ nhân tạo &amp; CTGDPT 2018 cấp Tiểu học (2018–2026)</h1>
+      <p class="hero-standfirst">
+        Khảo sát tiến trình thể chế hóa chuyển đổi số giáo dục Việt Nam: Danh mục 22 văn bản quy phạm, cấu trúc Yêu cầu cần đạt môn Tin học &amp; tích hợp liên môn từ Lớp 1 đến Lớp 5, đề xuất phương án tích hợp cụ thể theo từng môn học, đối chiếu chiến lược 3 quốc gia (Việt Nam – Singapore – Hàn Quốc) và nhật ký kiểm chứng AI.
+      </p>
+    </header>
+
+    <!-- SECTION 1: OVERVIEW & FILTERS -->
+    <section id="sec-overview" class="section-wrap" aria-labelledby="h-overview">
+      <div class="section-header">
+        <div class="section-tag-row">
+          <span class="section-tag">01 · BẢNG ĐIỀU KHIỂN TỔNG QUAN</span>
+        </div>
+        <h2 class="section-title" id="h-overview">Chỉ số trọng tâm &amp; Công cụ lọc chính sách (2018–2026)</h2>
+        <p class="section-deck">
+          Hệ thống mã hóa định lượng 22 văn bản chính sách qua 6 nhóm chủ đề. Sử dụng bộ lọc đa tiêu chí để đối soát tức thời dữ liệu nghiên cứu.
+        </p>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-label">Tổng số văn bản</span>
+            <div class="kpi-icon-wrap"><i data-lucide="files" style="width: 20px; height: 20px;"></i></div>
+          </div>
+          <div class="kpi-value" id="kpi-total">22</div>
+          <div class="kpi-subtext" id="kpi-total-sub">
+            <i data-lucide="check" style="width: 14px; height: 14px; color: var(--positive);"></i> 20 văn bản còn hiệu lực (90,9%)
+          </div>
+        </div>
+
+        <div class="kpi-card accent-emerald">
+          <div class="kpi-header">
+            <span class="kpi-label">Đã kiểm chứng gốc</span>
+            <div class="kpi-icon-wrap" style="color: var(--positive);"><i data-lucide="shield-check" style="width: 20px; height: 20px;"></i></div>
+          </div>
+          <div class="kpi-value" id="kpi-verified" style="color: var(--positive);">22/22</div>
+          <div class="kpi-subtext">
+            <i data-lucide="shield" style="width: 14px; height: 14px; color: var(--positive);"></i> 100% đối soát công báo/cổng chính thức
+          </div>
+        </div>
+
+        <div class="kpi-card accent-violet">
+          <div class="kpi-header">
+            <span class="kpi-label">Đề cập AI &amp; Năng lực số</span>
+            <div class="kpi-icon-wrap" style="color: var(--data-5);"><i data-lucide="cpu" style="width: 20px; height: 20px;"></i></div>
+          </div>
+          <div class="kpi-value" id="kpi-ai-share" style="color: var(--data-5);">68%</div>
+          <div class="kpi-subtext" id="kpi-ai-sub">Tập trung cao độ giai đoạn 2024–2026</div>
+        </div>
+
+        <div class="kpi-card accent-amber">
+          <div class="kpi-header">
+            <span class="kpi-label">Độ chính xác AI sơ khởi</span>
+            <div class="kpi-icon-wrap" style="color: var(--tertiary);"><i data-lucide="check-check" style="width: 20px; height: 20px;"></i></div>
+          </div>
+          <div class="kpi-value" id="kpi-ai-acc">86,4%</div>
+          <div class="kpi-subtext" id="kpi-ai-acc-sub">19 khớp · 3 trường hợp suy diễn đã sửa</div>
+        </div>
+      </div>
+
+      <div class="filter-panel">
+        <div class="filter-grid">
+          <div class="field-group">
+            <label class="field-label" for="filter-search"><i data-lucide="search" style="width: 14px; height: 14px;"></i> Tìm kiếm từ khóa</label>
+            <input type="text" id="filter-search" class="field-control" placeholder="Số hiệu, tên văn bản, cơ quan..." oninput="applyFilters()">
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="filter-period"><i data-lucide="calendar" style="width: 14px; height: 14px;"></i> Giai đoạn ban hành</label>
+            <select id="filter-period" class="field-control" onchange="applyFilters()">
+              <option value="all">Tất cả giai đoạn (2018–2026)</option>
+              <option value="2018-2021">2018–2021: Nền tảng CTGDPT 2018</option>
+              <option value="2022-2024">2022–2024: Đẩy mạnh Chuyển đổi số</option>
+              <option value="2025-2026">2025–2026: Trí tuệ nhân tạo &amp; Khung NLS</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="filter-issuer"><i data-lucide="landmark" style="width: 14px; height: 14px;"></i> Cấp ban hành</label>
+            <select id="filter-issuer" class="field-control" onchange="applyFilters()">
+              <option value="all">Tất cả cơ quan</option>
+              <option value="Trung ương / Quốc hội / Chính phủ">TW / Quốc hội / Chính phủ</option>
+              <option value="Bộ GD&ĐT">Bộ Giáo dục và Đào tạo</option>
+              <option value="Liên ngành / Bộ KH&CN - TT&TT">Liên ngành (Bộ KH&CN · TT&TT)</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="filter-theme"><i data-lucide="tag" style="width: 14px; height: 14px;"></i> Trọng tâm chủ đề</label>
+            <select id="filter-theme" class="field-control" onchange="applyFilters()">
+              <option value="all">Tất cả 6 chủ đề</option>
+              <option value="Hạ tầng">Hạ tầng &amp; Thiết bị</option>
+              <option value="Học liệu">Học liệu số &amp; CSDL</option>
+              <option value="Năng lực số">Năng lực số &amp; Đánh giá</option>
+              <option value="Giáo viên">Đào tạo &amp; Giáo viên</option>
+              <option value="AI">Trí tuệ nhân tạo (AI)</option>
+              <option value="Dữ liệu">Bảo vệ dữ liệu &amp; An toàn</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="filter-status"><i data-lucide="info" style="width: 14px; height: 14px;"></i> Hiệu lực pháp lý</label>
+            <select id="filter-status" class="field-control" onchange="applyFilters()">
+              <option value="all">Tất cả trạng thái</option>
+              <option value="Còn hiệu lực">Còn hiệu lực</option>
+              <option value="Sửa đổi / Thay thế">Sửa đổi / Thay thế</option>
+              <option value="Hoàn thành giai đoạn">Hoàn thành giai đoạn</option>
+              <option value="Thí điểm / Định hướng">Thí điểm / Định hướng</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-meta-row">
+          <div id="filter-summary-text">Đang hiển thị <strong>22/22</strong> văn bản (100%)</div>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="resetFilters()">
+            <i data-lucide="rotate-ccw" style="width: 13px; height: 13px;"></i> Đặt lại bộ lọc
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: TIMELINE SHIFT -->
+    <section id="sec-timeline" class="section-wrap" aria-labelledby="h-timeline">
+      <div class="section-header">
+        <div class="section-tag-row"><span class="section-tag">02 · PHÂN TÍCH CHUYỂN DỊCH CHỦ ĐỀ</span></div>
+        <h2 class="section-title" id="h-timeline">Chuyển dịch trọng tâm: Từ "Tin học hóa &amp; Hạ tầng" sang "Năng lực số &amp; AI"</h2>
+        <p class="section-deck">Quan sát bước ngoặt thể chế từ năm 2024 khi các văn bản bắt đầu tập trung mạnh mẽ vào Khung năng lực số người học và chính sách quản trị Trí tuệ nhân tạo.</p>
+      </div>
+
+      <div class="split-2">
+        <div class="modern-card">
+          <h3 class="card-title"><i data-lucide="line-chart" style="width: 18px; height: 18px; color: var(--primary);"></i> Tần suất xuất hiện 6 nhóm chủ đề (2018–2026)</h3>
+          <p class="card-subtitle">Số lượt văn bản đề cập đến từng trụ cột theo mốc thời gian</p>
+          <div class="chart-box"><canvas id="chart-theme-timeline"></canvas></div>
+        </div>
+
+        <div class="modern-card">
+          <h3 class="card-title"><i data-lucide="bar-chart-3" style="width: 18px; height: 18px; color: var(--secondary);"></i> Phân bổ theo Cấp ban hành &amp; Tình trạng hiệu lực</h3>
+          <p class="card-subtitle">Tương quan văn bản giữa Trung ương, Bộ GD&ĐT và Liên ngành</p>
+          <div class="chart-box"><canvas id="chart-issuer-status"></canvas></div>
+        </div>
+      </div>
+
+      <div class="modern-card" style="margin-top: var(--space-md);">
+        <h3 class="card-title"><i data-lucide="milestone" style="width: 18px; height: 18px; color: var(--tertiary);"></i> Dòng thời gian tương tác các cột mốc chính sách (Nhấp chọn từng năm)</h3>
+        <p class="card-subtitle">Khảo sát bối cảnh thực tiễn và danh mục văn bản ban hành tương ứng</p>
+        <div class="timeline-strip" id="timeline-year-buttons" role="tablist"></div>
+        <div id="timeline-detail-panel" style="background: var(--surface-container); border-radius: var(--rounded-sm); padding: var(--space-md) var(--space-lg); border-left: 4px solid var(--primary);"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: REPOSITORY -->
+    <section id="sec-repository" class="section-wrap" aria-labelledby="h-repository">
+      <div class="section-header">
+        <div class="section-tag-row"><span class="section-tag">03 · DỮ LIỆU ĐÃ KIỂM CHỨNG</span></div>
+        <h2 class="section-title" id="h-repository">Danh mục 22 văn bản chính sách đã chuẩn hóa &amp; kiểm chứng</h2>
+        <p class="section-deck">
+          Hệ thống khảo sát toàn diện 22 văn bản quy phạm pháp luật và văn bản điều hành từ Trung ương, Chính phủ, Bộ GD&amp;ĐT và Liên ngành (2018–2026). Toàn bộ nội dung được hiển thị rộng rãi 100%, trực quan; bạn có thể bấm trực tiếp vào từng hàng hoặc nút <strong>"Chi tiết ▾"</strong> để mở rộng hồ sơ thanh tra chuyên sâu ngay bên dưới, hoặc chuyển sang chế độ <strong>"Thẻ hồ sơ"</strong> để duyệt nhanh toàn diện.
+        </p>
+      </div>
+
+      <div class="repo-toolbar">
+        <div class="repo-search-wrap">
+          <i data-lucide="search" style="width: 16px; height: 16px; color: var(--on-surface-variant); flex-shrink: 0;"></i>
+          <input type="text" id="repo-search-input" class="repo-search-input" placeholder="Tìm kiếm nhanh văn bản (Số hiệu, trích yếu, cơ quan, từ khóa AI / năng lực số...)" oninput="handleRepoSearch(this.value)">
+          <button class="btn btn-sm btn-outline" id="repo-search-clear" onclick="clearRepoSearch()" style="display: none; padding: 2px 8px; font-size: 0.75rem;">Xóa</button>
+        </div>
+
+        <div class="repo-actions-right">
+          <div class="repo-count-badge" id="repo-doc-count">Hiển thị <strong>22/22</strong> văn bản</div>
+          <button class="btn btn-sm btn-outline" id="btn-toggle-expand-all" onclick="toggleExpandAllDocs()">
+            <i data-lucide="chevrons-down" style="width: 14px; height: 14px;"></i> <span id="text-expand-all">Mở rộng tất cả</span>
+          </button>
+          <div class="view-switch-group">
+            <button class="view-switch-btn active" id="view-mode-table" onclick="setRepoViewMode('table')" title="Chế độ bảng mở rộng">
+              <i data-lucide="table" style="width: 14px; height: 14px;"></i> Bảng chi tiết
+            </button>
+            <button class="view-switch-btn" id="view-mode-grid" onclick="setRepoViewMode('grid')" title="Chế độ thẻ hồ sơ trực quan">
+              <i data-lucide="layout-grid" style="width: 14px; height: 14px;"></i> Thẻ hồ sơ
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="repo-table-container" class="table-container full-width-repo">
+        <table class="modern-table spacious-table" id="policy-table" aria-label="Bảng danh mục 22 văn bản chính sách">
+          <thead>
+            <tr>
+              <th onclick="sortTable('code')" style="cursor: pointer; width: 180px;">Mã &amp; Số hiệu <i data-lucide="arrow-up-down" style="width: 12px; height: 12px; display: inline-block; vertical-align: middle;"></i></th>
+              <th onclick="sortTable('year')" style="cursor: pointer; width: 95px;">Năm <i data-lucide="arrow-up-down" style="width: 12px; height: 12px; display: inline-block; vertical-align: middle;"></i></th>
+              <th onclick="sortTable('title')" style="cursor: pointer;">Trích yếu văn bản &amp; Trọng tâm</th>
+              <th style="width: 180px;">Cơ quan ban hành</th>
+              <th style="width: 140px;">Tình trạng</th>
+              <th style="width: 110px;">Kiểm chứng AI</th>
+              <th style="width: 120px; text-align: center;">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="policy-tbody"></tbody>
+        </table>
+      </div>
+
+      <div id="repo-grid-container" class="doc-card-grid" style="display: none;"></div>
+      <div id="policy-inspector" style="display: none;"></div>
+
+      <div id="doc-modal-backdrop" class="doc-modal-backdrop" style="display: none;" onclick="closeDocModal(event)">
+        <div class="doc-modal-content" onclick="event.stopPropagation()">
+          <div class="doc-modal-header">
+            <div style="display: flex; gap: var(--space-xs); align-items: center;">
+              <span class="badge badge-tag">HỒ SƠ THANH TRA CHUYÊN SÂU</span>
+              <span id="modal-status-badge"></span>
+            </div>
+            <button class="btn btn-sm btn-outline" onclick="closeDocModal()" title="Đóng">
+              <i data-lucide="x" style="width: 16px; height: 16px;"></i> Đóng
+            </button>
+          </div>
+          <div id="modal-body-content" style="margin-top: var(--space-md);"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: CTGDPT 2018 & YCCD -->
+    <section id="sec-curriculum" class="section-wrap" aria-labelledby="h-curriculum">
+      <div class="section-header">
+        <div class="section-tag-row"><span class="section-tag">04 · CTGDPT 2018 &amp; NĂNG LỰC SỐ TIỂU HỌC</span></div>
+        <h2 class="section-title" id="h-curriculum">Cấu trúc Yêu cầu cần đạt (YCCĐ) theo từng Khối Lớp 1–5</h2>
+        <p class="section-deck">
+          Phân định rõ ràng giữa <em>Ứng dụng CNTT (Dạy học có thiết bị)</em> và <em>Phát triển Năng lực số cho Học sinh</em>. Chi tiết yêu cầu cần đạt được phân định cụ thể cho từng khối lớp 1, 2, 3, 4, 5 theo tài liệu nghiên cứu.
+        </p>
+      </div>
+
+      <div class="split-2" style="margin-bottom: var(--space-lg);">
+        <div class="modern-card" style="border-top: 4px solid var(--data-2);">
+          <div class="badge badge-expired" style="margin-bottom: var(--space-xs);">CẦN PHÂN BIỆT RÕ (TRÁNH LẪN LỘN)</div>
+          <h3 class="card-title">Ứng dụng Công nghệ thông tin (Dạy học có thiết bị)</h3>
+          <p style="margin: 0 0 var(--space-sm) 0; font-size: 0.92rem;">
+            Giáo viên hoặc học sinh sử dụng máy chiếu, PowerPoint, trò chơi trắc nghiệm trực tuyến (Kahoot/Quizizz) hay video minh họa để <strong>truyền đạt nội dung môn học nhanh hơn, sinh động hơn</strong>.
+          </p>
+          <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: var(--on-surface-variant); display: flex; flex-direction: column; gap: 0.25rem;">
+            <li><strong>Chủ thể thụ hưởng:</strong> Học sinh chủ yếu là người nghe, người xem thụ động.</li>
+            <li><strong>Mục tiêu:</strong> Hỗ trợ phương pháp giảng dạy của giáo viên.</li>
+            <li><strong>Dấu hiệu nhận biết:</strong> Nếu tắt máy chiếu, năng lực của học sinh không có sự thay đổi về mặt thao tác số.</li>
+          </ul>
+        </div>
+
+        <div class="modern-card" style="border-top: 4px solid var(--positive);">
+          <div class="badge badge-valid" style="margin-bottom: var(--space-xs);">BẢN CHẤT CẦN HÌNH THÀNH (TT 02/2025/TT-BGDĐT)</div>
+          <h3 class="card-title">Phát triển Năng lực số cho Học sinh Tiểu học</h3>
+          <p style="margin: 0 0 var(--space-sm) 0; font-size: 0.92rem;">
+            Học sinh <strong>trực tiếp thao tác, tư duy, giải quyết vấn đề và tạo ra sản phẩm học tập</strong> trên môi trường số; hình thành thói quen an toàn thông tin và văn hóa số phù hợp lứa tuổi.
+          </p>
+          <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: var(--on-surface-variant); display: flex; flex-direction: column; gap: 0.25rem;">
+            <li><strong>Chủ thể chủ động:</strong> Học sinh tự thao tác tìm kiếm, thu thập số liệu, gõ văn bản, vẽ mô hình.</li>
+            <li><strong>Mục tiêu:</strong> Hình thành năng lực tự chủ, bảo vệ dữ liệu và giải quyết vấn đề số.</li>
+            <li><strong>Dấu hiệu nhận biết:</strong> Học sinh độc lập đánh giá được thông tin, biết bảo mật và tạo ra sản phẩm số.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="progression-chart-card">
+        <div class="chart-header-group">
+          <div class="hero-meta-bar" style="margin-bottom: 0.25rem;">
+            <span class="badge badge-ai-match"><i data-lucide="bar-chart-2" style="width: 14px; height: 14px;"></i> BIỂU ĐỒ MỨC ĐỘ PHÁT TRIỂN NĂNG LỰC SỐ THEO TỪNG LỚP</span>
+            <span style="font-size: 0.8rem; color: var(--on-surface-subtle);"><i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--primary);"></i> Rê chuột vào cột để xem hiệu ứng nhấp nháy phát sáng &amp; chi tiết</span>
+          </div>
+          <h3 class="card-title" style="font-size: 1.25rem; margin-top: 0.35rem;">Mức độ phát triển năng lực số ở cấp tiểu học (Lớp 1 – Lớp 5)</h3>
+          <p class="card-subtitle" style="margin-bottom: var(--space-sm);">Thang mức độ minh họa tăng tiến từ 1 đến 5 (theo chuẩn đối sánh Khung NLS TT 02/2025/TT-BGDĐT và tài liệu HAN.docx)</p>
+        </div>
+
+        <div class="chart-stage-container">
+          <div class="chart-grid-lines">
+            <div class="grid-line"><span>5.0 (Vận dụng sáng tạo &amp; Làm chủ)</span></div>
+            <div class="grid-line"><span>3.75 (Vận dụng &amp; Xử lý thông tin)</span></div>
+            <div class="grid-line"><span>2.5 (Thực hành &amp; Thao tác có hướng dẫn)</span></div>
+            <div class="grid-line"><span>1.25 (Làm quen &amp; Nhận biết trực quan)</span></div>
+            <div class="grid-line" style="border-bottom: 1.5px solid #94a3b8;"><span>0 (Khởi đầu)</span></div>
+          </div>
+
+          <div class="progression-col" onclick="filterByGradeFromChart('Lớp 1')" onmouseenter="previewGradeProgression('Lớp 1')">
+            <div class="col-value-badge">Mức 1 · Nhận biết</div>
+            <div class="progression-bar-fill" style="height: 20%;"></div>
+            <div class="col-label-title">Lớp 1</div>
+            <div class="col-label-sub">Nhận biết &amp; Làm quen</div>
+          </div>
+
+          <div class="progression-col" onclick="filterByGradeFromChart('Lớp 2')" onmouseenter="previewGradeProgression('Lớp 2')">
+            <div class="col-value-badge">Mức 2 · Thao tác kết nối</div>
+            <div class="progression-bar-fill" style="height: 40%;"></div>
+            <div class="col-label-title">Lớp 2</div>
+            <div class="col-label-sub">Thao tác &amp; Luyện tập</div>
+          </div>
+
+          <div class="progression-col" onclick="filterByGradeFromChart('Lớp 3')" onmouseenter="previewGradeProgression('Lớp 3')">
+            <div class="col-value-badge">Mức 3 · Thực hành nền tảng</div>
+            <div class="progression-bar-fill" style="height: 60%;"></div>
+            <div class="col-label-title">Lớp 3</div>
+            <div class="col-label-sub">Bắt đầu Tin học (35t)</div>
+          </div>
+
+          <div class="progression-col" onclick="filterByGradeFromChart('Lớp 4')" onmouseenter="previewGradeProgression('Lớp 4')">
+            <div class="col-value-badge">Mức 4 · Vận dụng xử lý</div>
+            <div class="progression-bar-fill" style="height: 80%;"></div>
+            <div class="col-label-title">Lớp 4</div>
+            <div class="col-label-sub">Xử lý &amp; Khai thác dữ liệu</div>
+          </div>
+
+          <div class="progression-col" onclick="filterByGradeFromChart('Lớp 5')" onmouseenter="previewGradeProgression('Lớp 5')">
+            <div class="col-value-badge">Mức 5 · Sáng tạo dự án</div>
+            <div class="progression-bar-fill" style="height: 100%;"></div>
+            <div class="col-label-title">Lớp 5</div>
+            <div class="col-label-sub">Lập trình &amp; Dự án số</div>
+          </div>
+        </div>
+
+        <div class="progression-detail-banner" id="progression-live-banner">
+          <div>
+            <strong id="prog-live-title" style="color: var(--primary); font-size: 0.95rem;">Lớp 1 – Nhận biết &amp; Làm quen thiết bị</strong>:
+            <span id="prog-live-desc" style="color: var(--on-surface-variant); font-size: 0.88rem;">Nhận biết máy tính, máy tính bảng; quan sát mô hình số; thực hiện thao tác kéo thả cơ bản có người lớn giám sát.</span>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" id="prog-live-btn" onclick="filterByGradeFromChart('Lớp 1')">
+            Xem Ma trận YCCĐ Lớp 1 <i data-lucide="arrow-down" style="width: 14px; height: 14px;"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="modern-card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-md); flex-wrap: wrap; margin-bottom: var(--space-sm);">
+          <div>
+            <h3 class="card-title"><i data-lucide="table" style="width: 18px; height: 18px; color: var(--primary);"></i> Ma trận Yêu cầu cần đạt (YCCĐ) chi tiết theo Lớp 1–5</h3>
+            <p class="card-subtitle" style="margin-bottom: 0;">Trích xuất đầy đủ, trung thực từ bảng dữ liệu HAN.docx qua 4 môn học: Toán, Tiếng Việt, Tin học, Công nghệ và Liên môn</p>
+          </div>
+          <div style="font-size: 0.82rem; color: var(--on-surface-subtle);" id="yccd-count-text">Hiển thị 18/18 chỉ mục YCCĐ</div>
+        </div>
+
+        <div style="margin-top: var(--space-md);">
+          <div class="field-label" style="margin-bottom: 0.35rem;"><i data-lucide="layers" style="width: 14px; height: 14px;"></i> Lọc theo từng Khối lớp:</div>
+          <div class="chip-row" id="grade-chips" role="group" aria-label="Lọc theo khối lớp">
+            <button type="button" class="chip-btn is-active" onclick="setCurrGrade('all', this)">Tất cả Lớp 1–5</button>
+            <button type="button" class="chip-btn" onclick="setCurrGrade('Lớp 1', this)">Lớp 1 (Nhận biết ban đầu)</button>
+            <button type="button" class="chip-btn" onclick="setCurrGrade('Lớp 2', this)">Lớp 2 (Thao tác cơ bản)</button>
+            <button type="button" class="chip-btn" onclick="setCurrGrade('Lớp 3', this)">Lớp 3 (Bắt đầu môn Tin học)</button>
+            <button type="button" class="chip-btn" onclick="setCurrGrade('Lớp 4', this)">Lớp 4 (Vận dụng &amp; Khai thác)</button>
+            <button type="button" class="chip-btn" onclick="setCurrGrade('Lớp 5', this)">Lớp 5 (Sáng tạo &amp; Dự án)</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="field-label" style="margin-bottom: 0.35rem;"><i data-lucide="book" style="width: 14px; height: 14px;"></i> Lọc theo Môn học:</div>
+          <div class="chip-row" id="subject-chips" role="group" aria-label="Lọc theo môn học">
+            <button type="button" class="chip-btn is-active" onclick="setCurrSubject('all', this)">Tất cả môn học</button>
+            <button type="button" class="chip-btn" onclick="setCurrSubject('Toán', this)"><i data-lucide="calculator" style="width: 14px; height: 14px;"></i> Môn Toán (1–5)</button>
+            <button type="button" class="chip-btn" onclick="setCurrSubject('Tiếng Việt', this)"><i data-lucide="book-open" style="width: 14px; height: 14px;"></i> Môn Tiếng Việt (1–5)</button>
+            <button type="button" class="chip-btn" onclick="setCurrSubject('Tin học', this)"><i data-lucide="laptop" style="width: 14px; height: 14px;"></i> Môn Tin học (3–5)</button>
+            <button type="button" class="chip-btn" onclick="setCurrSubject('Công nghệ', this)"><i data-lucide="cpu" style="width: 14px; height: 14px;"></i> Môn Công nghệ (3–5)</button>
+            <button type="button" class="chip-btn" onclick="setCurrSubject('Liên môn & Đạo đức số', this)"><i data-lucide="shield" style="width: 14px; height: 14px;"></i> Liên môn &amp; Đạo đức số</button>
+          </div>
+        </div>
+
+        <div class="yccd-grid" id="yccd-grid" style="margin-top: var(--space-md);"></div>
+      </div>
+
+      <div class="modern-card" style="margin-top: var(--space-lg);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-md);">
+          <div>
+            <h3 class="card-title"><i data-lucide="help-circle" style="width: 18px; height: 18px; color: var(--tertiary);"></i> Trắc nghiệm chẩn đoán: Phân loại tình huống dạy học Tiểu học</h3>
+            <p class="card-subtitle" style="margin-bottom: 0;">Kiểm tra năng lực phân biệt giữa Ứng dụng CNTT (Dạy học có thiết bị) và Phát triển Năng lực số cho HS</p>
+          </div>
+          <div class="badge badge-tag" id="quiz-score-line">Đã trả lời: 0/4 câu hỏi</div>
+        </div>
+        <div id="quiz-container"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: INTEGRATION -->
+    <section id="sec-integration" class="section-wrap" aria-labelledby="h-integration">
+      <div class="section-header">
+        <div class="section-tag-row"><span class="section-tag">05 · ĐỀ XUẤT TÍCH HỢP MÔN HỌC</span></div>
+        <h2 class="section-title" id="h-integration">Đề xuất cách tích hợp năng lực số phù hợp với từng môn học</h2>
+        <p class="section-deck">
+          Bám sát nội dung chi tiết trong tài liệu HAN.docx: Định hướng tích hợp cụ thể theo từng khối lớp cho 4 môn học nòng cốt (Toán, Tiếng Việt, Tin học, Công nghệ), kết hợp đề xuất công cụ số và phương pháp tổ chức lớp học.
+        </p>
+      </div>
+
+      <div class="modern-card">
+        <div class="integration-subject-nav" role="tablist">
+          <button type="button" class="integration-tab-btn is-active" onclick="switchIntegrationTab('Toán', this)">
+            <i data-lucide="calculator" style="width: 18px; height: 18px;"></i> Môn Toán (Lớp 1–5)
+          </button>
+          <button type="button" class="integration-tab-btn" onclick="switchIntegrationTab('Tiếng Việt', this)">
+            <i data-lucide="book-open" style="width: 18px; height: 18px;"></i> Môn Tiếng Việt (Lớp 1–5)
+          </button>
+          <button type="button" class="integration-tab-btn" onclick="switchIntegrationTab('Tin học', this)">
+            <i data-lucide="laptop" style="width: 18px; height: 18px;"></i> Môn Tin học (Lớp 3–5)
+          </button>
+          <button type="button" class="integration-tab-btn" onclick="switchIntegrationTab('Công nghệ', this)">
+            <i data-lucide="cpu" style="width: 18px; height: 18px;"></i> Môn Công nghệ (Lớp 3–5)
+          </button>
+        </div>
+
+        <div id="integration-content-box"></div>
+
+        <div style="margin-top: var(--space-lg); padding: var(--space-md) var(--space-lg); background: var(--surface-container); border-radius: var(--rounded-sm); border-left: 4px solid var(--positive);">
+          <div class="field-label" style="color: var(--positive); margin-bottom: 0.35rem; font-size: 0.9rem;">
+            <i data-lucide="check-circle" style="width: 16px; height: 16px;"></i> 3 NGUYÊN TẮC VÀNG KHI TÍCH HỢP NĂNG LỰC SỐ VÀO CÁC MÔN HỌC TIỂU HỌC
+          </div>
+          <div style="font-size: 0.88rem; color: var(--on-surface-variant); display: flex; flex-direction: column; gap: 0.4rem;">
+            <div><strong>1. Công cụ phục vụ mục tiêu môn học:</strong> Thiết bị số chỉ là phương tiện để làm sáng rõ và khắc sâu tri thức bộ môn; tuyệt đối không biến giờ học Toán, Tiếng Việt thành buổi học lý thuyết Tin học rườm rà.</div>
+            <div><strong>2. Tăng cường thời gian học sinh tự làm:</strong> Giảm thiểu thời lượng giáo viên thao tác độc thoại; dành thời gian cho học sinh tự bấm chọn, nhập dữ liệu, kéo thả, quan sát và rút ra kết luận khoa học.</div>
+            <div><strong>3. Đảm bảo an toàn và sức khỏe học đường:</strong> Tuân thủ quy định thời gian tiếp xúc màn hình phù hợp theo từng độ tuổi (dưới 15-20 phút/tiết học đối với lớp 1-2); giáo dục thói quen bảo mật thông tin và tôn trọng bản quyền số.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: INTERNATIONAL COMPARISON -->
+    <section id="sec-international" class="section-wrap" aria-labelledby="h-international">
+      <div class="section-header">
+        <div class="section-tag-row"><span class="section-tag">06 · ĐỐI CHIẾU QUỐC TẾ 3 NƯỚC</span></div>
+        <h2 class="section-title" id="h-international">So sánh chiến lược Năng lực số &amp; AI Tiểu học: Việt Nam – Singapore – Hàn Quốc</h2>
+        <p class="section-deck">
+          Đối chiếu 6 trụ cột chính sách giữa Việt Nam và hai mô hình giáo dục công nghệ hàng đầu châu Á. Đánh giá định tính phản ánh mức độ thể chế hóa, rút ra bài học có điều kiện cho giáo dục tiểu học Việt Nam.
+        </p>
+      </div>
+
+      <div class="split-2">
+        <div class="modern-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm); flex-wrap: wrap; gap: var(--space-xs);">
+            <h3 class="card-title"><i data-lucide="radar" style="width: 18px; height: 18px; color: var(--primary);"></i> Biểu đồ Radar 6 Trụ cột Chính sách (1–5)</h3>
+            <div style="display: flex; gap: 0.35rem;">
+              <button type="button" class="btn btn-secondary btn-sm" id="radar-mode-all" onclick="setRadarMode('all')">Xem cả 3 nước</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="radar-mode-sg" onclick="setRadarMode('sg')">VN vs Singapore</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="radar-mode-kr" onclick="setRadarMode('kr')">VN vs Hàn Quốc</button>
+            </div>
+          </div>
+          <p class="card-subtitle">So sánh điểm số phân tích 6 chiều chính sách giáo dục tiểu học</p>
+          <div class="chart-box-radar"><canvas id="chart-intl-radar"></canvas></div>
+        </div>
+
+        <div class="modern-card">
+          <h3 class="card-title"><i data-lucide="file-badge" style="width: 18px; height: 18px; color: var(--secondary);"></i> Hồ sơ chiến lược &amp; Bài học có điều kiện</h3>
+          <p class="card-subtitle">Nhấp chọn quốc gia để xem phân tích chi tiết</p>
+          <div class="country-selector-strip" id="intl-tabs" role="tablist"></div>
+          <div id="intl-detail-box" style="margin-top: var(--space-md);"></div>
+        </div>
+      </div>
+
+      <div class="modern-card" style="margin-top: var(--space-md);">
+        <h3 class="card-title"><i data-lucide="columns-3" style="width: 18px; height: 18px; color: var(--positive);"></i> Bảng tổng hợp đối chiếu 6 trụ cột chính sách (3 Quốc gia)</h3>
+        <div style="overflow-x: auto; margin-top: var(--space-sm);">
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th style="width: 18%;">Quốc gia</th>
+                <th style="width: 13%;">Khung pháp lý</th>
+                <th style="width: 13%;">Môn Tin học/AI</th>
+                <th style="width: 13%;">Hạ tầng trường học</th>
+                <th style="width: 13%;">Học liệu &amp; Nền tảng</th>
+                <th style="width: 13%;">Đào tạo GV</th>
+                <th style="width: 17%;">An toàn &amp; Dữ liệu trẻ em</th>
+              </tr>
+            </thead>
+            <tbody id="intl-matrix-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: AI TRANSPARENCY & FIELD RECOMMENDATIONS -->
+    <section id="sec-ai-log" class="section-wrap" aria-labelledby="h-ai-log">
+      <div class="section-header">
+        <div class="section-tag-row"><span class="section-tag">07 · MINH BẠCH AI &amp; KHUYẾN NGHỊ THỰC TIỄN</span></div>
+        <h2 class="section-title" id="h-ai-log">Nhật ký minh bạch AI, sửa lỗi phân tích &amp; Khuyến nghị triển khai</h2>
+        <p class="section-deck">
+          Báo cáo trung thực toàn bộ quy trình kiểm chứng: loại bỏ các trường hợp AI suy diễn quá mức, nhầm hiệu lực pháp lý và đề xuất kế hoạch bài dạy minh họa thực tế.
+        </p>
+      </div>
+
+      <div class="split-2">
+        <div class="modern-card">
+          <h3 class="card-title"><i data-lucide="terminal" style="width: 18px; height: 18px; color: var(--tertiary);"></i> Mẫu Prompt chuẩn hóa &amp; 3 lỗi AI đã hiệu chỉnh</h3>
+          <p class="card-subtitle">Tỷ lệ khớp nhãn gốc 19/22 (86,4%) · Loại trừ hoàn toàn ảo giác AI</p>
+
+          <div style="margin-bottom: var(--space-md);">
+            <div class="field-label" style="margin-bottom: 0.35rem;">Prompt gán nhãn &amp; trích xuất minh chứng chính sách:</div>
+            <div class="prompt-box">Vai trò: Chuyên viên phân tích chính sách giáo dục Việt Nam.
+Đầu vào: [Toàn văn/trích đoạn văn bản chính thức + Số hiệu + Ngày ban hành].
+Nhiệm vụ: (1) Gán tối đa 3 nhãn trong 6 nhóm: Hạ tầng, Học liệu, Năng lực số, Giáo viên, AI, Dữ liệu; (2) Trích dẫn nguyên văn 1 câu làm minh chứng; (3) Nếu văn bản không nêu trực tiếp cấp tiểu học hoặc AI, ghi rõ "Không đề cập trực tiếp", tuyệt đối không suy diễn.</div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+            <div style="padding: var(--space-sm) var(--space-md); background: var(--surface-container); border-left: 4px solid var(--error); border-radius: var(--rounded-sm);">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-xs); flex-wrap: wrap;">
+                <strong>Lỗi #1 · VB-10 (Nghị định 13/2023/NĐ-CP)</strong>
+                <span class="badge badge-ai-fixed">AI nhầm hiệu lực pháp lý</span>
+              </div>
+              <p style="margin: 0.35rem 0 0 0; font-size: 0.84rem; color: var(--on-surface-variant);">
+                <strong>AI kết luận sai:</strong> Ghi "Văn bản cao nhất đang điều chỉnh dữ liệu học sinh năm 2026".<br>
+                <strong>Sửa sau kiểm chứng:</strong> Từ 01/01/2026, Luật Bảo vệ dữ liệu cá nhân 2025 (VB-19) đã có hiệu lực nâng cấp và kế thừa các quy định của NĐ 13/2023.
+              </p>
+            </div>
+
+            <div style="padding: var(--space-sm) var(--space-md); background: var(--surface-container); border-left: 4px solid var(--error); border-radius: var(--rounded-sm);">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-xs); flex-wrap: wrap;">
+                <strong>Lỗi #2 · VB-08 (Công văn 3935/BGDĐT-GDTH năm 2022)</strong>
+                <span class="badge badge-ai-fixed">AI gán quá mức nhãn AI</span>
+              </div>
+              <p style="margin: 0.35rem 0 0 0; font-size: 0.84rem; color: var(--on-surface-variant);">
+                <strong>AI kết luận sai:</strong> Tự động gắn nhãn "Trí tuệ nhân tạo (AI)" vì có cụm từ "chuyển đổi số &amp; Tin học lớp 3".<br>
+                <strong>Sửa sau kiểm chứng:</strong> Gỡ nhãn AI; văn bản chỉ hướng dẫn triển khai môn Tin học CT 2018 và STEM tiểu học, chưa có nội dung AI.
+              </p>
+            </div>
+
+            <div style="padding: var(--space-sm) var(--space-md); background: var(--surface-container); border-left: 4px solid var(--error); border-radius: var(--rounded-sm);">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-xs); flex-wrap: wrap;">
+                <strong>Lỗi #3 · VB-16 (Thông tư 02/2025/TT-BGDĐT)</strong>
+                <span class="badge badge-ai-fixed">AI suy diễn lứa tuổi tiểu học</span>
+              </div>
+              <p style="margin: 0.35rem 0 0 0; font-size: 0.84rem; color: var(--on-surface-variant);">
+                <strong>AI kết luận sai:</strong> Suy diễn "HS lớp 1–2 phải sử dụng trực tiếp công cụ AI tạo sinh để tạo sản phẩm học tập".<br>
+                <strong>Sửa sau kiểm chứng:</strong> Khung NLS phân bậc tăng tiến; tiểu học (nhất là lớp 1–2) chỉ nhận biết thông tin và thao tác dưới sự giám sát của giáo viên.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="modern-card">
+          <div class="badge badge-valid" style="margin-bottom: var(--space-xs);">KHUYẾN NGHỊ THỰC THI THỰC TẾ</div>
+          <h3 class="card-title">Kế hoạch bài dạy mẫu: Tích hợp Năng lực số vào Môn Khoa học Lớp 5</h3>
+          <p class="card-subtitle">Chủ đề: "Năng lượng sạch &amp; Kiểm chứng thông tin trên môi trường số" (2 tiết phối hợp)</p>
+
+          <div style="display: flex; flex-direction: column; gap: var(--space-sm); margin-bottom: var(--space-md);">
+            <div style="background: var(--surface-container); border-radius: var(--rounded-sm); padding: 0.75rem; border-left: 3px solid var(--primary);">
+              <strong style="color: var(--primary); font-size: 0.84rem;">BƯỚC 1 · XÁC LẬP YCCĐ BỘ MÔN VÀ KHUNG NLS (TT 02/2025)</strong>
+              <div style="font-size: 0.85rem; margin-top: 0.2rem;">
+                Học sinh nêu được ưu điểm của năng lượng mặt trời, đồng thời thực hành <strong>Miền 1 (Khai thác dữ liệu)</strong>: so sánh 2 nguồn bài viết để phân biệt thông tin khoa học với bài viết câu view trên mạng.
+              </div>
+            </div>
+
+            <div style="background: var(--surface-container); border-radius: var(--rounded-sm); padding: 0.75rem; border-left: 3px solid var(--secondary);">
+              <strong style="color: var(--secondary); font-size: 0.84rem;">BƯỚC 2 · GIAO NHIỆM VỤ AN TOÀN TRONG VÙNG KIỂM DUYỆT</strong>
+              <div style="font-size: 0.85rem; margin-top: 0.2rem;">
+                Học sinh làm việc nhóm với phiếu tài liệu mở đã qua kiểm duyệt của giáo viên; sử dụng công cụ tìm kiếm an toàn (Kiddle hoặc kho học liệu trường), tuyệt đối không mở tài khoản AI cá nhân trái luật trẻ em.
+              </div>
+            </div>
+
+            <div style="background: var(--surface-container); border-radius: var(--rounded-sm); padding: 0.75rem; border-left: 3px solid var(--positive);">
+              <strong style="color: var(--positive); font-size: 0.84rem;">BƯỚC 3 · SẢN PHẨM SỐ &amp; ĐÁNH GIÁ THỰC CHẤT</strong>
+              <div style="font-size: 0.85rem; margin-top: 0.2rem;">
+                Tạo 1 Poster số ngắn tuyên truyền tiết kiệm điện tại trường học, có ghi nguồn trích dẫn rõ ràng (Miền 3: Sáng tạo nội dung số có trách nhiệm).
+              </div>
+            </div>
+          </div>
+
+          <div style="background: var(--surface-container-high); border-radius: var(--rounded-sm); padding: var(--space-md);">
+            <strong style="font-size: 0.85rem; color: var(--on-surface);">4 KHUYẾN NGHỊ QUẢN LÝ CHO BẬC TIỂU HỌC:</strong>
+            <ol style="margin: 0.4rem 0 0 0; padding-left: 1.2rem; font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.35rem; color: var(--on-surface-variant);">
+              <li><strong>Xây dựng kho học liệu đóng có kiểm duyệt:</strong> Học tập mô hình SLS Singapore để đảm bảo an toàn tuyệt đối cho học sinh trước khi đưa công cụ số vào lớp.</li>
+              <li><strong>Bồi dưỡng năng lực sư phạm số cho giáo viên chủ nhiệm:</strong> Năng lực số là trách nhiệm chung của toàn bộ giáo viên tiểu học, không giao khoán cho GV Tin học.</li>
+              <li><strong>Thực thi nghiêm Luật Bảo vệ dữ liệu cá nhân 2025:</strong> Cấm thu thập dữ liệu sinh trắc học hoặc thông tin nhạy cảm của học sinh tiểu học trái phép.</li>
+              <li><strong>Đánh giá thực chất:</strong> Chuyển từ đếm "số tiết có trình chiếu" sang đánh giá "sản phẩm số tự chủ và tư duy an toàn mạng của học sinh".</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer style="margin-top: var(--space-xl); padding: var(--space-lg); background: var(--surface-container); border-radius: var(--rounded-lg); border: var(--card-border);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-xs);">
+        <strong style="font-size: 0.9rem; color: var(--on-surface);">NGUỒN THAM CHIẾU VÀ GIỚI HẠN PHƯƠNG PHÁP</strong>
+        <span class="badge badge-tag">SẢN PHẨM ĐỀ TÀI 17 · TIỂU LUẬN CAO HỌC GIÁO DỤC TIỂU HỌC</span>
+      </div>
+      <p style="margin: 0; font-size: 0.82rem; color: var(--on-surface-subtle); line-height: 1.5;">
+        <strong>Nguồn tài liệu chính thức:</strong> Cổng Thông tin điện tử Chính phủ (vanban.chinhphu.vn), Cổng Thông tin Quốc hội (quochoi.vn), Bộ Giáo dục và Đào tạo (Chương trình GDPT 2018 ban hành kèm TT 32/2018/TT-BGDĐT, TT 02/2025/TT-BGDĐT Khung năng lực số người học), Bộ Giáo dục Singapore (EdTech Masterplan 2030), Bộ Giáo dục Hàn Quốc (AI Digital Textbook Initiative &amp; 2022 Revised Curriculum).<br>
+        <strong>Giới hạn khoa học:</strong> Điểm số phân tích đối chiếu 3 quốc gia (thang 1–5) là chỉ số định tính tổng hợp của nhóm nghiên cứu phục vụ mục đích trực quan hóa thể chế; dữ liệu YCCĐ và đề xuất tích hợp được chuẩn hóa theo Chương trình GDPT 2018 và tài liệu HAN.docx.
+      </p>
+    </footer>
+
+  </div>
+
+  <script>
+const POLICY_DOCS = [
+  { id: `VB-01`, code: `Thông tư 32/2018/TT-BGDĐT`, title: `Ban hành Chương trình giáo dục phổ thông (CTGDPT 2018)`, year: 2018, period: `2018-2021`, issuer: `Bộ GD&ĐT`, status: `Còn hiệu lực`, themes: [`Năng lực số`, `Giáo viên`, `Học liệu`], aiLabelMatch: true, aiNote: `Khớp 100%: AI và người chấm đều gán đúng 3 trụ cột nền tảng CT 2018.`, excerpt: `Môn Tin học trở thành môn học bắt buộc từ lớp 3 (35 tiết/năm học), hình thành và phát triển năng lực tin học gồm 5 thành phần (NLa đến NLe), đặt nền móng cho năng lực số bậc tiểu học.`, primaryImpact: `Xác lập vị thế pháp lý bắt buộc của Tin học tiểu học từ lớp 3 và yêu cầu tích hợp công nghệ trong các môn học khác.` },
+  { id: `VB-02`, code: `Quyết định 749/QĐ-TTg`, title: `Chương trình Chuyển đổi số quốc gia đến năm 2025, định hướng 2030`, year: 2020, period: `2018-2021`, issuer: `Trung ương / Quốc hội / Chính phủ`, status: `Còn hiệu lực`, themes: [`Hạ tầng`, `Học liệu`, `Dữ liệu`], aiLabelMatch: true, aiNote: `Khớp 100%: Phản ánh đúng ưu tiên chuyển đổi số ngành giáo dục ở tầm chiến lược.`, excerpt: `Xác định Giáo dục là 1 trong 8 lĩnh vực ưu tiên chuyển đổi số; phát triển nền tảng hỗ trợ dạy và học từ xa, ứng dụng triệt để công nghệ số trong quản lý, giảng dạy và học tập.`, primaryImpact: `Tạo cơ sở đầu tư nền tảng học liệu dùng chung và quản trị hồ sơ học sinh tiểu học điện tử.` },
+  { id: `VB-03`, code: `Quyết định 127/QĐ-TTg`, title: `Chiến lược quốc gia về nghiên cứu, phát triển và ứng dụng AI đến 2030`, year: 2021, period: `2018-2021`, issuer: `Trung ương / Quốc hội / Chính phủ`, status: `Còn hiệu lực`, themes: [`AI`, `Năng lực số`, `Giáo viên`], aiLabelMatch: true, aiNote: `Khớp 100%: Văn bản khung đầu tiên đưa định hướng phổ cập nhận thức AI.`, excerpt: `Định hướng bổ sung kiến thức cơ bản về trí tuệ nhân tạo và kỹ năng số phù hợp vào chương trình giáo dục phổ thông nhằm chuẩn bị nguồn nhân lực cho nền kinh tế số.`, primaryImpact: `Mở đường cho việc đưa làm quen tư duy thuật toán và nhận diện AI cơ bản vào các hoạt động STEM/Tin học tiểu học.` },
+  { id: `VB-04`, code: `Thông tư 09/2021/TT-BGDĐT`, title: `Quy định quản lý và tổ chức dạy học trực tuyến trong cơ sở GDPT`, year: 2021, period: `2018-2021`, issuer: `Bộ GD&ĐT`, status: `Còn hiệu lực`, themes: [`Học liệu`, `Giáo viên`, `Hạ tầng`], aiLabelMatch: true, aiNote: `Khớp 100%: Chuẩn hóa quy trình dạy học trực tuyến và học liệu số.`, excerpt: `Quy định tiêu chuẩn hệ thống dạy học trực tuyến, trách nhiệm của giáo viên trong thiết kế học liệu số và lưu ý thời lượng tương tác trực tuyến phù hợp tâm sinh lý học sinh tiểu học.`, primaryImpact: `Ràng buộc giới hạn thời gian ngồi màn hình và yêu cầu bảo đảm tương tác an toàn cho học sinh lớp 1–5.` },
+  { id: `VB-05`, code: `Quyết định 131/QĐ-TTg`, title: `Đề án Tăng cường ứng dụng CNTT và chuyển đổi số trong GD&ĐT 2022–2025`, year: 2022, period: `2022-2024`, issuer: `Trung ương / Quốc hội / Chính phủ`, status: `Hoàn thành giai đoạn`, themes: [`Hạ tầng`, `Học liệu`, `Giáo viên`, `Dữ liệu`], aiLabelMatch: true, aiNote: `Khớp 100%: Đề án xương sống giai đoạn 2022–2025 của ngành giáo dục.`, excerpt: `Đặt mục tiêu 100% cơ sở giáo dục phổ thông quản trị trên môi trường số, hình thành kho học liệu số dùng chung toàn ngành và bồi dưỡng kỹ năng số cho 100% nhà giáo.`, primaryImpact: `Thúc đẩy học bạ số tiểu học, thư viện học liệu số và tập huấn năng lực CNTT cho giáo viên tiểu học toàn quốc.` },
+  { id: `VB-06`, code: `Quyết định 146/QĐ-TTg`, title: `Đề án Nâng cao nhận thức, phổ cập kỹ năng & phát triển nhân lực CĐS đến 2025`, year: 2022, period: `2022-2024`, issuer: `Trung ương / Quốc hội / Chính phủ`, status: `Hoàn thành giai đoạn`, themes: [`Năng lực số`, `Giáo viên`], aiLabelMatch: true, aiNote: `Khớp 100%: Nhấn mạnh phổ cập kỹ năng số cơ bản và an toàn mạng.`, excerpt: `Phối hợp các nền tảng học tập mở trực tuyến để phổ cập kỹ năng sử dụng dịch vụ số an toàn, nhận diện thông tin xấu độc cho học sinh và cán bộ quản lý giáo dục.`, primaryImpact: `Bổ trợ các chuyên đề an toàn không gian mạng cho học sinh cuối cấp tiểu học.` },
+  { id: `VB-07`, code: `Quyết định 411/QĐ-TTg`, title: `Chiến lược quốc gia phát triển kinh tế số và xã hội số đến 2025, định hướng 2030`, year: 2022, period: `2022-2024`, issuer: `Trung ương / Quốc hội / Chính phủ`, status: `Còn hiệu lực`, themes: [`Năng lực số`, `Hạ tầng`], aiLabelMatch: true, aiNote: `Khớp 100%: Đặt chỉ tiêu công dân số và hạ tầng băng rộng trường học.`, excerpt: `Mục tiêu phổ cập kỹ năng số cơ bản cho người dân và học sinh; đảm bảo hạ tầng kết nối internet phục vụ đổi mới phương pháp dạy học trên môi trường số.`, primaryImpact: `Thúc đẩy tỷ lệ trường tiểu học vùng khó khăn được kết nối băng rộng phục vụ môn Tin học lớp 3.` },
+  { id: `VB-08`, code: `Công văn 3935/BGDĐT-GDTH`, title: `Hướng dẫn thực hiện nhiệm vụ giáo dục tiểu học năm học 2022–2023`, year: 2022, period: `2022-2024`, issuer: `Bộ GD&ĐT`, status: `Hoàn thành giai đoạn`, themes: [`Năng lực số`, `Giáo viên`, `Học liệu`], aiLabelMatch: false, aiNote: `AI GÁN NHẦM NHÃN AI: AI suy diễn văn bản có giáo dục AI; thực chất chỉ hướng dẫn Tin học lớp 3 bắt buộc và thí điểm STEM tiểu học. Đã sửa thủ công.`, excerpt: `Triển khai dạy học môn Tin học bắt buộc từ lớp 3 theo CTGDPT 2018; khuyến khích giáo dục STEM và sử dụng học liệu điện tử phù hợp điều kiện từng địa phương.`, primaryImpact: `Cột mốc năm học đầu tiên Tin học chính thức thành môn bắt buộc ở lớp 3 trên toàn quốc.` },
+  { id: `VB-09`, code: `Thông tư 16/2022/TT-BGDĐT`, title: `Quy định tiêu chuẩn thư viện cơ sở giáo dục mầm non và phổ thông`, year: 2022, period: `2022-2024`, issuer: `Bộ GD&ĐT`, status: `Còn hiệu lực`, themes: [`Hạ tầng`, `Học liệu`], aiLabelMatch: true, aiNote: `Khớp 100%: Chuẩn hóa thư viện số và tài nguyên học tập số trong trường tiểu học.`, excerpt: `Quy định tài nguyên thông tin thư viện gồm tài liệu in và tài nguyên số (sách điện tử, học liệu đa phương tiện, phần mềm quản lý thư viện kết nối liên thông).`, primaryImpact: `Tạo chuẩn pháp lý để trường tiểu học đầu tư học liệu số và không gian đọc – tra cứu số an toàn.` },
+  { id: `VB-10`, code: `Nghị định 13/2023/NĐ-CP`, title: `Nghị định về Bảo vệ dữ liệu cá nhân (Điều 20 bảo vệ dữ liệu trẻ em)`, year: 2023, period: `2022-2024`, issuer: `Trung ương / Quốc hội / Chính phủ`, status: `Sửa đổi / Thay thế`, themes: [`Dữ liệu`, `AI`], aiLabelMatch: false, aiNote: `AI NHẦM HIỆU LỰC 2026: AI đánh dấu "Còn hiệu lực cao nhất"; thực tế từ 01/01/2026 đã được Luật Bảo vệ dữ liệu cá nhân (Luật 91/2025/QH15) thay thế/nâng cấp. Đã cập nhật trạng thái.`, excerpt: `Bảo vệ dữ liệu cá nhân của trẻ em luôn thực hiện theo nguyên tắc bảo vệ quyền và lợi ích tốt nhất của trẻ em; việc xử lý dữ liệu trẻ em dưới 16 tuổi phải có sự đồng ý của cha mẹ hoặc người giám hộ.`, primaryImpact: `Cảnh báo các trường tiểu học không thu thập, đăng tải hình ảnh, điểm số hay dữ liệu sinh trắc học học sinh lên công cụ số/AI công cộng khi chưa được đồng ý.` },
+  { id: `VB-11`, code: `Công văn 909/BGDĐT-GDTH`, title: `Hướng dẫn tổ chức hoạt động giáo dục STEM trong giáo dục tiểu học`, year: 2023, period: `2022-2024`, issuer: `Bộ GD&ĐT`, status: `Còn hiệu lực`, themes: [`Năng lực số`, `Học liệu`, `Giáo viên`], aiLabelMatch: true, aiNote: `Khớp 100%: Kết nối STEM tiểu học với năng lực công nghệ và tin học.`, excerpt: `Tổ chức bài học STEM, hoạt động trải nghiệm STEM và nghiên cứu khoa học kỹ thuật dựa trên tích hợp Khoa học, Công nghệ, Kỹ thuật, Toán học và Tin học phù hợp học sinh tiểu học.`, primaryImpact: `Cung cấp khung tích hợp liên môn tự nhiên nhất để phát triển năng lực số qua giải quyết vấn đề thực tiễn.` },
+  { id: `VB-12`, code: `Quyết định 1315/QĐ-BGDĐT`, title: `Bộ chỉ số đánh giá mức độ chuyển đổi số cơ sở GDPT và GDTX`, year: 2023, period: `2022-2024`, issuer: `Bộ GD&ĐT`, status: `Còn hiệu lực`, themes: [`Hạ tầng`, `Dữ liệu`, `Học liệu`, `Giáo viên`], aiLabelMatch: true, aiNote: `Khớp 100%: Bộ thước đo định lượng CĐS tại từng trường tiểu học.`, excerpt: `Đánh giá theo 2 nhóm tiêu chí thành phần: Chuyển đổi số trong dạy – học (học liệu số, tương tác, đánh giá) và Chuyển đổi số trong quản trị cơ sở giáo dục.`, primaryImpact: `Buộc các trường tiểu học tự đánh giá thực trạng hạ tầng, hồ sơ số và mức độ sử dụng học liệu số hằng năm.` },
+  { id: `VB-13`, code: `Quyết định 1705/QĐ-TTg`, title: `Chiến lược phát triển giáo dục đến năm 2030, tầm nhìn đến năm 2045`, year: 2024, period: `2022-2024`, issuer: `Trung ương / Quốc hội / Chính phủ`, status: `Còn hiệu lực`, themes: [`Năng lực số`, `AI`, `Giáo viên`, `Hạ tầng`], aiLabelMatch: true, aiNote: `Khớp 100%: Định hướng chiến lược giáo dục dài hạn gắn với AI và nhân lực số.`, excerpt: `Đẩy mạnh chuyển đổi số, phát triển năng lực số cho người học và nhà giáo; ứng dụng trí tuệ nhân tạo trong đổi mới phương pháp dạy học, kiểm tra đánh giá và quản lý giáo dục.`, primaryImpact: `Khẳng định năng lực số và AI là trụ cột xuyên suốt của giáo dục phổ thông giai đoạn 2025–2030.` },
+  { id: `VB-14`, code: `Nghị quyết 57-NQ/TW`, title: `Về đột phá phát triển khoa học, công nghệ, đổi mới sáng tạo và CĐS quốc gia`, year: 2024, period: `2022-2024`, issuer: `Trung ương / Quốc hội / Chính phủ`, status: `Còn hiệu lực`, themes: [`AI`, `Năng lực số`, `Dữ liệu`, `Hạ tầng`], aiLabelMatch: true, aiNote: `Khớp 100%: Nghị quyết bước ngoặt tạo động lực chính trị cao nhất cho giáo dục số & AI.`, excerpt: `Chú trọng phát triển nhân lực chất lượng cao về AI, dữ liệu và công nghệ số; đẩy mạnh giáo dục STEM, tin học và phổ cập kỹ năng số toàn diện từ bậc học phổ thông.`, primaryImpact: `Thúc đẩy ban hành nhanh các chính sách năng lực số và thí điểm giáo dục AI cấp tiểu học năm 2025–2026.` },
+  { id: `VB-15`, code: `Nghị quyết 03/NQ-CP`, title: `Chương trình hành động của Chính phủ thực hiện Nghị quyết 57-NQ/TW`, year: 2025, period: `2025-2026`, issuer: `Trung ương / Quốc hội / Chính phủ`, status: `Còn hiệu lực`, themes: [`AI`, `Năng lực số`, `Giáo viên`, `Học liệu`], aiLabelMatch: true, aiNote: `Khớp 100%: Giao chỉ tiêu cụ thể cho Bộ GD&ĐT trong năm 2025–2026.`, excerpt: `Giao Bộ GD&ĐT xây dựng khung năng lực số, đẩy mạnh tích hợp AI và STEM trong chương trình giáo dục phổ thông, phát triển kho học liệu số mở và đào tạo lại đội ngũ giáo viên.`, primaryImpact: `Tạo cơ chế ngân sách và nhiệm vụ bắt buộc triển khai Khung NLS xuống tận cấp tiểu học.` },
+  { id: `VB-16`, code: `Thông tư 02/2025/TT-BGDĐT`, title: `Quy định Khung năng lực số cho người học`, year: 2025, period: `2025-2026`, issuer: `Bộ GD&ĐT`, status: `Còn hiệu lực`, themes: [`Năng lực số`, `AI`, `Dữ liệu`], aiLabelMatch: false, aiNote: `AI SUY DIỄN QUÁ ĐÀ: AI ghi "HS lớp 1–2 bắt buộc dùng AI tạo sinh". Đã sửa: Khung quy định 6 miền năng lực theo mức độ tăng tiến; tiểu học ưu tiên nhận biết, an toàn và ứng dụng cơ bản có hướng dẫn.`, excerpt: `Xác lập 6 miền năng lực số (Khai thác dữ liệu và thông tin; Giao tiếp và hợp tác; Sáng tạo nội dung số; An toàn; Giải quyết vấn đề; Ứng dụng AI) tương thích khung quốc tế với các bậc trình độ phù hợp lứa tuổi.`, primaryImpact: `Văn bản pháp quy đầu tiên chuẩn hóa cấu trúc Năng lực số và AI thành chuẩn đầu ra cho học sinh phổ thông.` },
+  { id: `VB-17`, code: `Công văn 3456/BGDĐT-GDPT`, title: `Hướng dẫn triển khai thực hiện Khung năng lực số cho học sinh phổ thông`, year: 2025, period: `2025-2026`, issuer: `Bộ GD&ĐT`, status: `Còn hiệu lực`, themes: [`Năng lực số`, `Giáo viên`, `Học liệu`], aiLabelMatch: true, aiNote: `Khớp 100%: Văn bản hướng dẫn thực thi trực tiếp TT 02/2025 tại nhà trường.`, excerpt: `Hướng dẫn tích hợp Khung năng lực số thông qua môn Tin học giữ vai trò chủ đạo kết hợp lồng ghép trong các môn học, hoạt động giáo dục và giáo dục STEM từ năm học 2025–2026.`, primaryImpact: `Giúp hiệu trưởng và tổ chuyên môn tiểu học thiết kế kế hoạch giáo dục nhà trường lồng ghép NLS không gây quá tải.` },
+  { id: `VB-18`, code: `Luật Công nghiệp công nghệ số (71/2025/QH15)`, title: `Luật Công nghiệp công nghệ số (Hành lang pháp lý về AI và kỹ năng số)`, year: 2025, period: `2025-2026`, issuer: `Trung ương / Quốc hội / Chính phủ`, status: `Còn hiệu lực`, themes: [`AI`, `Dữ liệu`, `Năng lực số`], aiLabelMatch: true, aiNote: `Khớp 100%: Đạo luật đầu tiên quy định quản lý rủi ro AI và gắn nhãn nội dung AI.`, excerpt: `Phân loại hệ thống AI theo mức độ rủi ro, yêu cầu minh bạch và gắn dấu hiệu nhận biết sản phẩm do AI tạo ra; khuyến khích phát triển nhân lực công nghệ số và giáo dục kỹ năng số.`, primaryImpact: `Đặt ra nguyên tắc pháp lý cho các phần mềm EdTech AI dùng trong trường tiểu học phải minh bạch và an toàn.` },
+  { id: `VB-19`, code: `Luật Bảo vệ dữ liệu cá nhân (91/2025/QH15)`, title: `Luật Bảo vệ dữ liệu cá nhân (Hiệu lực thi hành từ 01/01/2026)`, year: 2025, period: `2025-2026`, issuer: `Trung ương / Quốc hội / Chính phủ`, status: `Còn hiệu lực`, themes: [`Dữ liệu`, `AI`], aiLabelMatch: true, aiNote: `Khớp 100%: Nâng cấp NĐ 13/2023 lên tầm Luật, bảo vệ nghiêm ngặt dữ liệu trẻ em.`, excerpt: `Quy định chặt chẽ điều kiện xử lý dữ liệu cá nhân của trẻ em và dữ liệu nhạy cảm trên nền tảng số, ứng dụng trí tuệ nhân tạo; cấm sử dụng dữ liệu học sinh trái mục đích giáo dục.`, primaryImpact: `Ràng buộc trách nhiệm pháp lý cao nhất đối với nhà trường và nhà cung cấp LMS/AI tiểu học từ năm 2026.` },
+  { id: `VB-20`, code: `Nghị quyết 71-NQ/TW`, title: `Nghị quyết của Bộ Chính trị về đột phá phát triển giáo dục và đào tạo`, year: 2025, period: `2025-2026`, issuer: `Trung ương / Quốc hội / Chính phủ`, status: `Còn hiệu lực`, themes: [`Năng lực số`, `AI`, `Giáo viên`, `Hạ tầng`], aiLabelMatch: true, aiNote: `Khớp 100%: Định hướng hiện đại hóa chương trình và phổ cập năng lực số – AI.`, excerpt: `Đổi mới căn bản giáo dục phổ thông theo hướng phát triển toàn diện phẩm chất, năng lực số, năng lực ngoại ngữ và làm chủ công nghệ mới; đầu tư đồng bộ trường lớp thông minh.`, primaryImpact: `Tăng cường đầu tư thiết bị thực hành Tin học, phòng STEM và bồi dưỡng giáo viên tiểu học vùng khó.` },
+  { id: `VB-21`, code: `Thông tư 29/2024 & Hướng dẫn học liệu AI an toàn`, title: `Chuẩn hóa học liệu số và quản lý thiết bị/ứng dụng AI bổ trợ học tập`, year: 2025, period: `2025-2026`, issuer: `Liên ngành / Bộ KH&CN - TT&TT`, status: `Còn hiệu lực`, themes: [`Học liệu`, `Dữ liệu`, `AI`], aiLabelMatch: true, aiNote: `Khớp 100%: Chuẩn kỹ thuật kết nối nền tảng học liệu và kiểm định an toàn dữ liệu.`, excerpt: `Quy định chuẩn kết nối liên thông dữ liệu giáo dục, kiểm định tính chính xác nội dung học liệu số và cơ chế lọc nội dung không phù hợp lứa tuổi tiểu học trên nền tảng học tập.`, primaryImpact: `Giảm rủi ro học sinh tiểu học tiếp xúc sai lệch kiến thức hoặc quảng cáo độc hại khi tra cứu trực tuyến.` },
+  { id: `VB-22`, code: `Khung thí điểm Giáo dục AI phổ thông (2025–2026)`, title: `Hướng dẫn thí điểm nội dung giáo dục Trí tuệ nhân tạo cho học sinh phổ thông`, year: 2026, period: `2025-2026`, issuer: `Bộ GD&ĐT`, status: `Thí điểm / Định hướng`, themes: [`AI`, `Năng lực số`, `Giáo viên`, `Học liệu`], aiLabelMatch: true, aiNote: `Khớp 100%: Tập trung 4 mạch nội dung AI phù hợp lứa tuổi, không dạy lập trình nặng.`, excerpt: `Tổ chức giáo dục AI cho học sinh tiểu học theo 4 mạch: Tư duy lấy con người làm trung tâm; Đạo đức AI; Kỹ thuật & ứng dụng AI ở mức nhận biết trực quan; Thiết kế hệ thống AI đơn giản qua trải nghiệm.`, primaryImpact: `Định hình cách dạy AI tại tiểu học năm 2026: ưu tiên trò chơi nhận biết, đạo đức và kiểm chứng thông tin thay vì viết mã phức tạp.` }
+];
+
+const TIMELINE_MILESTONES = [
+  { year: 2018, shortLabel: `Nền móng CT 2018`, headline: `2018 · Ban hành CTGDPT 2018 & Tin học bắt buộc lớp 3`, summary: `Thông tư 32/2018/TT-BGDĐT lần đầu đưa Tin học thành môn học bắt buộc từ lớp 3 (35 tiết/năm), phân biệt rõ 5 thành phần năng lực tin học và đặt nền tảng tích hợp công nghệ.`, highlightDocs: [`VB-01`] },
+  { year: 2020, shortLabel: `Chiến lược CĐS`, headline: `2020 · Khởi động Chuyển đổi số quốc gia (QĐ 749/QĐ-TTg)`, summary: `Giáo dục được xác định là lĩnh vực ưu tiên hàng đầu về chuyển đổi số, thúc đẩy số hóa học liệu và hạ tầng dạy học trực tuyến trong bối cảnh đại dịch.`, highlightDocs: [`VB-02`] },
+  { year: 2021, shortLabel: `Chiến lược AI & Dạy trực tuyến`, headline: `2021 · Đưa định hướng AI vào chiến lược & Chuẩn hóa dạy trực tuyến`, summary: `Quyết định 127/QĐ-TTg mở đường phổ cập kiến thức AI cơ bản; Thông tư 09/2021/TT-BGDĐT đặt ranh giới an toàn tâm sinh lý về thời lượng trực tuyến cho học sinh tiểu học.`, highlightDocs: [`VB-03`, `VB-04`] },
+  { year: 2022, shortLabel: `Phủ Tin học Lớp 3 & Đề án 131`, headline: `2022 · Triển khai thực tế Tin học Lớp 3 & Đề án CĐS Giáo dục`, summary: `Năm bản lề với QĐ 131, QĐ 146, QĐ 411, Thông tư 16/2022 về thư viện số và Công văn 3935 triển khai môn Tin học lớp 3 đồng loạt trên toàn quốc.`, highlightDocs: [`VB-05`, `VB-06`, `VB-07`, `VB-08`, `VB-09`] },
+  { year: 2023, shortLabel: `STEM Tiểu học & Dữ liệu trẻ em`, headline: `2023 · Bộ chỉ số CĐS (QĐ 1315), STEM Tiểu học (CV 909) & NĐ 13/2023`, summary: `Chuyển từ phong trào sang đo lường thực chất bằng Bộ chỉ số CĐS; mở rộng tích hợp liên môn qua STEM tiểu học và lần đầu quy định pháp lý bảo vệ dữ liệu cá nhân trẻ em.`, highlightDocs: [`VB-10`, `VB-11`, `VB-12`] },
+  { year: 2024, shortLabel: `Nghị quyết 57 & Chiến lược 2030`, headline: `2024 · Bước ngoặt Nghị quyết 57-NQ/TW & Chiến lược GD 2030`, summary: `QĐ 1705 và NQ 57-NQ/TW tạo đột phá chính trị cao nhất, đặt nhiệm vụ cấp bách phát triển năng lực số, giáo dục STEM và ứng dụng AI từ bậc phổ thông.`, highlightDocs: [`VB-13`, `VB-14`] },
+  { year: 2025, shortLabel: `Khung NLS & 2 Luật số 2025`, headline: `2025 · Thông tư 02/2025 Khung Năng lực số & Luật AI / Luật Dữ liệu`, summary: `Năm bùng nổ thể chế: Bộ GD&ĐT ban hành Khung NLS 6 miền (TT 02/2025) và hướng dẫn tích hợp (CV 3456); Quốc hội thông qua Luật Công nghiệp công nghệ số & Luật BVDLCN; Bộ Chính trị ban hành NQ 71-NQ/TW.`, highlightDocs: [`VB-15`, `VB-16`, `VB-17`, `VB-18`, `VB-19`, `VB-20`, `VB-21`] },
+  { year: 2026, shortLabel: `Thí điểm AI & Thực thi Luật mới`, headline: `2026 · Thực thi Luật BVDLCN 91/2025 & Thí điểm Giáo dục AI Tiểu học`, summary: `Hai đạo luật về công nghệ số và bảo vệ dữ liệu trẻ em chính thức có hiệu lực (01/01/2026); triển khai thí điểm Khung giáo dục AI 4 mạch lấy con người làm trung tâm ở trường tiểu học.`, highlightDocs: [`VB-22`] }
+];
+
+const YCCD_DATA = [
+  { "grade": "Lớp 1", "gradeTag": "Lớp 1 · Nền tảng", "subject": "Toán", "nlsDomain": "Miền 1 · Khai thác dữ liệu & Miền 5 · Giải quyết vấn đề", "bullets": ["Nhận biết một số thiết bị số, học liệu số được sử dụng trong học Toán như máy tính, máy tính bảng, màn hình học tập.", "Quan sát hình ảnh, video, mô hình toán học số để nhận biết số lượng, hình dạng, vị trí và kích thước của đối tượng.", "Thực hiện thao tác đơn giản trên học liệu số theo hướng dẫn của giáo viên như chọn đáp án, kéo thả hình, ghép số.", "Biết sử dụng thiết bị đúng cách, có sự hướng dẫn của giáo viên."], "boundaryNote": "Hình thành cảm giác số học và nhận diện hình học trực quan qua tương tác chạm/kéo thả; giáo viên trực tiếp giám sát." },
+  { "grade": "Lớp 2", "gradeTag": "Lớp 2 · Nền tảng", "subject": "Toán", "nlsDomain": "Miền 1 · Khai thác dữ liệu & Miền 5 · Giải quyết vấn đề", "bullets": ["Sử dụng học liệu, trò chơi hoặc phần mềm học Toán để luyện tập phép tính và nhận biết hình học.", "Biết thao tác chọn, nhập kết quả, kéo thả hoặc sắp xếp đối tượng trên môi trường số.", "Quan sát bảng, hình ảnh, biểu đồ đơn giản được trình bày bằng phương tiện số để nhận xét thông tin.", "Biết thực hiện theo hướng dẫn và không tự ý truy cập nội dung không phục vụ học tập."], "boundaryNote": "Rèn luyện phản xạ phép tính và hình học trực quan qua trò chơi số; không cho HS tự do truy cập mạng ngoài bài học." },
+  { "grade": "Lớp 3", "gradeTag": "Lớp 3 · Nền tảng", "subject": "Toán", "nlsDomain": "Miền 1 · Khai thác dữ liệu & Miền 5 · Giải quyết vấn đề", "bullets": ["Sử dụng phần mềm hoặc học liệu số để luyện tập, kiểm tra kết quả tính toán.", "Biết nhập số liệu đơn giản theo hướng dẫn; đọc và nhận xét thông tin từ bảng, biểu đồ.", "Sử dụng công cụ số để biểu diễn phép tính, hình học hoặc kết quả giải quyết bài toán.", "Biết kiểm tra lại kết quả do phần mềm đưa ra, không phụ thuộc hoàn toàn vào đáp án tự động."], "boundaryNote": "Tập dượt thu thập, đọc biểu đồ số liệu đơn giản; rèn thói quen tự kiểm tra lại kết quả của phần mềm." },
+  { "grade": "Lớp 4", "gradeTag": "Lớp 4 · Nền tảng", "subject": "Toán", "nlsDomain": "Miền 1 · Khai thác dữ liệu & Miền 5 · Giải quyết vấn đề", "bullets": ["Sử dụng công cụ số để nhập, sắp xếp và trình bày dữ liệu toán học đơn giản.", "Đọc, phân tích bảng số liệu và biểu đồ được trình bày trên môi trường số.", "Bước đầu sử dụng bảng tính hoặc công cụ phù hợp để tính toán, so sánh và biểu diễn số liệu.", "Phát hiện sai sót trong dữ liệu hoặc kết quả tính toán và điều chỉnh khi có hướng dẫn."], "boundaryNote": "Làm quen bảng tính đơn giản, phân tích bảng số liệu thực tế; rèn kỹ năng phát hiện và chỉnh sửa sai lệch dữ liệu." },
+  { "grade": "Lớp 5", "gradeTag": "Lớp 5 · Nền tảng", "subject": "Toán", "nlsDomain": "Miền 1 · Khai thác dữ liệu & Miền 5 · Giải quyết vấn đề", "bullets": ["Lựa chọn công cụ số phù hợp để giải quyết một số vấn đề toán học gắn với thực tế.", "Thu thập, nhập, sắp xếp và xử lí dữ liệu đơn giản bằng công cụ số.", "Tạo hoặc hoàn thiện bảng số liệu, biểu đồ để trình bày kết quả học tập.", "So sánh, kiểm tra tính hợp lí của kết quả tính toán và thông tin do công cụ số cung cấp.", "Trình bày cách giải quyết vấn đề toán học bằng sản phẩm số đơn giản."], "boundaryNote": "Ứng dụng bảng tính và công cụ số để mô hình hóa bài toán thực tế; so sánh tính hợp lý của kết quả số." },
+  { "grade": "Lớp 1", "gradeTag": "Lớp 1 · Ngôn ngữ & Giao tiếp", "subject": "Tiếng Việt", "nlsDomain": "Miền 2 · Giao tiếp số & Miền 3 · Sáng tạo nội dung số", "bullets": ["Nhận biết thiết bị số và học liệu số phục vụ học Tiếng Việt.", "Quan sát, nghe các video, hình ảnh, âm thanh minh họa chữ cái, âm, vần và bài đọc do giáo viên cung cấp.", "Thực hiện thao tác đơn giản như chọn chữ, ghép tiếng, nghe lại âm thanh theo hướng dẫn.", "Biết sử dụng thiết bị học tập an toàn, không tự ý mở nội dung lạ."], "boundaryNote": "Học qua âm thanh, phát âm chuẩn và hình ảnh minh họa số; tuân thủ quy tắc bảo vệ mắt và an toàn thiết bị." },
+  { "grade": "Lớp 2", "gradeTag": "Lớp 2 · Ngôn ngữ & Giao tiếp", "subject": "Tiếng Việt", "nlsDomain": "Miền 2 · Giao tiếp số & Miền 3 · Sáng tạo nội dung số", "bullets": ["Sử dụng học liệu số để nghe đọc mẫu, luyện phát âm, đọc hiểu và luyện viết.", "Biết lựa chọn nội dung học tập phù hợp trong tài liệu số do giáo viên hướng dẫn.", "Bước đầu sử dụng công cụ số để hoàn thành bài tập tiếng Việt đơn giản.", "Biết trao đổi, phản hồi lịch sự khi tham gia hoạt động học tập có sử dụng thiết bị số."], "boundaryNote": "Luyện đọc hiểu và nghe mẫu qua đa phương tiện số; bước đầu thực hiện bài tập tương tác có phản hồi lịch sự." },
+  { "grade": "Lớp 3", "gradeTag": "Lớp 3 · Ngôn ngữ & Giao tiếp", "subject": "Tiếng Việt", "nlsDomain": "Miền 2 · Giao tiếp số & Miền 3 · Sáng tạo nội dung số", "bullets": ["Đọc, nghe và khai thác văn bản, hình ảnh, âm thanh từ học liệu số phục vụ bài học.", "Bước đầu sử dụng công cụ soạn thảo để gõ từ, câu hoặc đoạn văn ngắn.", "Biết lưu hoặc gửi sản phẩm học tập theo hướng dẫn của giáo viên.", "Không chia sẻ thông tin cá nhân khi sử dụng môi trường số; giao tiếp phù hợp khi trao đổi bài học."], "boundaryNote": "Làm quen kỹ năng gõ bàn phím tiếng Việt có dấu; không chia sẻ thông tin cá nhân và biết lưu bài tập." },
+  { "grade": "Lớp 4", "gradeTag": "Lớp 4 · Ngôn ngữ & Giao tiếp", "subject": "Tiếng Việt", "nlsDomain": "Miền 2 · Giao tiếp số & Miền 3 · Sáng tạo nội dung số", "bullets": ["Tìm kiếm thông tin, hình ảnh hoặc tư liệu phục vụ bài học từ nguồn do giáo viên định hướng.", "Sử dụng công cụ số để soạn thảo, chỉnh sửa và trình bày văn bản có hình ảnh minh họa.", "Biết lựa chọn thông tin phù hợp với chủ đề; bước đầu nhận biết nguồn cung cấp thông tin.", "Tôn trọng người khác khi trao đổi trực tuyến; không sao chép tùy tiện sản phẩm của người khác."], "boundaryNote": "Tìm kiếm tư liệu có chọn lọc theo hướng dẫn; soạn thảo văn bản kết hợp hình ảnh và tôn trọng quy tắc an toàn mạng." },
+  { "grade": "Lớp 5", "gradeTag": "Lớp 5 · Ngôn ngữ & Giao tiếp", "subject": "Tiếng Việt", "nlsDomain": "Miền 2 · Giao tiếp số & Miền 3 · Sáng tạo nội dung số", "bullets": ["Chủ động khai thác học liệu số để tìm hiểu nội dung đọc và mở rộng kiến thức.", "Tạo, chỉnh sửa và trình bày sản phẩm học tập số như bài viết, câu chuyện, bài giới thiệu hoặc bài trình chiếu đơn giản.", "Biết chọn lọc, so sánh thông tin từ các nguồn được hướng dẫn; bước đầu ghi rõ nguồn tư liệu sử dụng.", "Có ý thức tôn trọng bản quyền, sử dụng ngôn ngữ lịch sự và bảo vệ thông tin cá nhân khi giao tiếp trên môi trường số."], "boundaryNote": "Khai thác học liệu số phục vụ bài viết và bài trình chiếu; hình thành ý thức tôn trọng bản quyền nội dung số." },
+  { "grade": "Lớp 3", "gradeTag": "Lớp 3 · Tin học nòng cốt", "subject": "Tin học", "nlsDomain": "Miền 1, 3, 4, 5 · Năng lực Tin học & Chuyển đổi số", "bullets": ["Nhận biết được một số dạng thông tin và vai trò của thông tin trong đời sống.", "Nhận biết các bộ phận cơ bản của máy tính và thực hiện được thao tác sử dụng chuột, bàn phím theo hướng dẫn.", "Sử dụng được một số phần mềm học tập đơn giản.", "Biết xem thông tin trên trang web hoặc học liệu số theo hướng dẫn của giáo viên.", "Biết sắp xếp thông tin theo yêu cầu và thực hiện công việc theo trình tự các bước.", "Có ý thức bảo vệ thông tin cá nhân và sử dụng máy tính an toàn."], "boundaryNote": "Môn Tin học bắt buộc 35 tiết/năm: Khởi đầu hình thành kỹ năng phần cứng, phần mềm, thao tác chuột/phím và an toàn thông tin cá nhân." },
+  { "grade": "Lớp 4", "gradeTag": "Lớp 4 · Tin học nòng cốt", "subject": "Tin học", "nlsDomain": "Miền 1, 3, 4, 5 · Năng lực Tin học & Chuyển đổi số", "bullets": ["Phân biệt được một số thành phần phần cứng và phần mềm máy tính.", "Sử dụng được công cụ tìm kiếm để tìm thông tin phục vụ học tập dưới sự hướng dẫn phù hợp.", "Biết lựa chọn thông tin cần thiết, lưu trữ và sắp xếp tệp, thư mục theo yêu cầu.", "Sử dụng phần mềm phù hợp để tạo sản phẩm số đơn giản như văn bản, hình ảnh hoặc bài trình chiếu.", "Nhận biết được vấn đề bản quyền phần mềm và có ý thức sử dụng phần mềm hợp pháp.", "Biết giữ an toàn thiết bị, tài khoản và thông tin cá nhân."], "boundaryNote": "Phát triển kỹ năng quản lý tệp, thư mục khoa học, tìm kiếm thông tin có hướng dẫn và nhận biết bản quyền phần mềm." },
+  { "grade": "Lớp 5", "gradeTag": "Lớp 5 · Tin học nòng cốt", "subject": "Tin học", "nlsDomain": "Miền 1, 3, 4, 5 · Năng lực Tin học & Chuyển đổi số", "bullets": ["Chủ động sử dụng công cụ tìm kiếm để khai thác thông tin phục vụ học tập và giải quyết nhiệm vụ đơn giản.", "Biết đánh giá sơ bộ sự phù hợp, độ tin cậy của thông tin tìm được dưới sự hướng dẫn của giáo viên.", "Tổ chức, lưu trữ và khai thác tệp, thư mục một cách có hệ thống.", "Tạo, chỉnh sửa và hoàn thiện sản phẩm số bằng phần mềm phù hợp.", "Sử dụng môi trường lập trình trực quan để xây dựng chương trình đơn giản theo yêu cầu.", "Tôn trọng bản quyền nội dung số; thực hiện các quy tắc an toàn, bảo mật thông tin khi sử dụng Internet."], "boundaryNote": "Tư duy thuật toán và lập trình trực quan (Scratch/Blockly); đánh giá sơ bộ độ tin cậy của thông tin và an toàn không gian mạng." },
+  { "grade": "Lớp 3", "gradeTag": "Lớp 3 · Kĩ thuật & Thiết kế", "subject": "Công nghệ", "nlsDomain": "Miền 3 · Sáng tạo số & Miền 5 · Giải quyết vấn đề kĩ thuật", "bullets": ["Nhận biết một số sản phẩm công nghệ thông dụng trong gia đình và nhà trường thông qua hình ảnh, video hoặc vật thật.", "Biết tìm hiểu công dụng, cách sử dụng của sản phẩm công nghệ qua tư liệu số do giáo viên cung cấp.", "Biết quan sát, nhận xét và lựa chọn sản phẩm phù hợp với nhu cầu đơn giản.", "Có ý thức sử dụng thiết bị công nghệ an toàn, tiết kiệm và đúng hướng dẫn."], "boundaryNote": "Nhận biết công nghệ đời sống qua học liệu số; rèn thói quen sử dụng thiết bị tiết kiệm điện năng và an toàn." },
+  { "grade": "Lớp 4", "gradeTag": "Lớp 4 · Kĩ thuật & Thiết kế", "subject": "Công nghệ", "nlsDomain": "Miền 3 · Sáng tạo số & Miền 5 · Giải quyết vấn đề kĩ thuật", "bullets": ["Khai thác hình ảnh, video, tài liệu số để tìm hiểu đặc điểm, công dụng và quy trình thực hiện sản phẩm công nghệ.", "Sử dụng hình ảnh hoặc công cụ số đơn giản để ghi lại các bước thực hiện, quá trình chăm sóc cây hoặc chế tạo sản phẩm.", "Biết trình bày ý tưởng thiết kế bằng hình vẽ, sơ đồ hoặc hình ảnh số.", "Biết trao đổi, chia sẻ kết quả thực hành với bạn và giáo viên thông qua phương tiện phù hợp."], "boundaryNote": "Sử dụng ảnh chụp hoặc ghi chép số để theo dõi quá trình chăm sóc sinh vật/thiết kế kĩ thuật; trao đổi kết quả thực hành." },
+  { "grade": "Lớp 5", "gradeTag": "Lớp 5 · Kĩ thuật & Thiết kế", "subject": "Công nghệ", "nlsDomain": "Miền 3 · Sáng tạo số & Miền 5 · Giải quyết vấn đề kĩ thuật", "bullets": ["Tìm kiếm, khai thác thông tin số về sản phẩm công nghệ, nhà sáng chế và quy trình kĩ thuật từ nguồn được hướng dẫn.", "Sử dụng công cụ số để thể hiện ý tưởng, thiết kế hoặc mô tả quy trình tạo ra sản phẩm.", "Biết ghi lại hình ảnh, các bước thực hiện và kết quả thử nghiệm sản phẩm bằng phương tiện số.", "Sử dụng thông tin thu thập được để nhận xét, điều chỉnh và cải tiến sản phẩm.", "Có ý thức đánh giá lợi ích, hạn chế và tác động của sản phẩm công nghệ đối với con người và môi trường."], "boundaryNote": "Mô phỏng ý tưởng thiết kế, thử nghiệm và cải tiến sản phẩm trên môi trường số; đánh giá tác động công nghệ đến môi trường." },
+  { "grade": "Lớp 1", "gradeTag": "Lớp 1 · Khám phá & Trải nghiệm", "subject": "Liên môn & Đạo đức số", "nlsDomain": "Miền 4 · An toàn số & Miền 1 · Khai thác thông tin", "bullets": ["Nhận biết các thiết bị số quen thuộc trong trường học và gia đình (máy tính, tivi thông minh, máy tính bảng).", "Biết xin phép và có sự đồng ý của cha mẹ hoặc thầy cô trước khi sử dụng thiết bị số.", "Ngồi học đúng tư thế, giữ khoảng cách mắt an toàn với màn hình thiết bị và nghỉ ngơi hợp lý.", "Không tự ý chạm vào dây điện, ổ cắm hoặc mở các liên kết/trang web lạ khi chưa có người lớn hướng dẫn."], "boundaryNote": "Tập trung hình thành thói quen sử dụng công nghệ an toàn, điều độ và bảo vệ sức khỏe cho học sinh 6 tuổi." },
+  { "grade": "Lớp 2", "gradeTag": "Lớp 2 · Thói quen & Tương tác", "subject": "Liên môn & Đạo đức số", "nlsDomain": "Miền 4 · An toàn số & Miền 2 · Giao tiếp số", "bullets": ["Biết bảo vệ thông tin cá nhân cơ bản: không chia sẻ họ tên đầy đủ, địa chỉ nhà, số điện thoại lên môi trường mạng.", "Biết nói lời cảm ơn, xin lỗi và thể hiện thái độ tôn trọng khi giao tiếp trong các buổi học trực tuyến hoặc bài tập nhóm số.", "Phân biệt được thời gian học tập số với thời gian vận động thể chất ngoài trời, tránh nghiện thiết bị điện tử.", "Báo ngay cho giáo viên hoặc người lớn khi gặp hình ảnh, âm thanh gây sợ hãi hoặc nội dung không lành mạnh trên màn hình."], "boundaryNote": "Rèn luyện văn hóa ứng xử số sơ khởi và phản xạ tự bảo vệ bản thân trước các tình huống rủi ro trên không gian mạng." }
+];
+
+const INTEGRATION_DATA = {
+  "Toán": {
+    "title": "Môn Toán (Lớp 1–5)",
+    "intro": "Tích hợp công cụ số và học liệu trực quan nhằm cụ thể hóa các khái niệm toán học trừu tượng, phát triển tư duy logic và kỹ năng biểu diễn dữ liệu thực tế.",
+    "rows": [
+      { "grade": "Lớp 1", "topic": "Nhận biết số, hình học", "activity": "Học sinh sử dụng trò chơi tương tác trên máy tính bảng để đếm số, ghép số với số lượng, nhận diện hình vuông, hình tròn.", "tools": "Liveworksheets, ABCya Math, VioEdu", "pedagogicalTip": "Dùng tương tác kéo thả để HS tự tay hình thành biểu tượng số lượng" },
+      { "grade": "Lớp 2", "topic": "Phép tính, đo lường", "activity": "Sử dụng phần mềm học Toán để luyện cộng, trừ, nhân, chia và giải bài tập có hình ảnh trực quan.", "tools": "Liveworksheets, ABCya Math, VioEdu", "pedagogicalTip": "Gắn liền phép tính với ngữ cảnh hình ảnh thực tế" },
+      { "grade": "Lớp 3", "topic": "Bảng số liệu, thống kê", "activity": "Học sinh nhập số liệu đơn giản về số lượng cây xanh trong sân trường và quan sát kết quả được biểu diễn.", "tools": "Google Sheets, GeoGebra Tiểu học, Excel for Kids", "pedagogicalTip": "Hướng dẫn HS tự đếm và nhập số liệu khách quan" },
+      { "grade": "Lớp 4", "topic": "Phân số, hình học, biểu đồ", "activity": "Sử dụng phần mềm hình học để quan sát các hình; tạo biểu đồ từ số liệu khảo sát đơn giản.", "tools": "Google Sheets, GeoGebra Tiểu học, Excel for Kids", "pedagogicalTip": "Cho HS xoay hình 2D/3D trực quan trên màn hình" },
+      { "grade": "Lớp 5", "topic": "Thống kê, tỉ số phần trăm", "activity": "Sử dụng bảng tính để tính toán, lập bảng và biểu đồ về kết quả khảo sát lớp học.", "tools": "Google Sheets, GeoGebra Tiểu học, Excel for Kids", "pedagogicalTip": "Yêu cầu HS đối chiếu kết quả bảng tính với tính toán thủ công để tránh lệ thuộc" }
+    ]
+  },
+  "Tiếng Việt": {
+    "title": "Môn Tiếng Việt (Lớp 1–5)",
+    "intro": "Sử dụng học liệu đa phương tiện và công cụ soạn thảo số giúp học sinh phát triển toàn diện 4 kỹ năng Nghe - Nói - Đọc - Viết và giao tiếp văn minh trên môi trường số.",
+    "rows": [
+      { "grade": "Lớp 1", "topic": "Nhận biết chữ cái, âm, vần", "activity": "Nghe phát âm qua học liệu số; thực hiện trò chơi ghép chữ, ghép tiếng trên màn hình.", "tools": "Kênh âm thanh chuẩn Bộ GD&ĐT, Flashcards số", "pedagogicalTip": "Nghe phát âm chuẩn kết hợp khẩu hình mẫu" },
+      { "grade": "Lớp 2", "topic": "Đọc hiểu, luyện viết", "activity": "Nghe truyện đọc, xem video minh họa; làm bài tập nhận diện từ ngữ trên phần mềm học tập.", "tools": "Sách truyện tương tác, Padlet tiểu học", "pedagogicalTip": "Khuyến khích đọc hiểu qua tranh truyện tương tác" },
+      { "grade": "Lớp 3", "topic": "Đọc hiểu, viết đoạn văn", "activity": "Sử dụng công cụ soạn thảo để gõ một đoạn văn ngắn và chèn hình ảnh minh họa.", "tools": "MS Word / Google Docs cỡ chữ lớn, RapidTyping", "pedagogicalTip": "Tập trung gõ đúng quy tắc chính tả Telex và lưu bài đúng chỗ" },
+      { "grade": "Lớp 4", "topic": "Viết bài văn, tìm hiểu thông tin", "activity": "Tìm kiếm tư liệu theo chủ đề giáo viên giao; sử dụng công cụ số để soạn thảo, chỉnh sửa bài viết.", "tools": "Kiddle (tìm kiếm an toàn), Từ điển trực tuyến, Canva Kids", "pedagogicalTip": "Hướng dẫn trích dẫn tên tác giả tranh/ảnh khi đưa vào bài viết" },
+      { "grade": "Lớp 5", "topic": "Đọc hiểu, viết và thuyết trình", "activity": "Thiết kế bài giới thiệu một cuốn sách, nhân vật hoặc câu chuyện bằng bài trình chiếu có hình ảnh và nội dung phù hợp.", "tools": "PowerPoint, Canva for Education, Máy ghi âm giọng đọc", "pedagogicalTip": "Tập dượt kỹ năng thuyết trình tự tin có hỗ trợ của slide trực quan" }
+    ]
+  },
+  "Tin học": {
+    "title": "Môn Tin học (Lớp 3–5)",
+    "intro": "Môn học nòng cốt bắt buộc từ Lớp 3 (35 tiết/năm), giữ vai trò trung tâm hình thành tư duy máy tính, kỹ năng sử dụng công nghệ số và an toàn thông tin mạng.",
+    "rows": [
+      { "grade": "Lớp 3", "topic": "Làm quen với máy tính, thông tin và xử lí thông tin", "activity": "Thực hành sử dụng chuột, bàn phím; nhận biết thông tin; sắp xếp thông tin theo yêu cầu.", "tools": "Phần mềm luyện chuột (Mouse Skills), RapidTyping, Tux Paint", "pedagogicalTip": "Uốn nắn tư thế ngồi và cách cầm chuột, gõ phím đúng ngay từ buổi đầu" },
+      { "grade": "Lớp 4", "topic": "Tìm kiếm, lưu trữ thông tin và tạo sản phẩm số", "activity": "Thực hành tìm kiếm thông tin theo hướng dẫn, tạo văn bản hoặc hình ảnh, lưu trữ tệp trong thư mục.", "tools": "Trình duyệt web an toàn (Kiddle), MS Word / PowerPoint, Thư mục Windows", "pedagogicalTip": "Giáo dục ý thức không sao chép nguyên văn và tôn trọng tác giả" },
+      { "grade": "Lớp 5", "topic": "Sáng tạo sản phẩm số và lập trình", "activity": "Thiết kế bài trình chiếu, tạo sản phẩm đồ họa và xây dựng chương trình đơn giản bằng môi trường lập trình trực quan.", "tools": "Scratch 3.0, Blockly Games, Canva Giáo dục, Nền tảng lập trình trực quan", "pedagogicalTip": "Dạy học theo dự án: Học sinh làm ra sản phẩm có ý nghĩa thực tế" }
+    ]
+  },
+  "Công nghệ": {
+    "title": "Môn Công nghệ (Lớp 3–5)",
+    "intro": "Tích hợp công nghệ số vào việc tìm hiểu kỹ thuật, chăm sóc sinh vật, thiết kế sản phẩm thủ công nhằm nuôi dưỡng tư duy sáng tạo và định hướng STEM tiểu học.",
+    "rows": [
+      { "grade": "Lớp 3", "topic": "Tìm hiểu sản phẩm công nghệ", "activity": "Xem video hướng dẫn sử dụng một số đồ dùng công nghệ; nhận biết công dụng và cách sử dụng an toàn.", "tools": "Video mô phỏng kĩ thuật 3D, Học liệu số an toàn điện", "pedagogicalTip": "Sử dụng mô phỏng số trực quan các tình huống nguy hiểm để giáo dục an toàn" },
+      { "grade": "Lớp 4", "topic": "Trồng và chăm sóc cây; thiết kế sản phẩm", "activity": "Chụp ảnh quá trình chăm sóc cây, ghi lại sự thay đổi theo từng ngày và trình bày bằng bảng hoặc hình ảnh số.", "tools": "Máy ảnh/Điện thoại nhà trường chụp nhật ký, Bảng tính Google Sheets", "pedagogicalTip": "Dạy học sinh ghi chép dữ liệu quá trình thay vì chỉ nhìn vào sản phẩm cuối" },
+      { "grade": "Lớp 5", "topic": "Thiết kế và chế tạo sản phẩm", "activity": "Sử dụng phần mềm vẽ hoặc công cụ trình chiếu để thể hiện ý tưởng, mô tả quy trình và giới thiệu sản phẩm đã chế tạo.", "tools": "Paint 3D, Tinkercad (mô hình quan sát), MS PowerPoint giới thiệu sản phẩm", "pedagogicalTip": "Khuyến khích học sinh trình bày ý tưởng cải tiến và bảo vệ môi trường" }
+    ]
+  }
+};
+
+const INTL_PROFILES = [
+  { "id": "vn", "name": "Việt Nam", "tagline": "CTGDPT 2018 & Khung Năng lực số TT 02/2025/TT-BGDĐT", "flag": "🇻🇳", "scores": [4.2, 4.0, 3.2, 3.0, 4.1, 3.1], "pillarDoc": "TT 32/2018 (Tin học bắt buộc từ lớp 3, 35 tiết/năm), TT 02/2025/TT-BGDĐT (Khung NLS 6 miền năng lực), Luật GD 2019, Luật BVDLCN 2025 & Luật AI 2025.", "primaryApproach": "Bắt buộc môn Tin học từ Lớp 3 giữ vai trò nòng cốt khoa học máy tính; đồng thời tích hợp năng lực số liên môn vào Toán, Tiếng Việt, TNXH/Khoa học và Công nghệ từ Lớp 1 đến Lớp 5.", "safetyTeacher": "Luật Bảo vệ dữ liệu cá nhân 2025 siết chặt an toàn dữ liệu trẻ em; thách thức chính nằm ở chênh lệch trang thiết bị phòng máy và năng lực sư phạm số giữa các vùng miền.", "conditionalLesson": "Cần ưu tiên chuẩn hóa kho học liệu số dùng chung có kiểm duyệt và bồi dưỡng thực chất cho giáo viên chủ nhiệm tiểu học thay vì chỉ đầu tư phần cứng hình thức.", "strengths": ["Hệ thống thể chế đồng bộ nhanh chóng (Khung NLS TT 02/2025)", "Môn Tin học bắt buộc từ lớp 3 có chương trình bài bản", "Mô hình giáo dục STEM tiểu học lan tỏa mạnh mẽ (CV 909/BGDĐT)"], "risks": ["Chênh lệch điều kiện hạ tầng giữa thành thị và nông thôn, miền núi", "Nguy cơ giáo viên lạm dụng thiết bị làm phân tâm học sinh nhỏ tuổi"] },
+  { "id": "sg", "name": "Singapore", "tagline": "EdTech Masterplan 2030 & Chương trình Code for Fun", "flag": "🇸🇬", "scores": [4.7, 4.6, 4.7, 4.8, 4.6, 4.3], "pillarDoc": "Transforming Education through Technology Masterplan 2030 (MOE Singapore); Chương trình Code for Fun đại trà bậc tiểu học.", "primaryApproach": "Xây dựng hệ sinh thái khép kín Student Learning Space (SLS) kiểm soát 100% nội dung và AI; toàn bộ học sinh tiểu học cuối cấp được trải nghiệm tư duy tính toán và mã hóa cơ bản.", "safetyTeacher": "Tích hợp trợ lý AI học tập trong môi trường được kiểm duyệt khắt khe bởi Bộ Giáo dục (mô hình Walled Garden, tuyệt đối không đưa trẻ ra môi trường AI thương mại tự do); giáo viên được chuẩn hóa theo Khung EdTech Practice.", "conditionalLesson": "Bài học quý cho Việt Nam: Xây dựng nền tảng học liệu đóng có kiểm duyệt cấp quốc gia để bảo vệ trẻ em trước rủi ro Internet; không sao chép máy móc mô hình 1:1 thiết bị vì chi phí duy trì rất lớn.", "strengths": ["Hệ sinh thái SLS đồng bộ, bảo mật dữ liệu học sinh tuyệt đối", "Chương trình Code for Fun giúp đại trà hóa tư duy tính toán", "Chuẩn bồi dưỡng năng lực EdTech cho giáo viên rất thực tế"], "risks": ["Ngân sách đầu tư hạ tầng số và duy trì bản quyền nền tảng rất cao", "Đòi hỏi đường truyền Internet băng thông rộng đồng đều ở mọi trường"] },
+  { "id": "kr", "name": "Hàn Quốc", "tagline": "2022 Revised Curriculum & Sách giáo khoa số AI (AIDT)", "flag": "🇰🇷", "scores": [4.8, 4.7, 4.4, 4.7, 4.0, 4.5], "pillarDoc": "Chương trình Giáo dục sửa đổi 2022 (áp dụng từ 2025) & Chính sách Sách giáo khoa số tích hợp AI (AI Digital Textbook - AIDT bậc Tiểu học).", "primaryApproach": "Tăng gấp đôi thời lượng giáo dục Tin học - phần mềm và AI ở tiểu học; ứng dụng sách giáo khoa số AI cá nhân hóa lộ trình học tập từ lớp 3-4 (Toán, Tiếng Anh, Tin học).", "safetyTeacher": "Đầu tư ngân sách khổng lồ đào tạo giáo viên làm chủ bảng điều khiển dữ liệu học sinh; tuy nhiên thực tiễn 2025-2026 nảy sinh làn sóng phản ứng mạnh mẽ từ phụ huynh về thời gian nhìn màn hình của trẻ nhỏ.", "conditionalLesson": "Bài học cảnh báo thiết thực cho Việt Nam: Không nên nóng vội thay thế sách giáo khoa giấy bằng thiết bị số hoàn toàn ở cấp tiểu học; cần cân bằng nghiêm ngặt giữa tương tác số và bảo vệ sức khỏe thị giác, tâm lý học sinh.", "strengths": ["Cá nhân hóa nội dung học tập theo thời gian thực nhờ thuật toán", "Thời lượng thực hành tư duy máy tính và lập trình được nâng cao", "Cơ sở vật chất trường học hiện đại, mạng băng thông siêu tốc"], "risks": ["Phản ứng gay gắt của phụ huynh và chuyên gia y tế về quá tải màn hình", "Nguy cơ phụ thuộc vào các tập đoàn công nghệ giáo dục tư nhân"] }
+];
+
+const RADAR_LABELS = [
+  'Khung pháp lý & Chiến lược',
+  'Bắt buộc Tin học/AI Tiểu học',
+  'Hạ tầng & Nền tảng số',
+  'Học liệu & Bản quyền số',
+  'Đào tạo sư phạm số GV',
+  'An toàn dữ liệu & Kiểm soát AI'
+];
+
+const QUIZ_ITEMS = [
+  { id: `q1`, scenario: `Tình huống 1 (Lớp 3): Giáo viên dùng phần mềm AI tạo bộ 10 câu hỏi trắc nghiệm trên Quizizz để học sinh thi trả lời nhanh ôn tập phép nhân.`, correct: `cntt`, explain: `Đây chủ yếu là Ứng dụng CNTT để tăng hứng thú và kiểm tra nhanh kiến thức Toán; học sinh chưa được rèn kỹ năng tìm kiếm, đánh giá, an toàn hay sáng tạo số.` },
+  { id: `q2`, scenario: `Tình huống 2 (Lớp 5): Học sinh đối chiếu 2 đoạn thông tin về loài vật (1 đoạn từ sách giáo khoa, 1 đoạn do AI sinh ra bị sai chi tiết), chỉ ra điểm sai và ghi lại nguồn xác thực.`, correct: `nls`, explain: `Đây là Phát triển Năng lực số (Miền 1 & Miền 6): học sinh rèn tư duy phản biện thông tin, biết AI có thể tạo sai lệch và chủ động kiểm chứng bằng nguồn tin cậy.` },
+  { id: `q3`, scenario: `Tình huống 3 (Lớp 2): Giáo viên chiếu video hoạt hình 3D rất sinh động minh họa vòng tuần hoàn của nước lên màn hình lớn suốt 15 phút.`, correct: `cntt`, explain: `Đây là Ứng dụng CNTT làm học liệu trực quan. Để chuyển hóa thành phát triển NLS, giáo viên cần thêm nhiệm vụ cho HS nhận xét, sắp xếp lại quy trình hoặc đặt câu hỏi kiểm chứng.` },
+  { id: `q4`, scenario: `Tình huống 4 (Lớp 4): Học sinh dùng bảng tính hoặc phần mềm trình chiếu tự nhập số liệu đo lượng nước tiết kiệm của tổ trong 1 tuần, vẽ biểu đồ đơn giản và ghi tên tác giả/nguồn ảnh sử dụng.`, correct: `nls`, explain: `Đây là Phát triển Năng lực số (Miền 1, Miền 3 & Miền 4): học sinh tự xử lý dữ liệu thật, sáng tạo sản phẩm số và thực hành tôn trọng bản quyền.` }
+];
+
+let currentFilters = { search: '', period: 'all', issuer: 'all', theme: 'all', status: 'all' };
+let sortCol = 'year';
+let sortAsc = false;
+let selectedDocId = 'VB-16';
+let selectedTimelineYear = 2025;
+let selectedGrade = 'all';
+let selectedSubject = 'all';
+let selectedIntegrationSubject = 'Toán';
+let selectedIntlId = 'vn';
+let radarMode = 'all';
+let appUserState = { verifiedIds: POLICY_DOCS.map(d => d.id), notesByDoc: {}, quizAnswers: {} };
+let timelineChartInstance = null;
+let issuerChartInstance = null;
+let radarChartInstance = null;
+
+try {
+  const localNotes = localStorage.getItem('de17_user_notes');
+  if (localNotes) appUserState.notesByDoc = JSON.parse(localNotes);
+  const localQuiz = localStorage.getItem('de17_quiz_answers');
+  if (localQuiz) appUserState.quizAnswers = JSON.parse(localQuiz);
+} catch (e) {}
+
+let expandedDocIds = new Set(['vb-01']);
+let repoSearchKeyword = '';
+let repoViewMode = 'table';
+
+function getFilteredDocs() {
+  const qMain = currentFilters.search.trim().toLowerCase();
+  const qRepo = repoSearchKeyword.trim().toLowerCase();
+  return POLICY_DOCS.filter(doc => {
+    if (currentFilters.period !== 'all' && doc.period !== currentFilters.period) return false;
+    if (currentFilters.issuer !== 'all' && doc.issuer !== currentFilters.issuer) return false;
+    if (currentFilters.theme !== 'all' && !doc.themes.includes(currentFilters.theme)) return false;
+    if (currentFilters.status !== 'all' && doc.status !== currentFilters.status) return false;
+    if (qMain) {
+      const matchCode = doc.code.toLowerCase().includes(qMain);
+      const matchTitle = doc.title.toLowerCase().includes(qMain);
+      const matchIssuer = doc.issuer.toLowerCase().includes(qMain);
+      const matchThemes = doc.themes.some(t => t.toLowerCase().includes(qMain));
+      if (!matchCode && !matchTitle && !matchIssuer && !matchThemes) return false;
+    }
+    if (qRepo) {
+      const matchCode = doc.code.toLowerCase().includes(qRepo);
+      const matchTitle = doc.title.toLowerCase().includes(qRepo);
+      const matchIssuer = doc.issuer.toLowerCase().includes(qRepo);
+      const matchExcerpt = (doc.excerpt || '').toLowerCase().includes(qRepo);
+      const matchImpact = (doc.primaryImpact || '').toLowerCase().includes(qRepo);
+      const matchThemes = doc.themes.some(t => t.toLowerCase().includes(qRepo));
+      if (!matchCode && !matchTitle && !matchIssuer && !matchThemes && !matchExcerpt && !matchImpact) return false;
+    }
+    return true;
+  });
+}
+
+function applyFilters() {
+  currentFilters.search = document.getElementById('filter-search').value;
+  currentFilters.period = document.getElementById('filter-period').value;
+  currentFilters.issuer = document.getElementById('filter-issuer').value;
+  currentFilters.theme = document.getElementById('filter-theme').value;
+  currentFilters.status = document.getElementById('filter-status').value;
+  renderDashboard();
+}
+
+function resetFilters() {
+  document.getElementById('filter-search').value = '';
+  document.getElementById('filter-period').value = 'all';
+  document.getElementById('filter-issuer').value = 'all';
+  document.getElementById('filter-theme').value = 'all';
+  document.getElementById('filter-status').value = 'all';
+  currentFilters = { search: '', period: 'all', issuer: 'all', theme: 'all', status: 'all' };
+  renderDashboard();
+}
+
+function sortTable(key) {
+  if (sortCol === key) sortAsc = !sortAsc;
+  else { sortCol = key; sortAsc = true; }
+  renderPolicyTable(getFilteredDocs());
+}
+
+function renderPolicyTable(docs) {
+  const countEl = document.getElementById('repo-doc-count');
+  if (countEl) countEl.innerHTML = `Hiển thị <strong>${docs.length}/${POLICY_DOCS.length}</strong> văn bản`;
+
+  const expandBtnText = document.getElementById('text-expand-all');
+  if (expandBtnText) {
+    const allExpanded = docs.length > 0 && docs.every(d => expandedDocIds.has(d.id));
+    expandBtnText.textContent = allExpanded ? 'Thu gọn tất cả' : 'Mở rộng tất cả';
+  }
+
+  const sorted = [...docs].sort((a, b) => {
+    let vA = a[sortCol];
+    let vB = b[sortCol];
+    if (typeof vA === 'string') return sortAsc ? vA.localeCompare(vB) : vB.localeCompare(vA);
+    return sortAsc ? vA - vB : vB - vA;
+  });
+
+  const tbody = document.getElementById('policy-tbody');
+  if (!tbody) return;
+
+  if (sorted.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align: center; padding: 3rem; color: var(--on-surface-variant);">
+          <i data-lucide="search-x" style="width: 36px; height: 36px; margin-bottom: 0.5rem; opacity: 0.6; display: inline-block;"></i>
+          <p style="font-size: 1rem; font-weight: 600; margin: 0 0 0.5rem 0;">Không tìm thấy văn bản phù hợp với bộ lọc</p>
+          <button class="btn btn-sm btn-outline" onclick="resetFilters(); clearRepoSearch();">Đặt lại tất cả bộ lọc</button>
+        </td>
+      </tr>
+    `;
+    lucide.createIcons();
+    return;
+  }
+
+  tbody.innerHTML = sorted.map(doc => {
+    const isSel = doc.id === selectedDocId;
+    const isExpanded = expandedDocIds.has(doc.id);
+
+    let statusBadge = '<span class="badge badge-valid">Còn hiệu lực</span>';
+    if (doc.status === 'Sửa đổi / Thay thế') statusBadge = '<span class="badge badge-modified">Sửa đổi/Thay thế</span>';
+    else if (doc.status === 'Hoàn thành giai đoạn') statusBadge = '<span class="badge badge-expired">Hoàn thành</span>';
+    else if (doc.status === 'Thí điểm / Định hướng') statusBadge = '<span class="badge badge-ai-match">Thí điểm</span>';
+
+    const aiBadge = doc.aiLabelMatch 
+      ? '<span class="badge badge-ai-match"><i data-lucide="check" style="width:12px;height:12px;display:inline-block;vertical-align:middle;"></i> Khớp 100%</span>' 
+      : '<span class="badge badge-ai-fixed"><i data-lucide="alert-triangle" style="width:12px;height:12px;display:inline-block;vertical-align:middle;"></i> Đã sửa</span>';
+
+    const note = appUserState.notesByDoc[doc.id] || '';
+
+    const mainRowHtml = `
+      <tr class="doc-main-row ${isExpanded ? 'is-expanded' : ''} ${isSel ? 'is-selected' : ''}" id="row-${doc.id}" onclick="toggleDocDetail('${doc.id}')">
+        <td>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="badge badge-tag" style="font-size: 0.72rem; font-weight: 700; background: var(--surface-container-high);">${doc.id.toUpperCase()}</span>
+            <strong style="font-size: 0.92rem; color: var(--primary);">${doc.code}</strong>
+          </div>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.92rem;">${doc.year}</div>
+          <div style="font-size: 0.75rem; color: var(--on-surface-subtle);">${doc.period}</div>
+        </td>
+        <td>
+          <div class="doc-table-title">${doc.title}</div>
+          <div class="doc-table-themes">${doc.themes.map(t => `<span class="badge badge-tag" style="font-size: 0.72rem; padding: 2px 6px;">${t}</span>`).join('')}</div>
+        </td>
+        <td><span class="badge badge-tag" style="font-size: 0.8rem; font-weight: 500;">${doc.issuer}</span></td>
+        <td>${statusBadge}</td>
+        <td>${aiBadge}</td>
+        <td style="text-align: center;">
+          <button class="btn btn-sm ${isExpanded ? 'btn-primary' : 'btn-outline'}" style="padding: 4px 10px; font-size: 0.78rem;" onclick="event.stopPropagation(); toggleDocDetail('${doc.id}')">
+            ${isExpanded ? '<i data-lucide="chevron-up" style="width:12px;height:12px;display:inline-block;vertical-align:middle;"></i> Thu gọn' : '<i data-lucide="chevron-down" style="width:12px;height:12px;display:inline-block;vertical-align:middle;"></i> Chi tiết'}
+          </button>
+        </td>
+      </tr>
+    `;
+
+    let detailRowHtml = '';
+    if (isExpanded) {
+      detailRowHtml = `
+        <tr class="doc-detail-row" id="detail-${doc.id}">
+          <td colspan="7">
+            <div class="doc-detail-box">
+              <div class="doc-detail-header">
+                <div>
+                  <div class="doc-detail-code-row">
+                    <span class="badge badge-tag" style="font-size: 0.75rem; font-weight: 700; background: var(--primary); color: var(--on-primary);">${doc.id.toUpperCase()}</span>
+                    <strong style="font-size: 1.1rem; color: var(--on-surface); margin-right: 8px;">${doc.code}</strong>
+                    ${statusBadge}
+                    <span class="badge badge-tag"><i data-lucide="landmark" style="width:12px;height:12px;display:inline-block;vertical-align:middle;"></i> ${doc.issuer}</span>
+                    <span class="badge badge-tag"><i data-lucide="calendar" style="width:12px;height:12px;display:inline-block;vertical-align:middle;"></i> Năm ${doc.year} (${doc.period})</span>
+                  </div>
+                  <h3 class="doc-detail-title">${doc.title}</h3>
+                </div>
+                <div class="doc-detail-actions">
+                  <button class="btn btn-sm btn-outline" onclick="openDocModal('${doc.id}')" title="Mở hộp thoại toàn màn hình">
+                    <i data-lucide="maximize-2" style="width: 13px; height: 13px; display:inline-block;vertical-align:middle;"></i> Toàn màn hình
+                  </button>
+                  <button class="btn btn-sm btn-outline" onclick="toggleDocDetail('${doc.id}')" title="Thu gọn chi tiết này">
+                    <i data-lucide="chevron-up" style="width: 13px; height: 13px; display:inline-block;vertical-align:middle;"></i> Thu gọn
+                  </button>
+                </div>
+              </div>
+
+              <div class="doc-detail-grid">
+                <div class="doc-detail-card highlight-quote">
+                  <div class="detail-card-label">
+                    <i data-lucide="quote" style="width: 15px; height: 15px; color: var(--primary); display:inline-block;vertical-align:middle;"></i>
+                    <span>MINH CHỨNG NGUYÊN VĂN TỪ BẢN GỐC</span>
+                  </div>
+                  <div class="detail-quote-text">"${doc.excerpt}"</div>
+                  <div style="margin-top: auto; padding-top: 8px; border-top: 1px dashed var(--outline-variant);">
+                    <div style="font-size: 0.78rem; font-weight: 600; color: var(--on-surface-variant); margin-bottom: 4px;">Trọng tâm chủ đề:</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 4px;">${doc.themes.map(t => `<span class="badge badge-tag">${t}</span>`).join('')}</div>
+                  </div>
+                </div>
+
+                <div class="doc-detail-card highlight-impact">
+                  <div class="detail-card-label">
+                    <i data-lucide="sparkles" style="width: 15px; height: 15px; color: var(--data-2); display:inline-block;vertical-align:middle;"></i>
+                    <span>TÁC ĐỘNG BẬC TIỂU HỌC &amp; NĂNG LỰC SỐ</span>
+                  </div>
+                  <div class="detail-impact-text">${doc.primaryImpact}</div>
+                  <div class="detail-audit-box">
+                    <div style="font-size: 0.78rem; font-weight: 700; color: var(--on-surface); margin-bottom: 2px;">
+                      <i data-lucide="${doc.aiLabelMatch ? 'shield-check' : 'alert-circle'}" style="width:13px;height:13px;color:${doc.aiLabelMatch ? 'var(--positive)' : 'var(--error)'};display:inline-block;vertical-align:middle;"></i>
+                      ĐỐI SOÁT KIỂM CHỨNG AI:
+                    </div>
+                    <div style="font-size: 0.82rem; color: var(--on-surface-variant);">
+                      ${doc.aiLabelMatch ? '<span style="color:var(--positive);font-weight:600;">Khớp 100% bản gốc</span>' : '<span style="color:var(--error);font-weight:600;">Đã hiệu chỉnh ảo giác</span>'}: ${doc.aiNote}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="doc-detail-card">
+                  <div class="detail-card-label">
+                    <i data-lucide="edit-3" style="width: 15px; height: 15px; color: var(--on-surface-variant); display:inline-block;vertical-align:middle;"></i>
+                    <span>GHI CHÚ NGHIÊN CỨU &amp; THẨM ĐỊNH</span>
+                  </div>
+                  <textarea id="note-inline-${doc.id}" class="field-control" rows="4" style="font-size: 0.84rem; resize: vertical; margin-bottom: 6px;" placeholder="Nhập ghi chú cá nhân cho văn bản này (tự động lưu)...">${note}</textarea>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span id="note-inline-status-${doc.id}" style="font-size: 0.75rem; color: var(--positive);"></span>
+                    <button class="btn btn-sm btn-primary" onclick="saveDocNoteInline('${doc.id}')">
+                      <i data-lucide="save" style="width: 13px; height: 13px; display:inline-block;vertical-align:middle;"></i> Lưu ghi chú
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+    return mainRowHtml + detailRowHtml;
+  }).join('');
+
+  lucide.createIcons();
+  renderRepoGrid(docs);
+}
+
+function toggleDocDetail(id, evt) {
+  if (evt) evt.stopPropagation();
+  selectedDocId = id;
+  if (expandedDocIds.has(id)) expandedDocIds.delete(id);
+  else expandedDocIds.add(id);
+  renderPolicyTable(getFilteredDocs());
+}
+
+function toggleExpandAllDocs() {
+  const docs = getFilteredDocs();
+  const allExpanded = docs.length > 0 && docs.every(d => expandedDocIds.has(d.id));
+  if (allExpanded) expandedDocIds.clear();
+  else docs.forEach(d => expandedDocIds.add(d.id));
+  renderPolicyTable(docs);
+}
+
+function handleRepoSearch(keyword) {
+  repoSearchKeyword = keyword;
+  const clearBtn = document.getElementById('repo-search-clear');
+  if (clearBtn) clearBtn.style.display = keyword ? 'inline-block' : 'none';
+  renderPolicyTable(getFilteredDocs());
+}
+
+function clearRepoSearch() {
+  repoSearchKeyword = '';
+  const input = document.getElementById('repo-search-input');
+  if (input) input.value = '';
+  const clearBtn = document.getElementById('repo-search-clear');
+  if (clearBtn) clearBtn.style.display = 'none';
+  renderPolicyTable(getFilteredDocs());
+}
+
+function setRepoViewMode(mode) {
+  repoViewMode = mode;
+  const tableContainer = document.getElementById('repo-table-container');
+  const gridContainer = document.getElementById('repo-grid-container');
+  const btnTable = document.getElementById('view-mode-table');
+  const btnGrid = document.getElementById('view-mode-grid');
+
+  if (mode === 'table') {
+    if (tableContainer) tableContainer.style.display = 'block';
+    if (gridContainer) gridContainer.style.display = 'none';
+    if (btnTable) btnTable.classList.add('active');
+    if (btnGrid) btnGrid.classList.remove('active');
+  } else {
+    if (tableContainer) tableContainer.style.display = 'none';
+    if (gridContainer) gridContainer.style.display = 'grid';
+    if (btnTable) btnTable.classList.remove('active');
+    if (btnGrid) btnGrid.classList.add('active');
+  }
+  lucide.createIcons();
+}
+
+function renderRepoGrid(docs) {
+  const container = document.getElementById('repo-grid-container');
+  if (!container) return;
+
+  const sorted = [...docs].sort((a, b) => {
+    let vA = a[sortCol];
+    let vB = b[sortCol];
+    if (typeof vA === 'string') return sortAsc ? vA.localeCompare(vB) : vB.localeCompare(vA);
+    return sortAsc ? vA - vB : vB - vA;
+  });
+
+  container.innerHTML = sorted.map(doc => {
+    let statusBadge = '<span class="badge badge-valid">Còn hiệu lực</span>';
+    if (doc.status === 'Sửa đổi / Thay thế') statusBadge = '<span class="badge badge-modified">Sửa đổi/Thay thế</span>';
+    else if (doc.status === 'Hoàn thành giai đoạn') statusBadge = '<span class="badge badge-expired">Hoàn thành</span>';
+    else if (doc.status === 'Thí điểm / Định hướng') statusBadge = '<span class="badge badge-ai-match">Thí điểm</span>';
+
+    return `
+      <div class="repo-card" id="card-${doc.id}">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+          <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+            <span class="badge badge-tag" style="font-weight: 700; background: var(--primary); color: var(--on-primary);">${doc.id.toUpperCase()}</span>
+            <strong style="color: var(--on-surface); font-size: 0.95rem;">${doc.code}</strong>
+          </div>
+          ${statusBadge}
+        </div>
+        <h4 style="margin: 4px 0 6px 0; font-size: 1.05rem; line-height: 1.4; color: var(--on-surface);">${doc.title}</h4>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px; font-size: 0.78rem; color: var(--on-surface-variant); margin-bottom: 6px;">
+          <span><i data-lucide="landmark" style="width:12px;height:12px;display:inline-block;vertical-align:middle;"></i> ${doc.issuer}</span>
+          <span>•</span>
+          <span><i data-lucide="calendar" style="width:12px;height:12px;display:inline-block;vertical-align:middle;"></i> Năm ${doc.year} (${doc.period})</span>
+        </div>
+        <div style="background: var(--surface-container-low); border-left: 3px solid var(--primary); padding: 8px 12px; border-radius: var(--rounded-sm); margin-bottom: 8px; font-size: 0.84rem; font-style: italic;">"${doc.excerpt}"</div>
+        <div style="font-size: 0.85rem; color: var(--on-surface); margin-bottom: 8px; line-height: 1.45;"><strong>Tác động tiểu học:</strong> ${doc.primaryImpact}</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px;">${doc.themes.map(t => `<span class="badge badge-tag" style="font-size: 0.72rem;">${t}</span>`).join('')}</div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 8px; border-top: 1px solid var(--outline-variant);">
+          <span style="font-size: 0.78rem; color: ${doc.aiLabelMatch ? 'var(--positive)' : 'var(--error)'}; font-weight: 600;">
+            <i data-lucide="${doc.aiLabelMatch ? 'check' : 'alert-circle'}" style="width:12px;height:12px;display:inline-block;vertical-align:middle;"></i>
+            ${doc.aiLabelMatch ? 'Khớp AI 100%' : 'Đã sửa AI'}
+          </span>
+          <button class="btn btn-sm btn-outline" onclick="openDocModal('${doc.id}')"><i data-lucide="maximize-2" style="width:12px;height:12px;display:inline-block;vertical-align:middle;"></i> Chi tiết toàn diện</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function saveDocNoteInline(id) {
+  const input = document.getElementById(`note-inline-${id}`);
+  if (!input) return;
+  appUserState.notesByDoc[id] = input.value;
+  try { localStorage.setItem('de17_user_notes', JSON.stringify(appUserState.notesByDoc)); } catch(e){}
+  const statusEl = document.getElementById(`note-inline-status-${id}`);
+  if (statusEl) {
+    statusEl.textContent = '✓ Đã lưu';
+    setTimeout(() => { statusEl.textContent = ''; }, 2000);
+  }
+}
+
+function openDocModal(id) {
+  const doc = POLICY_DOCS.find(d => d.id === id);
+  if (!doc) return;
+  selectedDocId = id;
+  const modal = document.getElementById('doc-modal-backdrop');
+  const body = document.getElementById('modal-body-content');
+  const statusBadge = document.getElementById('modal-status-badge');
+
+  if (statusBadge) {
+    statusBadge.innerHTML = `<span class="badge ${doc.status === 'Còn hiệu lực' ? 'badge-valid' : (doc.status === 'Sửa đổi / Thay thế' ? 'badge-modified' : 'badge-tag')}">${doc.status}</span>`;
+  }
+
+  if (body) {
+    const note = appUserState.notesByDoc[doc.id] || '';
+    body.innerHTML = `
+      <div style="margin-bottom: var(--space-md);">
+        <div style="display: flex; gap: var(--space-xs); align-items: center; margin-bottom: 4px;">
+          <span class="badge badge-primary" style="font-size: 0.82rem;">${doc.id.toUpperCase()}</span>
+          <strong style="font-size: 1.25rem; color: var(--on-surface);">${doc.code}</strong>
+        </div>
+        <h3 style="margin: 0; font-size: 1.15rem; color: var(--on-surface); line-height: 1.4;">${doc.title}</h3>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-sm); background: var(--surface-container-low); padding: var(--space-sm) var(--space-md); border-radius: var(--rounded-md); margin-bottom: var(--space-md); font-size: 0.85rem;">
+        <div><strong>Cơ quan ban hành:</strong> ${doc.issuer}</div>
+        <div><strong>Giai đoạn:</strong> ${doc.period} (Năm ${doc.year})</div>
+        <div><strong>Đối soát nguồn gốc:</strong> <span style="color:var(--positive); font-weight:600;">100% Công báo / Cổng chính thức</span></div>
+        <div><strong>Kiểm chứng AI:</strong> ${doc.aiLabelMatch ? '<span style="color:var(--positive); font-weight:600;">Khớp 100% bản gốc</span>' : '<span style="color:var(--error); font-weight:600;">Đã sửa ảo giác</span>'}</div>
+      </div>
+      <div style="background: var(--surface-container-low); border-left: 4px solid var(--primary); padding: var(--space-md); border-radius: var(--rounded-md); margin-bottom: var(--space-md);">
+        <div style="font-size: 0.8rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; text-transform: uppercase;">MINH CHỨNG NGUYÊN VĂN TỪ BẢN GỐC:</div>
+        <div style="font-size: 0.95rem; font-style: italic; line-height: 1.55; color: var(--on-surface);">"${doc.excerpt}"</div>
+      </div>
+      <div style="background: var(--surface-container-low); border-left: 4px solid var(--data-2); padding: var(--space-md); border-radius: var(--rounded-md); margin-bottom: var(--space-md);">
+        <div style="font-size: 0.8rem; font-weight: 700; color: var(--data-2); margin-bottom: 4px; text-transform: uppercase;">TÁC ĐỘNG BẬC TIỂU HỌC &amp; NĂNG LỰC SỐ:</div>
+        <div style="font-size: 0.92rem; line-height: 1.55; color: var(--on-surface);">${doc.primaryImpact}</div>
+      </div>
+      <div style="background: var(--surface-container-low); padding: var(--space-md); border-radius: var(--rounded-md); margin-bottom: var(--space-md);">
+        <div style="font-size: 0.8rem; font-weight: 700; color: var(--on-surface-variant); margin-bottom: 4px; text-transform: uppercase;">CHI TIẾT ĐỐI SOÁT KIỂM CHỨNG AI:</div>
+        <div style="font-size: 0.88rem; color: var(--on-surface);">${doc.aiNote}</div>
+      </div>
+      <div>
+        <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">Ghi chú nghiên cứu của bạn:</label>
+        <textarea id="modal-note-input" class="field-control" rows="3" style="font-size: 0.88rem;" placeholder="Nhập ghi chú...">${note}</textarea>
+        <div style="display: flex; justify-content: flex-end; margin-top: 6px;">
+          <button class="btn btn-sm btn-primary" onclick="saveDocNoteModal('${doc.id}')"><i data-lucide="save" style="width: 14px; height: 14px; display:inline-block;vertical-align:middle;"></i> Lưu ghi chú</button>
+        </div>
+      </div>
+    `;
+    lucide.createIcons();
+  }
+  if (modal) modal.style.display = 'flex';
+}
+
+function saveDocNoteModal(id) {
+  const input = document.getElementById('modal-note-input');
+  if (!input) return;
+  appUserState.notesByDoc[id] = input.value;
+  try { localStorage.setItem('de17_user_notes', JSON.stringify(appUserState.notesByDoc)); } catch(e){}
+  alert('Đã lưu ghi chú thành công!');
+  renderPolicyTable(getFilteredDocs());
+}
+
+function closeDocModal(evt) {
+  if (evt) evt.stopPropagation();
+  const modal = document.getElementById('doc-modal-backdrop');
+  if (modal) modal.style.display = 'none';
+}
+
+function renderInspector(id) { selectedDocId = id; }
+
+function renderCharts(docs) {
+  const years = [2018, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
+  const themes = ['Hạ tầng', 'Học liệu', 'Năng lực số', 'Giáo viên', 'AI', 'Dữ liệu'];
+  const themeColors = ['#0891b2', '#059669', '#2563eb', '#d97706', '#7c3aed', '#dc2626'];
+
+  const datasets = themes.map((theme, idx) => ({
+    label: theme,
+    data: years.map(y => docs.filter(d => d.year === y && d.themes.includes(theme)).length),
+    backgroundColor: themeColors[idx],
+    borderRadius: 3
+  }));
+
+  const ctx1 = document.getElementById('chart-theme-timeline');
+  if (ctx1 && typeof Chart !== 'undefined') {
+    if (timelineChartInstance) timelineChartInstance.destroy();
+    timelineChartInstance = new Chart(ctx1, {
+      type: 'bar',
+      data: { labels: years.map(String), datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Barlow', size: 11, weight: '600' } } }, tooltip: { mode: 'index', intersect: false } },
+        scales: { x: { stacked: true, grid: { display: false }, ticks: { font: { family: 'Barlow', size: 11, weight: '600' } } }, y: { stacked: true, beginAtZero: true, ticks: { stepSize: 1, font: { family: 'Barlow', size: 11 } }, grid: { color: '#f1f5f9' } } }
+      }
+    });
+  }
+
+  const issuers = ['Trung ương / Quốc hội / Chính phủ', 'Bộ GD&ĐT', 'Liên ngành / Bộ KH&CN - TT&TT'];
+  const issuerShort = ['TW / QH / Chính phủ', 'Bộ GD&ĐT', 'Liên ngành'];
+  const statuses = ['Còn hiệu lực', 'Sửa đổi / Thay thế', 'Hoàn thành giai đoạn', 'Thí điểm / Định hướng'];
+  const statusColors = ['#059669', '#d97706', '#94a3b8', '#2563eb'];
+
+  const statusDatasets = statuses.map((st, idx) => ({
+    label: st,
+    data: issuers.map(iss => docs.filter(d => d.issuer === iss && d.status === st).length),
+    backgroundColor: statusColors[idx],
+    borderRadius: 3
+  }));
+
+  const ctx2 = document.getElementById('chart-issuer-status');
+  if (ctx2 && typeof Chart !== 'undefined') {
+    if (issuerChartInstance) issuerChartInstance.destroy();
+    issuerChartInstance = new Chart(ctx2, {
+      type: 'bar',
+      data: { labels: issuerShort, datasets: statusDatasets },
+      options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Barlow', size: 11, weight: '600' } } } },
+        scales: { x: { stacked: true, beginAtZero: true, ticks: { stepSize: 2, font: { family: 'Barlow', size: 11 } }, grid: { color: '#f1f5f9' } }, y: { stacked: true, grid: { display: false }, ticks: { font: { family: 'Barlow', size: 11, weight: '600' } } } }
+      }
+    });
+  }
+}
+
+function renderTimeline() {
+  const btnWrap = document.getElementById('timeline-year-buttons');
+  btnWrap.innerHTML = TIMELINE_MILESTONES.map(m => `
+    <button type="button" class="timeline-chip ${m.year === selectedTimelineYear ? 'is-active' : ''}" onclick="selectTimelineYear(${m.year})">Năm ${m.year}</button>
+  `).join('');
+
+  const m = TIMELINE_MILESTONES.find(x => x.year === selectedTimelineYear) || TIMELINE_MILESTONES[0];
+  const panel = document.getElementById('timeline-detail-panel');
+  panel.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-sm); flex-wrap: wrap;">
+      <div>
+        <h4 style="margin: 0; font-size: 1.1rem; color: var(--primary); font-family: var(--font-headline); font-weight: 700;">Năm ${m.year} · ${m.headline}</h4>
+        <p style="margin: 0.35rem 0 var(--space-sm) 0; font-size: 0.9rem; color: var(--on-surface); max-width: 78ch; line-height: 1.5;">${m.summary}</p>
+      </div>
+      <span class="badge badge-tag" style="font-size: 0.8rem;">Cột mốc ${m.year}</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; margin-top: 0.35rem;">
+      <strong style="font-size: 0.82rem;">Văn bản tiêu biểu:</strong>
+      ${m.highlightDocs.map(id => {
+        const doc = POLICY_DOCS.find(d => d.id === id);
+        const label = doc ? doc.code : id;
+        return `<button type="button" class="btn btn-secondary btn-sm" onclick="jumpToDoc('${id}')"><i data-lucide="external-link" style="width:12px;height:12px;"></i> ${label}</button>`;
+      }).join('')}
+    </div>
+  `;
+  lucide.createIcons();
+}
+
+function selectTimelineYear(yr) { selectedTimelineYear = yr; renderTimeline(); }
+function jumpToDoc(docId) {
+  selectedDocId = docId;
+  const el = document.getElementById('sec-repository');
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+  renderPolicyTable(getFilteredDocs());
+  renderInspector(docId);
+}
+
+const GRADE_PREVIEWS = {
+  'Lớp 1': { title: 'Lớp 1 – Nhận biết & Làm quen trực quan', desc: 'Nhận diện thiết bị số (máy tính, máy tính bảng); thao tác chạm/kéo thả đơn giản dưới sự hướng dẫn trực tiếp của giáo viên; bảo vệ mắt và an toàn điện.', btn: 'Xem Ma trận YCCĐ Lớp 1' },
+  'Lớp 2': { title: 'Lớp 2 – Thao tác cơ bản & Trải nghiệm tương tác', desc: 'Sử dụng phần mềm, trò chơi học tập để luyện phép tính, nghe đọc mẫu; bước đầu phản hồi lịch sự trên môi trường số; không tự ý mở nội dung lạ.', btn: 'Xem Ma trận YCCĐ Lớp 2' },
+  'Lớp 3': { title: 'Lớp 3 – Bắt đầu môn Tin học & Thực hành nền tảng', desc: 'Môn Tin học bắt buộc 35 tiết/năm: Thao tác chuột, bàn phím gõ tiếng Việt; nhận biết phần cứng/phần mềm; kiểm tra lại kết quả tính toán của máy tính.', btn: 'Xem Ma trận YCCĐ Lớp 3' },
+  'Lớp 4': { title: 'Lớp 4 – Vận dụng, Tìm kiếm & Xử lý số liệu', desc: 'Tìm kiếm thông tin theo chủ đề; quản lý tệp, thư mục; bước đầu sử dụng bảng tính/biểu đồ toán học; tôn trọng bản quyền phần mềm và dữ liệu bạn bè.', btn: 'Xem Ma trận YCCĐ Lớp 4' },
+  'Lớp 5': { title: 'Lớp 5 – Sáng tạo sản phẩm, Lập trình & Đánh giá nguồn tin', desc: 'Đánh giá độ tin cậy của thông tin tìm kiếm; tạo bài trình chiếu giới thiệu sản phẩm; lập trình trực quan (Scratch/Blockly); an toàn bảo mật Internet.', btn: 'Xem Ma trận YCCĐ Lớp 5' }
+};
+
+function previewGradeProgression(grade) {
+  const info = GRADE_PREVIEWS[grade];
+  if (!info) return;
+  document.getElementById('prog-live-title').textContent = info.title;
+  document.getElementById('prog-live-desc').textContent = info.desc;
+  document.getElementById('prog-live-btn').innerHTML = `${info.btn} <i data-lucide="arrow-down" style="width: 14px; height: 14px;"></i>`;
+  lucide.createIcons();
+}
+
+function filterByGradeFromChart(grade) {
+  selectedGrade = grade;
+  document.querySelectorAll('#grade-chips .chip-btn').forEach(c => {
+    if (c.textContent.includes(grade)) c.classList.add('is-active');
+    else c.classList.remove('is-active');
+  });
+  renderYccdGrid();
+  const gridEl = document.getElementById('yccd-grid');
+  if (gridEl) gridEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function setCurrGrade(grade, btn) {
+  selectedGrade = grade;
+  document.querySelectorAll('#grade-chips .chip-btn').forEach(b => b.classList.remove('is-active'));
+  btn.classList.add('is-active');
+  renderYccdGrid();
+}
+
+function setCurrSubject(subject, btn) {
+  selectedSubject = subject;
+  document.querySelectorAll('#subject-chips .chip-btn').forEach(b => b.classList.remove('is-active'));
+  btn.classList.add('is-active');
+  renderYccdGrid();
+}
+
+function renderYccdGrid() {
+  const grid = document.getElementById('yccd-grid');
+  const filtered = YCCD_DATA.filter(item => {
+    if (selectedGrade !== 'all' && item.grade !== selectedGrade) return false;
+    if (selectedSubject !== 'all' && item.subject !== selectedSubject) return false;
+    return true;
+  });
+
+  document.getElementById('yccd-count-text').textContent = `Hiển thị ${filtered.length}/${YCCD_DATA.length} chỉ mục YCCĐ`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div style="grid-column: 1/-1; padding: var(--space-xl); text-align: center; color: var(--on-surface-subtle); background: var(--surface-container); border-radius: var(--rounded-lg);"><i data-lucide="search-x" style="width: 32px; height: 32px; margin-bottom: 0.5rem;"></i><div>Không tìm thấy mục YCCĐ nào phù hợp với bộ lọc này.</div></div>`;
+    lucide.createIcons();
+    return;
+  }
+
+  grid.innerHTML = filtered.map(item => `
+    <div class="yccd-card">
+      <div>
+        <div class="yccd-card-top">
+          <span class="badge badge-tag" style="font-weight: 700; color: var(--primary); background: var(--primary-container);">${item.grade}</span>
+          <span class="badge badge-valid">${item.subject}</span>
+        </div>
+        <div style="font-size: 0.78rem; font-family: var(--font-label); color: var(--on-surface-subtle); margin-bottom: 0.35rem;">${item.nlsDomain}</div>
+        <ul class="yccd-bullet-list">${item.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+      </div>
+      <div class="yccd-note-box"><strong>Định hướng sư phạm:</strong> ${item.boundaryNote}</div>
+    </div>
+  `).join('');
+  lucide.createIcons();
+}
+
+function switchIntegrationTab(subject, btn) {
+  selectedIntegrationSubject = subject;
+  document.querySelectorAll('.integration-tab-btn').forEach(b => b.classList.remove('is-active'));
+  btn.classList.add('is-active');
+  renderIntegrationContent();
+}
+
+function renderIntegrationContent() {
+  const box = document.getElementById('integration-content-box');
+  const data = INTEGRATION_DATA[selectedIntegrationSubject];
+  if (!data) return;
+
+  box.innerHTML = `
+    <div style="margin-bottom: var(--space-md); padding-bottom: var(--space-sm); border-bottom: 1px solid var(--outline-variant);">
+      <h4 style="font-size: 1.15rem; color: var(--on-surface); margin: 0 0 0.25rem 0; font-family: var(--font-headline); font-weight: 700;">${data.title}</h4>
+      <p style="font-size: 0.9rem; color: var(--on-surface-variant); margin: 0;">${data.intro}</p>
+    </div>
+    <div style="overflow-x: auto;">
+      <table class="integration-table">
+        <thead>
+          <tr>
+            <th style="width: 14%;">Khối Lớp</th>
+            <th style="width: 25%;">Nội dung đề xuất tích hợp</th>
+            <th style="width: 35%;">Hoạt động học tập cụ thể của Học sinh</th>
+            <th style="width: 26%;">Công cụ số &amp; Gợi ý sư phạm</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.rows.map(r => `
+            <tr>
+              <td><span class="badge badge-tag" style="font-size: 0.82rem; font-weight: 700; color: var(--primary);">${r.grade}</span></td>
+              <td><strong>${r.topic}</strong></td>
+              <td>${r.activity}</td>
+              <td>
+                <div style="font-weight: 600; color: var(--primary); font-size: 0.84rem; margin-bottom: 0.25rem;"><i data-lucide="wrench" style="width: 13px; height: 13px; display: inline-block; vertical-align: middle;"></i> ${r.tools}</div>
+                <div style="font-size: 0.8rem; color: var(--on-surface-subtle); font-style: italic;">"${r.pedagogicalTip}"</div>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+  lucide.createIcons();
+}
+
+function setRadarMode(mode) {
+  radarMode = mode;
+  document.querySelectorAll('#sec-international .btn').forEach(b => b.classList.remove('btn-primary'));
+  const btn = document.getElementById(`radar-mode-${mode}`);
+  if (btn) btn.classList.add('btn-primary');
+  renderIntlRadar(selectedIntlId);
+}
+
+function renderInternational() {
+  const tabsEl = document.getElementById('intl-tabs');
+  tabsEl.innerHTML = INTL_PROFILES.map(p => `
+    <button type="button" class="country-tab-btn ${p.id === selectedIntlId ? 'is-active' : ''}" onclick="selectIntlCountry('${p.id}')"><span>${p.flag}</span> ${p.name}</button>
+  `).join('');
+  renderIntlDetailBox();
+  renderIntlMatrixTable();
+  renderIntlRadar(selectedIntlId);
+}
+
+function selectIntlCountry(id) {
+  selectedIntlId = id;
+  document.querySelectorAll('.country-tab-btn').forEach(b => b.classList.remove('is-active'));
+  const activeBtn = Array.from(document.querySelectorAll('.country-tab-btn')).find(b => b.textContent.includes(id === 'vn' ? 'Việt Nam' : (id === 'sg' ? 'Singapore' : 'Hàn Quốc')));
+  if (activeBtn) activeBtn.classList.add('is-active');
+  renderIntlDetailBox();
+  renderIntlRadar(id);
+}
+
+function renderIntlDetailBox() {
+  const detailEl = document.getElementById('intl-detail-box');
+  const profile = INTL_PROFILES.find(p => p.id === selectedIntlId) || INTL_PROFILES[0];
+  if (!detailEl || !profile) return;
+
+  detailEl.innerHTML = `
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-xs); margin-bottom: var(--space-xs);">
+      <span style="font-size: 1.15rem; font-weight: 700; color: var(--on-surface); font-family: var(--font-headline);">${profile.flag} ${profile.name}</span>
+      <span class="badge badge-tag">${profile.tagline}</span>
+    </div>
+    <div style="font-size: 0.85rem; color: var(--on-surface-variant); margin-bottom: var(--space-sm);"><strong>Văn bản trụ cột:</strong> ${profile.pillarDoc}</div>
+    <div style="font-size: 0.85rem; margin-bottom: var(--space-md);"><strong>Tiếp cận bậc tiểu học:</strong> ${profile.primaryApproach}</div>
+    <div class="split-2" style="gap: var(--space-sm); margin-bottom: var(--space-md);">
+      <div style="background: var(--surface-container); padding: var(--space-sm) var(--space-md); border-radius: var(--rounded-sm); border-left: 3px solid var(--positive);">
+        <div style="font-weight: 700; font-size: 0.78rem; color: var(--positive); margin-bottom: 0.2rem;">ĐIỂM MẠNH NỔI BẬT:</div>
+        <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.25rem;">${profile.strengths.map(s => `<li>${s}</li>`).join('')}</ul>
+      </div>
+      <div style="background: var(--surface-container); padding: var(--space-sm) var(--space-md); border-radius: var(--rounded-sm); border-left: 3px solid var(--warning);">
+        <div style="font-weight: 700; font-size: 0.78rem; color: var(--warning); margin-bottom: 0.2rem;">RỦI RO &amp; THÁCH THỨC:</div>
+        <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.25rem;">${profile.risks.map(r => `<li>${r}</li>`).join('')}</ul>
+      </div>
+    </div>
+    <div style="background: var(--surface-container-high); border-radius: var(--rounded-sm); padding: var(--space-sm) var(--space-md); border-left: 3px solid var(--primary);">
+      <strong style="font-size: 0.84rem; color: var(--primary);">BÀI HỌC CÓ ĐIỀU KIỆN CHO VIỆT NAM:</strong>
+      <div style="font-size: 0.85rem; margin-top: 0.25rem; color: var(--on-surface); line-height: 1.45;">${profile.conditionalLesson}</div>
+    </div>
+  `;
+}
+
+function renderIntlMatrixTable() {
+  const tbody = document.getElementById('intl-matrix-tbody');
+  tbody.innerHTML = INTL_PROFILES.map(p => `
+    <tr class="${p.id === selectedIntlId ? 'is-selected' : ''}" onclick="selectIntlCountry('${p.id}')">
+      <td><strong>${p.flag} ${p.name}</strong><br><span style="font-size: 0.75rem; color: var(--on-surface-subtle);">${p.tagline}</span></td>
+      <td><strong>${p.scores[0]}</strong> / 5.0</td>
+      <td><strong>${p.scores[1]}</strong> / 5.0</td>
+      <td><strong>${p.scores[2]}</strong> / 5.0</td>
+      <td><strong>${p.scores[3]}</strong> / 5.0</td>
+      <td><strong>${p.scores[4]}</strong> / 5.0</td>
+      <td><strong>${p.scores[5]}</strong> / 5.0</td>
+    </tr>
+  `).join('');
+}
+
+function renderIntlRadar(compareId) {
+  const ctx = document.getElementById('chart-intl-radar');
+  if (!ctx || typeof Chart === 'undefined') return;
+
+  const pVn = INTL_PROFILES.find(p => p.id === 'vn');
+  const pSg = INTL_PROFILES.find(p => p.id === 'sg');
+  const pKr = INTL_PROFILES.find(p => p.id === 'kr');
+
+  let datasets = [];
+  if (radarMode === 'all') {
+    datasets = [
+      { label: 'Việt Nam', data: pVn.scores, backgroundColor: 'rgba(37, 99, 235, 0.2)', borderColor: '#2563eb', borderWidth: 2.5, pointBackgroundColor: '#2563eb' },
+      { label: 'Singapore', data: pSg.scores, backgroundColor: 'rgba(225, 29, 72, 0.15)', borderColor: '#e11d48', borderWidth: 2, pointBackgroundColor: '#e11d48' },
+      { label: 'Hàn Quốc', data: pKr.scores, backgroundColor: 'rgba(5, 150, 105, 0.15)', borderColor: '#059669', borderWidth: 2, pointBackgroundColor: '#059669' }
+    ];
+  } else if (radarMode === 'sg') {
+    datasets = [
+      { label: 'Việt Nam', data: pVn.scores, backgroundColor: 'rgba(37, 99, 235, 0.25)', borderColor: '#2563eb', borderWidth: 2.5, pointBackgroundColor: '#2563eb' },
+      { label: 'Singapore', data: pSg.scores, backgroundColor: 'rgba(225, 29, 72, 0.25)', borderColor: '#e11d48', borderWidth: 2.5, pointBackgroundColor: '#e11d48' }
+    ];
+  } else if (radarMode === 'kr') {
+    datasets = [
+      { label: 'Việt Nam', data: pVn.scores, backgroundColor: 'rgba(37, 99, 235, 0.25)', borderColor: '#2563eb', borderWidth: 2.5, pointBackgroundColor: '#2563eb' },
+      { label: 'Hàn Quốc', data: pKr.scores, backgroundColor: 'rgba(5, 150, 105, 0.25)', borderColor: '#059669', borderWidth: 2.5, pointBackgroundColor: '#059669' }
+    ];
+  }
+
+  if (radarChartInstance) radarChartInstance.destroy();
+
+  radarChartInstance = new Chart(ctx, {
+    type: 'radar',
+    data: { labels: RADAR_LABELS, datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      elements: { line: { tension: 0.15 } },
+      scales: { r: { min: 0, max: 5, ticks: { stepSize: 1, backdropColor: 'transparent', font: { family: 'Barlow', size: 10 } }, pointLabels: { font: { family: 'Barlow', size: 11, weight: '600' }, color: '#334155' }, grid: { color: '#e2e8f0' }, angleLines: { color: '#cbd5e1' } } },
+      plugins: { legend: { position: 'bottom', labels: { font: { family: 'Barlow', size: 12, weight: '600' } } } }
+    }
+  });
+}
+
+function renderQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = QUIZ_ITEMS.map((q, idx) => {
+    const userAns = appUserState.quizAnswers[q.id];
+    const isDone = Boolean(userAns);
+    const isCorrect = userAns === q.correct;
+    return `
+      <div class="quiz-card">
+        <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.35rem; font-family: var(--font-headline);">Tình huống ${idx + 1}: ${q.scenario}</div>
+        <div class="quiz-options-group">
+          <button type="button" class="quiz-btn ${userAns === 'cntt' ? 'btn-primary' : ''}" onclick="submitQuizAns('${q.id}', 'cntt')">A. Ứng dụng CNTT (Dạy học có thiết bị)</button>
+          <button type="button" class="quiz-btn ${userAns === 'nls' ? 'btn-primary' : ''}" onclick="submitQuizAns('${q.id}', 'nls')">B. Phát triển Năng lực số cho Học sinh</button>
+        </div>
+        <div class="quiz-feedback ${isDone ? (isCorrect ? 'is-correct' : 'is-wrong') : ''}" id="feedback-${q.id}" style="display: ${isDone ? 'block' : 'none'};">
+          <strong>${isCorrect ? '✓ Hoàn toàn chính xác!' : '✗ Chưa chính xác!'}</strong> ${q.explain}
+        </div>
+      </div>
+    `;
+  }).join('');
+  updateQuizScore();
+}
+
+function submitQuizAns(qId, ans) {
+  appUserState.quizAnswers[qId] = ans;
+  try { localStorage.setItem('de17_quiz_answers', JSON.stringify(appUserState.quizAnswers)); } catch(e){}
+  renderQuiz();
+}
+
+function updateQuizScore() {
+  const answered = Object.keys(appUserState.quizAnswers).length;
+  let correct = 0;
+  QUIZ_ITEMS.forEach(q => { if (appUserState.quizAnswers[q.id] === q.correct) correct++; });
+  document.getElementById('quiz-score-line').textContent = `Đã làm: ${answered}/4 · Đúng: ${correct} câu`;
+}
+
+function exportFilteredCsv() {
+  const docs = getFilteredDocs();
+  const esc = val => `"${String(val).replace(/"/g, '""')}"`;
+  const header = ['Mã', 'Số hiệu', 'Năm', 'Giai đoạn', 'Cơ quan', 'Trích yếu', 'Trọng tâm', 'Hiệu lực', 'Khớp AI'];
+  const rows = docs.map(d => [esc(d.id), esc(d.code), esc(d.year), esc(d.period), esc(d.issuer), esc(d.title), esc(d.themes.join('; ')), esc(d.status), esc(d.aiLabelMatch ? 'Khớp' : 'Đã sửa')]);
+  const csv = '\uFEFF' + [header.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Chinh_sach_NLS_AI_Tieu_hoc_${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+}
+
+function renderDashboard() {
+  const docs = getFilteredDocs();
+  document.getElementById('filter-summary-text').innerHTML = `Đang hiển thị <strong>${docs.length}/${POLICY_DOCS.length}</strong> văn bản (${Math.round((docs.length/POLICY_DOCS.length)*100)}%)`;
+  renderPolicyTable(docs);
+  renderCharts(docs);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderDashboard();
+  renderInspector(selectedDocId);
+  renderTimeline();
+  renderYccdGrid();
+  renderIntegrationContent();
+  renderInternational();
+  renderQuiz();
+  lucide.createIcons();
+});
+  </script>
+</body>
+</html>

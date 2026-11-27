@@ -1,7 +1,7 @@
 /**
  * CURRICULUM ANALYTICS – PROJECT 03
  * Authentication & Admin Access Control System
- * Tài khoản Quản trị viên & Chủ nhiệm nghiên cứu: Lê Trung Hậu & Ngọc Lan
+ * Tài khoản Quản trị viên: Lê Trung Hậu (Đề tài 03), Ngọc Lan (Đề tài 20), Kim Hân (Đề tài 17)
  */
 
 (function () {
@@ -10,37 +10,52 @@
   const AUTH_STORAGE_KEY = 'ca_current_user';
   const USERS_STORAGE_KEY = 'ca_admin_accounts';
 
-  // Danh mục tài khoản Admin mặc định
+  // Danh mục tài khoản Admin mặc định kèm đường dẫn giao diện riêng
   const DEFAULT_ADMINS = [
     {
       id: "admin-01",
       username: "letrunghau",
       fullName: "Lê Trung Hậu",
-      role: "Chủ nhiệm Đề tài & Quản trị viên Cấp cao",
+      role: "Chủ nhiệm Đề tài 03 & Quản trị viên Cấp cao",
       roleCode: "lead_admin",
       email: "lehau290920@gmail.com",
       avatarInitials: "TH",
       avatarBg: "linear-gradient(135deg, #0284c7 0%, #0d9488 100%)",
       title: "Chủ nhiệm đề tài nghiên cứu",
       affiliation: "Ban Chủ nhiệm Đề tài 03 - Giáo dục học So sánh",
+      targetUrl: "index.html",
       permissions: ["all", "edit_matrix", "verify_sources", "manage_recommendations", "export_reports", "manage_settings"]
     },
     {
       id: "admin-02",
       username: "ngoclan",
       fullName: "Ngọc Lan",
-      role: "Đồng Chủ nhiệm & Quản trị viên Phân tích",
+      role: "Chủ nhiệm Đề tài 20 & Quản trị viên Phân tích",
       roleCode: "analytics_admin",
       email: "ngoclan.research@gmail.com",
       avatarInitials: "NL",
       avatarBg: "linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%)",
       title: "Chuyên gia phân tích dữ liệu giáo dục",
-      affiliation: "Nhóm Nghiên cứu & Đối sánh Quốc tế",
+      affiliation: "Nhóm Nghiên cứu Đề tài 20 - AI & CTGDPT 2018",
+      targetUrl: "detai20.html",
+      permissions: ["all", "edit_matrix", "verify_sources", "manage_recommendations", "export_reports"]
+    },
+    {
+      id: "admin-03",
+      username: "kimhan",
+      fullName: "Kim Hân",
+      role: "Chủ nhiệm Đề tài 17 & Quản trị viên Chính sách",
+      roleCode: "policy_admin",
+      email: "kimhan.research@gmail.com",
+      avatarInitials: "KH",
+      avatarBg: "linear-gradient(135deg, #059669 0%, #0d9488 100%)",
+      title: "Chuyên gia phân tích chính sách Năng lực số & AI",
+      affiliation: "Nhóm Nghiên cứu Đề tài 17 - Năng lực số Tiểu học",
+      targetUrl: "detai17.html",
       permissions: ["all", "edit_matrix", "verify_sources", "manage_recommendations", "export_reports"]
     }
   ];
 
-  // Khởi tạo người dùng hiện tại
   let currentUser = null;
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -48,12 +63,8 @@
   });
 
   function initAuthSystem() {
-    // Lưu danh sách tài khoản nếu chưa có
-    if (!localStorage.getItem(USERS_STORAGE_KEY)) {
-      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(DEFAULT_ADMINS));
-    }
+    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(DEFAULT_ADMINS));
 
-    // Đọc session người dùng đã lưu hoặc mặc định chọn Lê Trung Hậu làm Admin đăng nhập sẵn
     const savedUser = localStorage.getItem(AUTH_STORAGE_KEY);
     if (savedUser) {
       try {
@@ -62,7 +73,7 @@
         currentUser = DEFAULT_ADMINS[0];
       }
     } else {
-      currentUser = DEFAULT_ADMINS[0]; // Mặc định Lê Trung Hậu đăng nhập
+      currentUser = DEFAULT_ADMINS[0];
       localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(currentUser));
     }
 
@@ -70,7 +81,6 @@
     initAuthModalEvents();
   }
 
-  // Render widget tài khoản trên Top Header
   function renderUserHeaderWidget() {
     const userWidget = document.getElementById('header-user-widget');
     if (!userWidget) return;
@@ -96,7 +106,6 @@
     }
   }
 
-  // Khởi tạo sự kiện modal
   function initAuthModalEvents() {
     const btnSwitchHau = document.getElementById('btn-switch-user-hau');
     if (btnSwitchHau) {
@@ -112,6 +121,13 @@
       });
     }
 
+    const btnSwitchHan = document.getElementById('btn-switch-user-han');
+    if (btnSwitchHan) {
+      btnSwitchHan.addEventListener('click', () => {
+        AuthManager.switchUser('kimhan');
+      });
+    }
+
     const loginForm = document.getElementById('admin-login-form');
     if (loginForm) {
       loginForm.addEventListener('submit', (e) => {
@@ -122,14 +138,13 @@
     }
   }
 
-  // API Đối tượng Quản lý Tài khoản công khai
   window.AuthManager = {
     getCurrentUser() {
       return currentUser;
     },
 
     isAdmin() {
-      return currentUser && currentUser.roleCode.includes('admin');
+      return currentUser && currentUser.roleCode && currentUser.roleCode.includes('admin');
     },
 
     openAccountMenu() {
@@ -146,13 +161,18 @@
       if (user) {
         currentUser = user;
         localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(currentUser));
+        
+        // Nếu tài khoản có giao diện riêng khác trang hiện tại thì chuyển hướng
+        if (user.targetUrl && !window.location.pathname.endsWith(user.targetUrl)) {
+          window.location.href = user.targetUrl;
+          return;
+        }
+
         renderUserHeaderWidget();
         renderAccountModalInfo();
         window.ModalManager.close('account-modal');
         window.ModalManager.close('login-modal');
         window.showToast(`Đã chuyển phiên làm việc: ${user.fullName} (${user.role})`);
-        
-        // Notify other components if needed
         window.dispatchEvent(new CustomEvent('authChanged', { detail: { user: currentUser } }));
       }
     },
@@ -162,13 +182,14 @@
       if (user) {
         this.switchUser(user.username);
       } else {
-        // Hỗ trợ đăng nhập nhanh nếu nhập đúng tên
         if (username.includes('hau') || username.includes('hậu')) {
           this.switchUser('letrunghau');
         } else if (username.includes('lan')) {
           this.switchUser('ngoclan');
+        } else if (username.includes('han') || username.includes('hân')) {
+          this.switchUser('kimhan');
         } else {
-          window.showToast('Vui lòng chọn tài khoản "Lê Trung Hậu" hoặc "Ngọc Lan"', 'warning');
+          window.showToast('Vui lòng chọn tài khoản "Ngọc Lan", "Kim Hân" hoặc "Lê Trung Hậu"', 'warning');
         }
       }
     },
@@ -176,10 +197,7 @@
     logout() {
       currentUser = null;
       localStorage.removeItem(AUTH_STORAGE_KEY);
-      renderUserHeaderWidget();
-      window.ModalManager.close('account-modal');
-      window.showToast('Đã đăng xuất khỏi phiên làm việc Quản trị viên');
-      window.dispatchEvent(new CustomEvent('authChanged', { detail: { user: null } }));
+      window.location.href = 'login.html';
     }
   };
 
@@ -200,7 +218,6 @@
           <div><strong>Email xác thực:</strong> ${currentUser.email}</div>
           <div><strong>Đơn vị công tác:</strong> ${currentUser.affiliation}</div>
           <div><strong>Trạng thái phiên:</strong> <span style="color: var(--success); font-weight: 600;">● Đang hoạt động (Toàn quyền Admin)</span></div>
-          <div><strong>Quyền hạn:</strong> Phê duyệt nguồn, sửa rubric, duyệt khuyến nghị, xuất báo cáo.</div>
         </div>
       `;
     }
