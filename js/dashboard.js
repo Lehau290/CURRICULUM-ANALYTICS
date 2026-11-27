@@ -45,12 +45,30 @@
     const data = window.CURRICULUM_DATA;
     if (!data) return;
 
+    let liveSources = data.sources || [];
+    try {
+      const storedSources = localStorage.getItem('ca_sources_data');
+      if (storedSources) {
+        const parsed = JSON.parse(storedSources);
+        if (Array.isArray(parsed)) liveSources = parsed;
+      }
+    } catch (e) {}
+
+    let customRecs = [];
+    try {
+      const storedRecs = localStorage.getItem('ca_custom_recommendations');
+      if (storedRecs) {
+        const parsedRecs = JSON.parse(storedRecs);
+        if (Array.isArray(parsedRecs)) customRecs = parsedRecs;
+      }
+    } catch (e) {}
+
     const countriesCount = data.countries ? data.countries.length : 4;
     const criteriaCount = data.criteria ? data.criteria.length : 8;
-    const sourcesCount = data.sources ? data.sources.length : 20;
-    const verifiedSources = data.sources ? data.sources.filter(s => s.verificationStatus === 'verified').length : 18;
-    const recommendationsCount = data.recommendations ? data.recommendations.length : 5;
-    const dataCompleteness = "88.5%";
+    const sourcesCount = liveSources.length;
+    const verifiedSources = liveSources.filter(s => s.verificationStatus === 'verified').length;
+    const recommendationsCount = (data.recommendations ? data.recommendations.length : 0) + customRecs.length;
+    const dataCompleteness = sourcesCount > 0 ? ((verifiedSources / sourcesCount) * 100).toFixed(1) + '%' : '0%';
 
     const statsContainer = document.getElementById('dashboard-stats-grid');
     if (!statsContainer) return;
@@ -349,22 +367,58 @@
   }
 
   function updateChartsForCountry(countryFilter) {
-    if (!chartCountryComp) return;
+    const countryIndexMap = { vietnam: 0, finland: 1, singapore: 2, japan: 3 };
+    const selectedIdx = countryIndexMap[countryFilter];
 
-    if (countryFilter === 'all') {
-      chartCountryComp.data.datasets.forEach(ds => ds.hidden = false);
-    } else {
-      const countryNames = {
-        'vietnam': 'Việt Nam 🇻🇳',
-        'finland': 'Phần Lan 🇫🇮',
-        'singapore': 'Singapore 🇸🇬',
-        'japan': 'Nhật Bản 🇯🇵'
-      };
-      chartCountryComp.data.datasets.forEach(ds => {
-        ds.hidden = ds.label !== countryNames[countryFilter];
-      });
+    if (chartCountryComp) {
+      if (countryFilter === 'all') {
+        chartCountryComp.data.datasets.forEach(ds => ds.hidden = false);
+      } else {
+        const countryNames = {
+          'vietnam': 'Việt Nam 🇻🇳',
+          'finland': 'Phần Lan 🇫🇮',
+          'singapore': 'Singapore 🇸🇬',
+          'japan': 'Nhật Bản 🇯🇵'
+        };
+        chartCountryComp.data.datasets.forEach(ds => {
+          ds.hidden = ds.label !== countryNames[countryFilter];
+        });
+      }
+      chartCountryComp.update();
     }
-    chartCountryComp.update();
+
+    const baseColors = [
+      'rgba(239, 68, 68, 0.85)',
+      'rgba(2, 132, 199, 0.85)',
+      'rgba(139, 92, 246, 0.85)',
+      'rgba(245, 158, 11, 0.85)'
+    ];
+    if (chartScoresDist) {
+      chartScoresDist.data.datasets[0].backgroundColor = baseColors.map((c, idx) =>
+        countryFilter === 'all' || idx === selectedIdx ? c : c.replace('0.85)', '0.2)')
+      );
+      chartScoresDist.update();
+    }
+
+    if (chartDataCoverage) {
+      const covColors = ['rgba(16, 185, 129, 0.85)', 'rgba(245, 158, 11, 0.85)'];
+      chartDataCoverage.data.datasets.forEach((ds, dIdx) => {
+        ds.backgroundColor = [0, 1, 2, 3].map(idx =>
+          countryFilter === 'all' || idx === selectedIdx ? covColors[dIdx] : covColors[dIdx].replace('0.85)', '0.2)')
+        );
+      });
+      chartDataCoverage.update();
+    }
+
+    if (chartCurriculumOverview) {
+      const ovColors = ['rgba(2, 132, 199, 0.85)', 'rgba(13, 148, 136, 0.85)'];
+      chartCurriculumOverview.data.datasets.forEach((ds, dIdx) => {
+        ds.backgroundColor = [0, 1, 2, 3].map(idx =>
+          countryFilter === 'all' || idx === selectedIdx ? ovColors[dIdx] : ovColors[dIdx].replace('0.85)', '0.2)')
+        );
+      });
+      chartCurriculumOverview.update();
+    }
   }
 
 })();

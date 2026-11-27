@@ -8,10 +8,26 @@
   'use strict';
 
   const STORAGE_KEY = 'ca_custom_recommendations';
+  let searchQuery = '';
+  let countryFilter = 'all';
 
   document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('viewChanged', (e) => {
       if (e.detail.view === 'recommendations') {
+        renderRecommendationsList();
+      }
+    });
+
+    window.addEventListener('searchUpdated', (e) => {
+      searchQuery = e.detail.query || '';
+      if (window.AppState && window.AppState.currentView === 'recommendations') {
+        renderRecommendationsList();
+      }
+    });
+
+    window.addEventListener('countryFilterChanged', (e) => {
+      countryFilter = e.detail.country || 'all';
+      if (window.AppState && window.AppState.currentView === 'recommendations') {
         renderRecommendationsList();
       }
     });
@@ -29,7 +45,30 @@
     const container = document.getElementById('recommendations-container');
     if (!container) return;
 
-    const recs = getStoredRecommendations();
+    let recs = getStoredRecommendations();
+    const countryNameMap = {
+      vietnam: 'việt nam',
+      finland: 'phần lan',
+      singapore: 'singapore',
+      japan: 'nhật bản'
+    };
+    if (countryFilter !== 'all' && countryNameMap[countryFilter]) {
+      const target = countryNameMap[countryFilter];
+      recs = recs.filter(r =>
+        (r.referenceCountry || '').toLowerCase().includes(target) ||
+        (r.vietnamIssue || '').toLowerCase().includes(target)
+      );
+    }
+    if (searchQuery) {
+      recs = recs.filter(r =>
+        `${r.title} ${r.referenceCountry} ${r.vietnamIssue} ${r.solutions} ${r.conditions}`.toLowerCase().includes(searchQuery)
+      );
+    }
+
+    if (recs.length === 0) {
+      container.innerHTML = `<div style="text-align:center; padding: 36px; color: var(--text-muted);">Không tìm thấy khuyến nghị nào phù hợp với bộ lọc hiện tại.</div>`;
+      return;
+    }
 
     container.innerHTML = recs.map((rec, index) => {
       const isHighPriority = rec.priority.toLowerCase().includes('cao') || rec.priority.includes('1');

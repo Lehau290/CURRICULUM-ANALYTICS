@@ -731,6 +731,7 @@
               <select class="filter-select" id="source-filter-category" aria-label="Lọc theo loại nguồn">
                 <option value="all">Tất cả phân loại</option>
                 <option value="Văn bản chương trình chính thức">Văn bản chương trình chính thức</option>
+                <option value="Văn bản quy phạm pháp luật">Văn bản quy phạm pháp luật</option>
                 <option value="Tài liệu của Bộ Giáo dục">Tài liệu của Bộ Giáo dục</option>
                 <option value="Báo cáo quốc tế">Báo cáo quốc tế</option>
                 <option value="Bài báo khoa học">Bài báo khoa học</option>
@@ -1034,6 +1035,7 @@
               <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Phân loại tài liệu</label>
               <select id="source-category-input" class="filter-select" style="width: 100%;">
                 <option value="Văn bản chương trình chính thức">Văn bản chương trình chính thức</option>
+                <option value="Văn bản quy phạm pháp luật">Văn bản quy phạm pháp luật</option>
                 <option value="Tài liệu của Bộ Giáo dục">Tài liệu của Bộ Giáo dục</option>
                 <option value="Báo cáo quốc tế">Báo cáo quốc tế</option>
                 <option value="Bài báo khoa học">Bài báo khoa học</option>
@@ -1225,7 +1227,7 @@
 
           <div style="margin-bottom: 14px;">
             <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px;">Mật khẩu quản trị</label>
-            <input type="password" value="Admin@2026" class="filter-select" style="width: 100%;" required>
+            <input type="password" id="login-password-input" class="filter-select" style="width: 100%;" placeholder="Nhập mật khẩu quản trị..." autocomplete="current-password" required>
           </div>
 
           <div style="background-color: var(--bg-subtle); padding: 10px; border-radius: var(--radius-sm); font-size: 11.5px; color: var(--text-muted);">
@@ -1286,6 +1288,8 @@
       if (confirm('Bạn có chắc chắn muốn đặt lại toàn bộ dữ liệu nguồn và khuyến nghị về mặc định?')) {
         localStorage.removeItem('ca_sources_data');
         localStorage.removeItem('ca_custom_recommendations');
+        localStorage.removeItem('ca_ai_notes');
+        localStorage.removeItem('ca_ai_matrix_notes');
         location.reload();
       }
     }

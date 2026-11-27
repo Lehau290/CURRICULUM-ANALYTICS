@@ -176,10 +176,21 @@
   }
 
   // 5. Export Report
+  function prepareAllViewsForPrint() {
+    const previousView = AppState.currentView;
+    const views = ['dashboard', 'countries', 'comparison', 'analysis', 'radar', 'recommendations', 'sources', 'methodology'];
+    views.forEach(v => {
+      window.dispatchEvent(new CustomEvent('viewChanged', { detail: { view: v } }));
+    });
+    AppState.currentView = previousView;
+  }
+
   function initExportReport() {
+    window.addEventListener('beforeprint', prepareAllViewsForPrint);
     const exportBtn = document.getElementById('btn-export-report');
     if (exportBtn) {
       exportBtn.addEventListener('click', () => {
+        prepareAllViewsForPrint();
         window.print();
       });
     }

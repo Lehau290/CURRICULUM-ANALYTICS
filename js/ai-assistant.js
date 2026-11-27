@@ -143,6 +143,29 @@
       status: "verified"
     };
 
+    const matchedKeywords = [];
+    if (rawInput) {
+      const lower = rawInput.toLowerCase();
+      const kwPool = [
+        'năng lực', 'phẩm chất', 'môn học', 'tích hợp', 'thời lượng', 'giờ học',
+        'đánh giá', 'không chấm điểm', 'tự chủ', 'giáo viên', 'hiện tượng', 'tokkatsu',
+        'song ngữ', 'cpa', '21cc', 'ikiru chikara', 'thông tư 32', 'ops 2014'
+      ];
+      kwPool.forEach(kw => {
+        if (lower.includes(kw)) matchedKeywords.push(kw);
+      });
+    }
+
+    window._lastAIExtraction = {
+      country: countryInfo.name,
+      countryId: countryInfo.id,
+      criterionCode: critInfo.code,
+      criterionName: critInfo.name,
+      text: kbItem.text,
+      doc: kbItem.doc,
+      rawExcerpt: rawInput ? rawInput.slice(0, 200) : ''
+    };
+
     resultsContainer.innerHTML = `
       <div class="ai-citation-box">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
@@ -154,7 +177,8 @@
         </div>
 
         <div style="background-color: var(--bg-surface); padding: 12px; border-radius: var(--radius-sm); border-left: 3px solid var(--primary); margin: 10px 0; font-size: 13px; line-height: 1.6; color: var(--text-main);">
-          ${rawInput ? `<p style="margin-bottom: 8px; color: var(--text-muted); font-style: italic;">"Trích đoạn đầu vào: ${rawInput.slice(0, 150)}..."</p>` : ''}
+          ${rawInput ? `<p style="margin-bottom: 8px; color: var(--text-muted); font-style: italic;">"Trích đoạn đầu vào: ${rawInput.slice(0, 150)}${rawInput.length > 150 ? '...' : ''}"</p>` : ''}
+          ${matchedKeywords.length ? `<div style="margin-bottom: 8px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center;"><span style="font-size: 11px; color: var(--text-muted);">Từ khóa nhận diện:</span>${matchedKeywords.map(k => `<span style="font-size: 10.5px; background: var(--primary-light); color: var(--primary); padding: 1px 6px; border-radius: 4px; font-weight: 600;">${k}</span>`).join('')}</div>` : ''}
           <strong>Kết quả phân tích học thuật:</strong><br>
           ${kbItem.text}
         </div>
@@ -167,11 +191,11 @@
         </div>
 
         <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: flex-end;">
-          <button class="btn-secondary btn-sm" onclick="window.showToast('Đã lưu trích xuất vào nhật ký nghiên cứu!')">
+          <button class="btn-secondary btn-sm" onclick="AIAssistantManager.saveLastNote()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
             Lưu vào ghi chú
           </button>
-          <button class="btn-primary btn-sm" onclick="window.showToast('Đã xác nhận nội dung trích xuất!')">
+          <button class="btn-primary btn-sm" onclick="AIAssistantManager.confirmToMatrix()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
             Xác nhận đưa vào Ma trận
           </button>
@@ -234,7 +258,7 @@
         </div>
 
         <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: flex-end;">
-          <button class="btn-primary btn-sm" onclick="window.showToast('Đã gửi bản nháp sang Trang Khuyến nghị!')">
+          <button class="btn-primary btn-sm" onclick="AIAssistantManager.applyDraftRecommendation()">
             Áp dụng vào Danh sách Khuyến nghị
           </button>
         </div>
@@ -242,5 +266,50 @@
     `;
     window.showToast("Đã tạo bản nháp khuyến nghị thành công!");
   }
+
+  window.AIAssistantManager = {
+    saveLastNote() {
+      if (!window._lastAIExtraction) return;
+      const notes = JSON.parse(localStorage.getItem('ca_ai_notes') || '[]');
+      notes.push({ ...window._lastAIExtraction, savedAt: new Date().toISOString() });
+      localStorage.setItem('ca_ai_notes', JSON.stringify(notes));
+      window.showToast(`Đã lưu trích xuất vào nhật ký nghiên cứu (${notes.length} ghi chú)!`);
+    },
+
+    confirmToMatrix() {
+      if (!window._lastAIExtraction) return;
+      const verified = JSON.parse(localStorage.getItem('ca_ai_matrix_notes') || '[]');
+      verified.push({ ...window._lastAIExtraction, confirmedAt: new Date().toISOString() });
+      localStorage.setItem('ca_ai_matrix_notes', JSON.stringify(verified));
+      window.showToast(`Đã xác nhận và lưu đối chiếu [${window._lastAIExtraction.criterionCode}] vào Ma trận!`);
+    },
+
+    applyDraftRecommendation() {
+      const STORAGE_KEY = 'ca_custom_recommendations';
+      const custom = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      const draftId = 'rec-ai-lesson-study';
+      if (custom.some(r => r.id === draftId)) {
+        window.showToast('Khuyến nghị này đã có trong Danh sách Khuyến nghị!', 'info');
+        return;
+      }
+      custom.push({
+        id: draftId,
+        title: "Thiết lập quy chế 'Giờ sinh hoạt chuyên môn không áp lực' theo văn hóa Lesson Study",
+        referenceCountry: "Nhật Bản (Jugyokenkyu) & Phần Lan",
+        vietnamIssue: "Giáo viên tiểu học còn chịu áp lực dự giờ đánh giá thi đua hành chính, hạn chế chia sẻ chuyên môn thực chất.",
+        databaseGrounding: "MEXT Lesson Study (NIER 2019) & Phân tích AI Trợ lý Đề tài 03",
+        conditions: "Áp dụng tại cấp tổ khối; hiệu trưởng và tổ trưởng ký cam kết không dùng giờ dự giờ để xếp loại thi đua trong học kỳ.",
+        adjustments: "Thí điểm trước 1 học kỳ tại các trường tiểu học đạt chuẩn quốc gia.",
+        challenges: "Thói quen hành chính hóa sinh hoạt chuyên môn ở một số địa phương.",
+        solutions: "Tách bạch hoàn toàn sinh hoạt chuyên môn nghiên cứu bài học khỏi hồ sơ kiểm tra thi đua.",
+        targetAudience: "Ban Giám hiệu, Tổ chuyên môn, Giáo viên tiểu học",
+        priority: "Ưu tiên Cao",
+        feasibilityScore: 85,
+        feasibilityLabel: "Khả thi (85%)"
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(custom));
+      window.showToast('Đã thêm bản nháp vào Danh sách Khuyến nghị!');
+    }
+  };
 
 })();

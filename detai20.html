@@ -12,8 +12,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
-  <!-- Chart.js & Lucide Icons -->
+  <!-- Auth Guard & Chart.js + Fallback & Lucide Icons -->
+  <script>
+    (function () {
+      try {
+        var u = JSON.parse(localStorage.getItem('ca_current_user') || 'null');
+        if (!u || !u.username) window.location.replace('index.html');
+      } catch (e) {
+        window.location.replace('index.html');
+      }
+    })();
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+  <script src="js/chart-fallback.js"></script>
   <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
 
   <style>
@@ -1082,6 +1093,9 @@
         <button type="button" class="btn-brand" onclick="window.print()" title="In báo cáo thẩm định">
           <i data-lucide="printer" style="width: 15px;"></i> In Báo cáo
         </button>
+        <a href="index.html?hub=1" class="btn-outline" title="Chuyển về trang chính Đề tài 03">
+          <i data-lucide="layout-dashboard" style="width: 15px;"></i> Đề tài 03
+        </a>
         <a href="index.html" class="btn-outline" onclick="localStorage.removeItem('ca_current_user');" title="Đăng xuất">
           <i data-lucide="log-out" style="width: 15px;"></i> Đăng xuất
         </a>

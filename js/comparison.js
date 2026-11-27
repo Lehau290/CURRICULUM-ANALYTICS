@@ -9,10 +9,27 @@
 
   let currentCriteriaFilter = 'all';
   let searchQuery = '';
+  let countryFilter = 'all';
 
   document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('viewChanged', (e) => {
       if (e.detail.view === 'comparison') {
+        renderComparisonMatrix();
+      }
+    });
+
+    window.addEventListener('searchUpdated', (e) => {
+      searchQuery = e.detail.query || '';
+      const searchInput = document.getElementById('matrix-search-input');
+      if (searchInput) searchInput.value = searchQuery;
+      if (window.AppState && window.AppState.currentView === 'comparison') {
+        renderComparisonMatrix();
+      }
+    });
+
+    window.addEventListener('countryFilterChanged', (e) => {
+      countryFilter = e.detail.country || 'all';
+      if (window.AppState && window.AppState.currentView === 'comparison') {
         renderComparisonMatrix();
       }
     });
@@ -80,6 +97,8 @@
       return;
     }
 
+    const dimStyle = (cid) => (countryFilter !== 'all' && countryFilter !== cid) ? ' style="opacity: 0.35; transition: opacity 0.2s;"' : '';
+
     tbody.innerHTML = criteriaList.map(criterion => `
       <tr class="matrix-row" id="row-${criterion.id}">
         <!-- Criterion Header Col -->
@@ -108,7 +127,7 @@
         </td>
 
         <!-- Vietnam Col -->
-        <td class="country-col">
+        <td class="country-col"${dimStyle('vietnam')}>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <strong style="color: var(--color-vn); font-size: 12px;">Việt Nam 🇻🇳</strong>
             <span style="font-size: 11px; font-weight: 700; background: rgba(239, 68, 68, 0.1); color: var(--color-vn); padding: 1px 6px; border-radius: var(--radius-pill);">${criterion.scores.vietnam} / 5.0</span>
@@ -117,7 +136,7 @@
         </td>
 
         <!-- Finland Col -->
-        <td class="country-col">
+        <td class="country-col"${dimStyle('finland')}>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <strong style="color: var(--color-fi); font-size: 12px;">Phần Lan 🇫🇮</strong>
             <span style="font-size: 11px; font-weight: 700; background: rgba(2, 132, 199, 0.1); color: var(--color-fi); padding: 1px 6px; border-radius: var(--radius-pill);">${criterion.scores.finland} / 5.0</span>
@@ -126,7 +145,7 @@
         </td>
 
         <!-- Singapore Col -->
-        <td class="country-col">
+        <td class="country-col"${dimStyle('singapore')}>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <strong style="color: var(--color-sg); font-size: 12px;">Singapore 🇸🇬</strong>
             <span style="font-size: 11px; font-weight: 700; background: rgba(139, 92, 246, 0.1); color: var(--color-sg); padding: 1px 6px; border-radius: var(--radius-pill);">${criterion.scores.singapore} / 5.0</span>
@@ -135,7 +154,7 @@
         </td>
 
         <!-- Japan Col -->
-        <td class="country-col">
+        <td class="country-col"${dimStyle('japan')}>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <strong style="color: var(--color-jp); font-size: 12px;">Nhật Bản 🇯🇵</strong>
             <span style="font-size: 11px; font-weight: 700; background: rgba(245, 158, 11, 0.1); color: var(--color-jp); padding: 1px 6px; border-radius: var(--radius-pill);">${criterion.scores.japan} / 5.0</span>

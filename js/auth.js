@@ -81,7 +81,12 @@
 
     if (!currentUser) {
       showLoginGate();
-    } else if (currentUser.targetUrl && !window.location.pathname.endsWith(currentUser.targetUrl) && currentUser.username !== 'letrunghau') {
+    } else if (
+      currentUser.targetUrl &&
+      !window.location.pathname.endsWith(currentUser.targetUrl) &&
+      currentUser.username !== 'letrunghau' &&
+      !window.location.search.includes('hub=1')
+    ) {
       window.location.href = currentUser.targetUrl;
       return;
     } else {
@@ -163,7 +168,9 @@
       loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const username = document.getElementById('login-username-input').value.trim().toLowerCase();
-        AuthManager.login(username);
+        const passInput = document.getElementById('login-password-input');
+        const password = passInput ? passInput.value : '';
+        AuthManager.login(username, password);
       });
     }
   }
@@ -215,16 +222,21 @@
       }
     },
 
-    login(username) {
+    login(username, password) {
+      const normalized = (username || '').trim().toLowerCase();
       const user = DEFAULT_ADMINS.find(u =>
-        u.username.toLowerCase() === username.toLowerCase() ||
-        u.aliases.includes(username.toLowerCase())
+        u.username.toLowerCase() === normalized ||
+        u.aliases.includes(normalized)
       );
-      if (user) {
-        this.completeLogin(user);
-      } else {
-        window.showToast('Vui lòng chọn tài khoản "Ngọc Lan", "Kim Hân" hoặc "Lê Trung Hậu"', 'warning');
+      if (!user) {
+        window.showToast('Không tìm thấy tài khoản "Ngọc Lan", "Kim Hân" hoặc "Lê Trung Hậu"', 'warning');
+        return;
       }
+      if (!password || !user.passwords.includes(password)) {
+        window.showToast('Mật khẩu quản trị chưa chính xác. Vui lòng thử lại!', 'warning');
+        return;
+      }
+      this.completeLogin(user);
     },
 
     logout() {

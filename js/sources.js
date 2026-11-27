@@ -22,6 +22,24 @@
       }
     });
 
+    window.addEventListener('searchUpdated', (e) => {
+      searchQuery = e.detail.query || '';
+      const searchInput = document.getElementById('source-search-input');
+      if (searchInput) searchInput.value = searchQuery;
+      if (window.AppState && window.AppState.currentView === 'sources') {
+        renderSourcesTable();
+      }
+    });
+
+    window.addEventListener('countryFilterChanged', (e) => {
+      filterCountry = e.detail.country || 'all';
+      const countrySelect = document.getElementById('source-filter-country');
+      if (countrySelect) countrySelect.value = filterCountry;
+      if (window.AppState && window.AppState.currentView === 'sources') {
+        renderSourcesTable();
+      }
+    });
+
     initSourceControls();
   });
 
@@ -212,8 +230,12 @@
         window.showToast('Đã cập nhật nguồn tài liệu thành công!');
       }
     } else {
-      // Create new
-      const newId = 'src-' + String(sources.length + 1).padStart(2, '0');
+      // Create new with collision-free ID
+      const maxIdNum = sources.reduce((max, s) => {
+        const m = String(s.id || '').match(/^src-(\d+)$/);
+        return m ? Math.max(max, parseInt(m[1], 10)) : max;
+      }, 0);
+      const newId = 'src-' + String(maxIdNum + 1).padStart(2, '0');
       sources.push({
         id: newId,
         title,
