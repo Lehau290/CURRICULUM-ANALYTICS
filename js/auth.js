@@ -1,6 +1,6 @@
 /**
  * CURRICULUM ANALYTICS – PROJECT 03
- * Authentication & Admin Access Control System
+ * Unified Authentication & Access Control System
  * Tài khoản Quản trị viên: Lê Trung Hậu (Đề tài 03), Ngọc Lan (Đề tài 20), Kim Hân (Đề tài 17)
  */
 
@@ -10,11 +10,12 @@
   const AUTH_STORAGE_KEY = 'ca_current_user';
   const USERS_STORAGE_KEY = 'ca_admin_accounts';
 
-  // Danh mục tài khoản Admin mặc định kèm đường dẫn giao diện riêng
   const DEFAULT_ADMINS = [
     {
       id: "admin-01",
       username: "letrunghau",
+      aliases: ["lê trung hậu", "le trung hau", "hậu", "hau"],
+      passwords: ["Admin@2026", "123456"],
       fullName: "Lê Trung Hậu",
       role: "Chủ nhiệm Đề tài 03 & Quản trị viên Cấp cao",
       roleCode: "lead_admin",
@@ -29,6 +30,8 @@
     {
       id: "admin-02",
       username: "ngoclan",
+      aliases: ["ngọc lan", "ngoc lan", "lan"],
+      passwords: ["123456", "Admin@2026"],
       fullName: "Ngọc Lan",
       role: "Chủ nhiệm Đề tài 20 & Quản trị viên Phân tích",
       roleCode: "analytics_admin",
@@ -43,6 +46,8 @@
     {
       id: "admin-03",
       username: "kimhan",
+      aliases: ["kim hân", "kim han", "hân", "han"],
+      passwords: ["123456", "Admin@2026"],
       fullName: "Kim Hân",
       role: "Chủ nhiệm Đề tài 17 & Quản trị viên Chính sách",
       roleCode: "policy_admin",
@@ -70,15 +75,35 @@
       try {
         currentUser = JSON.parse(savedUser);
       } catch (e) {
-        currentUser = DEFAULT_ADMINS[0];
+        currentUser = null;
       }
+    }
+
+    if (!currentUser) {
+      showLoginGate();
+    } else if (currentUser.targetUrl && !window.location.pathname.endsWith(currentUser.targetUrl) && currentUser.username !== 'letrunghau') {
+      window.location.href = currentUser.targetUrl;
+      return;
     } else {
-      currentUser = DEFAULT_ADMINS[0];
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(currentUser));
+      hideLoginGate();
     }
 
     renderUserHeaderWidget();
     initAuthModalEvents();
+  }
+
+  function showLoginGate() {
+    const gate = document.getElementById('login-gate-overlay');
+    const app = document.querySelector('.app-container');
+    if (gate) gate.style.display = 'flex';
+    if (app) app.style.display = 'none';
+  }
+
+  function hideLoginGate() {
+    const gate = document.getElementById('login-gate-overlay');
+    const app = document.querySelector('.app-container');
+    if (gate) gate.style.display = 'none';
+    if (app) app.style.display = 'flex';
   }
 
   function renderUserHeaderWidget() {
@@ -97,36 +122,41 @@
         </div>
       `;
     } else {
-      userWidget.innerHTML = `
-        <button class="btn-primary btn-sm" onclick="AuthManager.openLoginModal()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <span>Đăng nhập Admin</span>
-        </button>
-      `;
+      userWidget.innerHTML = '';
     }
   }
 
   function initAuthModalEvents() {
-    const btnSwitchHau = document.getElementById('btn-switch-user-hau');
-    if (btnSwitchHau) {
-      btnSwitchHau.addEventListener('click', () => {
-        AuthManager.switchUser('letrunghau');
+    const gateForm = document.getElementById('gate-login-form');
+    if (gateForm) {
+      gateForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const rawUser = document.getElementById('gate-username').value.trim().toLowerCase();
+        const rawPass = document.getElementById('gate-password').value;
+        const errBox = document.getElementById('gate-login-error');
+
+        const matched = DEFAULT_ADMINS.find(acc =>
+          (acc.username === rawUser || acc.aliases.includes(rawUser)) &&
+          acc.passwords.includes(rawPass)
+        );
+
+        if (matched) {
+          if (errBox) errBox.style.display = 'none';
+          AuthManager.completeLogin(matched);
+        } else {
+          if (errBox) errBox.style.display = 'block';
+        }
       });
     }
+
+    const btnSwitchHau = document.getElementById('btn-switch-user-hau');
+    if (btnSwitchHau) btnSwitchHau.addEventListener('click', () => AuthManager.switchUser('letrunghau'));
 
     const btnSwitchLan = document.getElementById('btn-switch-user-lan');
-    if (btnSwitchLan) {
-      btnSwitchLan.addEventListener('click', () => {
-        AuthManager.switchUser('ngoclan');
-      });
-    }
+    if (btnSwitchLan) btnSwitchLan.addEventListener('click', () => AuthManager.switchUser('ngoclan'));
 
     const btnSwitchHan = document.getElementById('btn-switch-user-han');
-    if (btnSwitchHan) {
-      btnSwitchHan.addEventListener('click', () => {
-        AuthManager.switchUser('kimhan');
-      });
-    }
+    if (btnSwitchHan) btnSwitchHan.addEventListener('click', () => AuthManager.switchUser('kimhan'));
 
     const loginForm = document.getElementById('admin-login-form');
     if (loginForm) {
@@ -156,48 +186,54 @@
       window.ModalManager.open('login-modal');
     },
 
+    completeLogin(user) {
+      currentUser = user;
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(currentUser));
+
+      if (user.targetUrl && user.username !== 'letrunghau') {
+        window.location.href = user.targetUrl;
+        return;
+      }
+
+      hideLoginGate();
+      renderUserHeaderWidget();
+      renderAccountModalInfo();
+      window.ModalManager.close('account-modal');
+      window.ModalManager.close('login-modal');
+      if (window.showToast) {
+        window.showToast(`Chào mừng ${user.fullName} (${user.role})`);
+      }
+      window.dispatchEvent(new CustomEvent('authChanged', { detail: { user: currentUser } }));
+      // Trigger dashboard re-render so charts size properly after unhiding .app-container
+      window.dispatchEvent(new CustomEvent('viewChanged', { detail: { view: window.AppState ? window.AppState.currentView : 'dashboard' } }));
+    },
+
     switchUser(username) {
       const user = DEFAULT_ADMINS.find(u => u.username === username);
       if (user) {
-        currentUser = user;
-        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(currentUser));
-        
-        // Nếu tài khoản có giao diện riêng khác trang hiện tại thì chuyển hướng
-        if (user.targetUrl && !window.location.pathname.endsWith(user.targetUrl)) {
-          window.location.href = user.targetUrl;
-          return;
-        }
-
-        renderUserHeaderWidget();
-        renderAccountModalInfo();
-        window.ModalManager.close('account-modal');
-        window.ModalManager.close('login-modal');
-        window.showToast(`Đã chuyển phiên làm việc: ${user.fullName} (${user.role})`);
-        window.dispatchEvent(new CustomEvent('authChanged', { detail: { user: currentUser } }));
+        this.completeLogin(user);
       }
     },
 
     login(username) {
-      const user = DEFAULT_ADMINS.find(u => u.username.toLowerCase() === username.toLowerCase());
+      const user = DEFAULT_ADMINS.find(u =>
+        u.username.toLowerCase() === username.toLowerCase() ||
+        u.aliases.includes(username.toLowerCase())
+      );
       if (user) {
-        this.switchUser(user.username);
+        this.completeLogin(user);
       } else {
-        if (username.includes('hau') || username.includes('hậu')) {
-          this.switchUser('letrunghau');
-        } else if (username.includes('lan')) {
-          this.switchUser('ngoclan');
-        } else if (username.includes('han') || username.includes('hân')) {
-          this.switchUser('kimhan');
-        } else {
-          window.showToast('Vui lòng chọn tài khoản "Ngọc Lan", "Kim Hân" hoặc "Lê Trung Hậu"', 'warning');
-        }
+        window.showToast('Vui lòng chọn tài khoản "Ngọc Lan", "Kim Hân" hoặc "Lê Trung Hậu"', 'warning');
       }
     },
 
     logout() {
       currentUser = null;
       localStorage.removeItem(AUTH_STORAGE_KEY);
-      window.location.href = 'login.html';
+      window.ModalManager.close('account-modal');
+      const gateForm = document.getElementById('gate-login-form');
+      if (gateForm) gateForm.reset();
+      showLoginGate();
     }
   };
 
